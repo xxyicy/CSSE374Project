@@ -30,7 +30,7 @@ public abstract class Button extends AbstractComponent {
 	 * Calling this method results in the call to {@link #fireUpdate()}, 
 	 * which informs the component hierarchy to re-draw itself.
 	 */
-	public void setText(String text) throws Exception{
+	private void setText(String text) throws Exception{
 		this.text = text;
 		this.fireUpdate();
 	}

@@ -1,0 +1,59 @@
+digraph G {
+fontname = "Avenir Book"
+fontsize = 10
+
+node [
+fontname = "Avenir Book"
+fontsize = 10
+shape = "record"
+]
+
+edge [
+fontname = "Avenir Book"
+fontsize = 10
+]
+AppLauncher [
+shape="record"
+label = "{\<\<class\>\>\lAppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- processes : List\l| init(arg0:Path) : void throws IOException\l+ run() : void\l# clearEverything() : void\l+ stopGracefully() : void throws IOException\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ handleDirectoryEvent(arg0:String,arg1:Path) : void\l+ main(arg0:String[]) : void throws IOException,InterruptedException\l}"
+];
+AppLauncher -> Thread[arrowhead="onormal"]
+AppManager [
+shape="record"
+label = "{\<\<class\>\>\lAppManager|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- processes : List\l- createHandler : CreateHandler\l- modifyHandler : ModifyHandler\l- deleteHandler : DeleteHandler\l| init(arg0:Path) : void throws IOException\l+ stopGracefully() : void throws IOException\l+ getApplicationsCount() : int\l+ startAll() : void\l+ changeDirectory(arg0:Path) : void\l+ isRunning() : boolean\l+ run() : void\l# clearEverything() : void\l+ getDirectory() : Path\l+ addActionToCreate(arg0:String,arg1:String) : void\l+ addActionToDelete(arg0:String,arg1:String) : void\l+ addActionToModify(arg0:String,arg1:String) : void\l+ removeActionFromCreate(arg0:String) : void\l+ removeActionFromDelete(arg0:String) : void\l+ removeActionFromModify(arg0:String) : void\l+ removeHander(arg0:IDirectoryEventHandler) : void\l}"
+];
+AppManager -> Thread[arrowhead="onormal"]
+AppManager -> IAppManager[arrowhead="onormal",style="dashed"]
+CreateHandler [
+shape="record"
+label = "{\<\<class\>\>\lCreateHandler|- file : Path\l- map : HashMap\l|+ init(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ getDirectory() : Path\l+ removeType(arg0:String) : void\l}"
+];
+CreateHandler -> Object[arrowhead="onormal"]
+CreateHandler -> IDirectoryEventHandler[arrowhead="onormal",style="dashed"]
+DeleteHandler [
+shape="record"
+label = "{\<\<class\>\>\lDeleteHandler|- file : Path\l- map : HashMap\l|+ init(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ getDirectory() : Path\l+ removeType(arg0:String) : void\l}"
+];
+DeleteHandler -> Object[arrowhead="onormal"]
+DeleteHandler -> IDirectoryEventHandler[arrowhead="onormal",style="dashed"]
+Driver [
+shape="record"
+label = "{\<\<class\>\>\lDriver|+ init() : void\l+ main(arg0:String[]) : void throws IOException,InterruptedException\l}"
+];
+Driver -> Object[arrowhead="onormal"]
+IAppManager [
+shape="record"
+label = "{\<\<interface\>\>\lIAppManager|+ stopGracefully() : void throws IOException\l+ getApplicationsCount() : int\l+ startAll() : void\l+ changeDirectory(arg0:Path) : void\l+ isRunning() : boolean\l+ addActionToCreate(arg0:String,arg1:String) : void\l+ addActionToDelete(arg0:String,arg1:String) : void\l+ addActionToModify(arg0:String,arg1:String) : void\l+ removeActionFromCreate(arg0:String) : void\l+ removeActionFromDelete(arg0:String) : void\l+ removeActionFromModify(arg0:String) : void\l+ removeHander(arg0:IDirectoryEventHandler) : void\l+ getDirectory() : Path\l}"
+];
+IAppManager -> Object[arrowhead="onormal"]
+IDirectoryEventHandler [
+shape="record"
+label = "{\<\<interface\>\>\lIDirectoryEventHandler|+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ removeType(arg0:String) : void\l+ getDirectory() : Path\l}"
+];
+IDirectoryEventHandler -> Object[arrowhead="onormal"]
+ModifyHandler [
+shape="record"
+label = "{\<\<class\>\>\lModifyHandler|- file : Path\l- map : HashMap\l|+ init(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ getDirectory() : Path\l+ removeType(arg0:String) : void\l}"
+];
+ModifyHandler -> Object[arrowhead="onormal"]
+ModifyHandler -> IDirectoryEventHandler[arrowhead="onormal",style="dashed"]
+}

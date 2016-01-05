@@ -25,7 +25,6 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces){
 		
-		System.out.println("Class: "+name+" extends "+superName+" implements "+Arrays.toString(interfaces));
 		
 		String type;
 		

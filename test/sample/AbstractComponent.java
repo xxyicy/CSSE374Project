@@ -18,7 +18,7 @@ public abstract class AbstractComponent implements IComponent {
 	private List<IComponent> components;
 	private Rectangle bound;
 
-	public AbstractComponent() {
+	AbstractComponent() {
 		this(null, null);
 	}
 
