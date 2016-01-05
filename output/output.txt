@@ -37,6 +37,24 @@ shape="record"
 label = "{\<\<class\>\>\lClassMethodVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass) : void\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l addAccessLevel(arg0:int) : String\l addReturnType(arg0:String) : String\l addArguments(arg0:String) : List\l}"
 ];
 ClassMethodVisitor -> ClassVisitor[arrowhead="onormal"]
+Clazz [
+shape="record"
+label = "{\<\<class\>\>\lClazz|- methods : List\l- fields : List\l- declaration : IDeclaration\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ toString() : String\l+ getName() : String\l}"
+];
+Clazz -> Object[arrowhead="onormal"]
+Clazz -> IClass[arrowhead="onormal",style="dashed"]
+Declaration [
+shape="record"
+label = "{\<\<class\>\>\lDeclaration|- type : String\l- name : String\l- superClass : String\l- interfaces : List\l|+ init(arg0:String,arg1:String,arg2:String,arg3:List) : void\l+ toString() : String\l+ getType() : String\l+ getName() : String\l+ getSuper() : String\l+ getInterfaces() : List\l+ accept(arg0:IVisitor) : void\l- getLast(arg0:String) : String\l}"
+];
+Declaration -> Object[arrowhead="onormal"]
+Declaration -> IDeclaration[arrowhead="onormal",style="dashed"]
+Field [
+shape="record"
+label = "{\<\<class\>\>\lField|- name : String\l- type : String\l- access : String\l|+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ accept(arg0:IVisitor) : void\l}"
+];
+Field -> Object[arrowhead="onormal"]
+Field -> IField[arrowhead="onormal",style="dashed"]
 IClass [
 shape="record"
 label = "{\<\<interface\>\>\lIClass|+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ getName() : String\l}"
@@ -71,6 +89,12 @@ shape="record"
 label = "{\<\<interface\>\>\lIVisitor|+ visit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
 ];
 IVisitor -> Object[arrowhead="onormal"]
+Method [
+shape="record"
+label = "{\<\<class\>\>\lMethod|- name : String\l- type : String\l- access : String\l- params : List\l- exceptions : List\l|+ init(arg0:String,arg1:String,arg2:String,arg3:List,arg4:List) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getExceptions() : List\l+ getParamTypes() : List\l+ accept(arg0:IVisitor) : void\l- getLast(arg0:String) : String\l}"
+];
+Method -> Object[arrowhead="onormal"]
+Method -> IMethod[arrowhead="onormal",style="dashed"]
 Visitor [
 shape="record"
 label = "{\<\<class\>\>\lVisitor|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l- getLast(arg0:String) : String\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l}"
