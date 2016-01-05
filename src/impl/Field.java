@@ -1,7 +1,7 @@
 package impl;
 
-import api.IField;
 import visitor.api.IVisitor;
+import api.IField;
 
 public class Field implements IField {
 	private String name;

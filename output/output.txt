@@ -12,48 +12,69 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-AppLauncher [
+App [
 shape="record"
-label = "{\<\<class\>\>\lAppLauncher|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- processes : List\l| init(arg0:Path) : void throws IOException\l+ run() : void\l# clearEverything() : void\l+ stopGracefully() : void throws IOException\l+ isRunning() : boolean\l+ getApplicationsCount() : int\l+ handleDirectoryEvent(arg0:String,arg1:Path) : void\l+ main(arg0:String[]) : void throws IOException,InterruptedException\l}"
+label = "{\<\<class\>\>\lApp|+ init() : void\l+ main(arg0:String[]) : void throws Exception\l}"
 ];
-AppLauncher -> Thread[arrowhead="onormal"]
-AppManager [
+App -> Object[arrowhead="onormal"]
+ClassDeclarationVisitor [
 shape="record"
-label = "{\<\<class\>\>\lAppManager|- watcher : WatchService\l- dir : Path\l- stop : boolean\l- processes : List\l- createHandler : CreateHandler\l- modifyHandler : ModifyHandler\l- deleteHandler : DeleteHandler\l| init(arg0:Path) : void throws IOException\l+ stopGracefully() : void throws IOException\l+ getApplicationsCount() : int\l+ startAll() : void\l+ changeDirectory(arg0:Path) : void\l+ isRunning() : boolean\l+ run() : void\l# clearEverything() : void\l+ getDirectory() : Path\l+ addActionToCreate(arg0:String,arg1:String) : void\l+ addActionToDelete(arg0:String,arg1:String) : void\l+ addActionToModify(arg0:String,arg1:String) : void\l+ removeActionFromCreate(arg0:String) : void\l+ removeActionFromDelete(arg0:String) : void\l+ removeActionFromModify(arg0:String) : void\l+ removeHander(arg0:IDirectoryEventHandler) : void\l}"
+label = "{\<\<class\>\>\lClassDeclarationVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ visit(arg0:int,arg1:int,arg2:String,arg3:String,arg4:String,arg5:String[]) : void\l}"
 ];
-AppManager -> Thread[arrowhead="onormal"]
-AppManager -> IAppManager[arrowhead="onormal",style="dashed"]
-CreateHandler [
+ClassDeclarationVisitor -> ClassVisitor[arrowhead="onormal"]
+ClassFieldVisitor [
 shape="record"
-label = "{\<\<class\>\>\lCreateHandler|- file : Path\l- map : HashMap\l|+ init(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ getDirectory() : Path\l+ removeType(arg0:String) : void\l}"
+label = "{\<\<class\>\>\lClassFieldVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass) : void\l+ visitField(arg0:int,arg1:String,arg2:String,arg3:String,arg4:Object) : FieldVisitor\l}"
 ];
-CreateHandler -> Object[arrowhead="onormal"]
-CreateHandler -> IDirectoryEventHandler[arrowhead="onormal",style="dashed"]
-DeleteHandler [
+ClassFieldVisitor -> ClassVisitor[arrowhead="onormal"]
+ClassFinder [
 shape="record"
-label = "{\<\<class\>\>\lDeleteHandler|- file : Path\l- map : HashMap\l|+ init(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ getDirectory() : Path\l+ removeType(arg0:String) : void\l}"
+label = "{\<\<class\>\>\lClassFinder|- DOT : char\l- SLASH : char\l- CLASS_SUFFIX : String\l- BAD_PACKAGE_ERROR : String\l|+ init() : void\l+ find(arg0:String) : List\l- find(arg0:File,arg1:String) : List\l}"
 ];
-DeleteHandler -> Object[arrowhead="onormal"]
-DeleteHandler -> IDirectoryEventHandler[arrowhead="onormal",style="dashed"]
-Driver [
+ClassFinder -> Object[arrowhead="onormal"]
+ClassMethodVisitor [
 shape="record"
-label = "{\<\<class\>\>\lDriver|+ init() : void\l+ main(arg0:String[]) : void throws IOException,InterruptedException\l}"
+label = "{\<\<class\>\>\lClassMethodVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass) : void\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l addAccessLevel(arg0:int) : String\l addReturnType(arg0:String) : String\l addArguments(arg0:String) : List\l}"
 ];
-Driver -> Object[arrowhead="onormal"]
-IAppManager [
+ClassMethodVisitor -> ClassVisitor[arrowhead="onormal"]
+IClass [
 shape="record"
-label = "{\<\<interface\>\>\lIAppManager|+ stopGracefully() : void throws IOException\l+ getApplicationsCount() : int\l+ startAll() : void\l+ changeDirectory(arg0:Path) : void\l+ isRunning() : boolean\l+ addActionToCreate(arg0:String,arg1:String) : void\l+ addActionToDelete(arg0:String,arg1:String) : void\l+ addActionToModify(arg0:String,arg1:String) : void\l+ removeActionFromCreate(arg0:String) : void\l+ removeActionFromDelete(arg0:String) : void\l+ removeActionFromModify(arg0:String) : void\l+ removeHander(arg0:IDirectoryEventHandler) : void\l+ getDirectory() : Path\l}"
+label = "{\<\<interface\>\>\lIClass|+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ getName() : String\l}"
 ];
-IAppManager -> Object[arrowhead="onormal"]
-IDirectoryEventHandler [
+IClass -> Object[arrowhead="onormal"]
+IClass -> ITraverser[arrowhead="onormal",style="dashed"]
+IDeclaration [
 shape="record"
-label = "{\<\<interface\>\>\lIDirectoryEventHandler|+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ removeType(arg0:String) : void\l+ getDirectory() : Path\l}"
+label = "{\<\<interface\>\>\lIDeclaration|+ getType() : String\l+ getName() : String\l+ getSuper() : String\l+ getInterfaces() : List\l}"
 ];
-IDirectoryEventHandler -> Object[arrowhead="onormal"]
-ModifyHandler [
+IDeclaration -> Object[arrowhead="onormal"]
+IDeclaration -> ITraverser[arrowhead="onormal",style="dashed"]
+IField [
 shape="record"
-label = "{\<\<class\>\>\lModifyHandler|- file : Path\l- map : HashMap\l|+ init(arg0:Path) : void\l+ registerType(arg0:String,arg1:String) : void\l+ handleDirectoryEvent(arg0:Path) : ProcessBuilder\l+ changeDirectory(arg0:Path) : void\l+ getDirectory() : Path\l+ removeType(arg0:String) : void\l}"
+label = "{\<\<interface\>\>\lIField|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l}"
 ];
-ModifyHandler -> Object[arrowhead="onormal"]
-ModifyHandler -> IDirectoryEventHandler[arrowhead="onormal",style="dashed"]
+IField -> Object[arrowhead="onormal"]
+IField -> ITraverser[arrowhead="onormal",style="dashed"]
+IMethod [
+shape="record"
+label = "{\<\<interface\>\>\lIMethod|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getParamTypes() : List\l+ getExceptions() : List\l}"
+];
+IMethod -> Object[arrowhead="onormal"]
+IMethod -> ITraverser[arrowhead="onormal",style="dashed"]
+ITraverser [
+shape="record"
+label = "{\<\<interface\>\>\lITraverser|+ accept(arg0:IVisitor) : void\l}"
+];
+ITraverser -> Object[arrowhead="onormal"]
+IVisitor [
+shape="record"
+label = "{\<\<interface\>\>\lIVisitor|+ visit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
+];
+IVisitor -> Object[arrowhead="onormal"]
+Visitor [
+shape="record"
+label = "{\<\<class\>\>\lVisitor|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l- getLast(arg0:String) : String\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l}"
+];
+Visitor -> Object[arrowhead="onormal"]
+Visitor -> IVisitor[arrowhead="onormal",style="dashed"]
 }

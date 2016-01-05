@@ -3,8 +3,8 @@ package impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import api.IDeclaration;
 import visitor.api.IVisitor;
+import api.IDeclaration;
 
 public class Declaration implements IDeclaration{
 	private String type;

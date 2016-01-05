@@ -3,8 +3,8 @@ package impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import api.IMethod;
 import visitor.api.IVisitor;
+import api.IMethod;
 
 
 public class Method implements IMethod {

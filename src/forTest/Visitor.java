@@ -1,4 +1,4 @@
-package visitor.impl;
+package forTest;
 
 import visitor.api.IVisitor;
 import api.IClass;
