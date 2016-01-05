@@ -1,5 +1,6 @@
 package impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import api.IDeclaration;
@@ -37,22 +38,31 @@ public class Declaration implements IDeclaration{
 
 	@Override
 	public String getName() {
-		return this.name;
+		return getLast(this.name);
 	}
 
 	@Override
 	public String getSuper() {
-		return this.superClass;
+		return this.getLast(this.superClass);
 	}
 
 	@Override
 	public List<String> getInterfaces() {
-		return this.interfaces;
+		List<String> tmp = new ArrayList<String>();
+		for(String s : this.interfaces){
+			tmp.add(this.getLast(s));
+		}
+		return tmp;	
 	}
 
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
+	}
+	
+	private String getLast(String s){
+		String[] tmp = s.split("/");
+		return tmp[tmp.length-1];
 	}
 
 }

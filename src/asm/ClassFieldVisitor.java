@@ -32,16 +32,16 @@ public class ClassFieldVisitor extends ClassVisitor{
 		String acc;
 		
 		if((access & Opcodes.ACC_PRIVATE) != 0){
-			acc = "private";
+			acc = "-";
 		}
 		else if((access & Opcodes.ACC_PUBLIC) != 0){
-			acc = "public";
+			acc = "+";
 		}
 		else if((access & Opcodes.ACC_PROTECTED) != 0){
-			acc = "protected";
+			acc = "#";
 		}
 		else{
-			acc = "default";
+			acc = "";
 		}
 		
 		IField f = new Field(name,type,acc);

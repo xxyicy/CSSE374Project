@@ -16,8 +16,23 @@ public class Class implements IClass {
 
 	@Override
 	public void accept(IVisitor v) {
-		v.preVisit(this);
 		v.visit(this);
+		this.declaration.accept(v);
+		
+		if(!this.fields.isEmpty()){
+			v.visit("|");
+			for(IField f : this.fields){
+				f.accept(v);
+			}
+		}
+		
+		if(!this.methods.isEmpty()){
+			v.visit("|");
+			for(IMethod m : this.methods){
+				m.accept(v);
+			}
+		}
+		
 		v.postVisit(this);
 	}
 
@@ -62,6 +77,11 @@ public class Class implements IClass {
 		result += "declaration " + this.declaration + "\n";
 		return result;
 
+	}
+
+	@Override
+	public String getName() {
+		return this.declaration.getName();
 	}
 
 }

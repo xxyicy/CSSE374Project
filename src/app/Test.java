@@ -6,6 +6,8 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import visitor.api.IVisitor;
+import visitor.impl.Visitor;
 import api.IClass;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
@@ -36,7 +38,12 @@ public class Test {
 		reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 		
 		
-		System.out.println(c.toString());
+		Visitor v = new Visitor();
+		v.Start();
+		c.accept(v);
+		v.end();
+		
+		System.out.println(v.toString());
 	}
 
 }

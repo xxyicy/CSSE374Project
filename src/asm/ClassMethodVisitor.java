@@ -40,20 +40,19 @@ public class ClassMethodVisitor extends ClassVisitor {
 		args = addArguments(desc);
 
 		this.c.addMethod(new Method(name,type,acc,args,exps));
-
 		return toDecorate;
 	}
 
 	String addAccessLevel(int access) {
 		String level = "";
 		if ((access & Opcodes.ACC_PUBLIC) != 0) {
-			level = "public";
+			level = "+";
 		} else if ((access & Opcodes.ACC_PROTECTED) != 0) {
-			level = "protected";
+			level = "#";
 		} else if ((access & Opcodes.ACC_PRIVATE) != 0) {
-			level = "private";
+			level = "-";
 		} else {
-			level = "default";
+			level = "";
 		}
 		return level;
 

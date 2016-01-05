@@ -12,5 +12,5 @@ public interface IClass extends ITraverser {
 	public IDeclaration getDeclaration();
 	public List<IMethod> getMethods();
 	public List<IField> getFields();
-	
+	public String getName();
 }
