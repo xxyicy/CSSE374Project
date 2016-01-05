@@ -61,15 +61,27 @@ public class Visitor implements IVisitor {
 	@Override
 	public void visit(IMethod m) {
 		this.append(m.getAccess()+" "+m.getName()+"(");
-		int count = 0;
 		
-		for (String s : m.getParamTypes()){
-			String tmp = "arg"+count;
-			count ++;
-			this.append(tmp+":"+this.getLast(s)+",");
+		if(!m.getParamTypes().isEmpty()){
+			int count = 0;
+			
+			for (String s : m.getParamTypes()){
+				String tmp = "arg"+count;
+				count ++;
+				this.append(tmp+":"+this.getLast(s)+",");
+			}
+			this.b.deleteCharAt(this.b.length()-1);
 		}
-		this.b.deleteCharAt(this.b.length()-1);
-		this.append(")"+" : "+m.getType()+"\\l");	
+		
+		this.append(")"+" : "+this.getLast(m.getType()));
+		if(!m.getExceptions().isEmpty()){
+			this.append(" throws ");
+			for(String s : m.getExceptions()){
+				this.append(s+",");
+			}
+			this.b.deleteCharAt(this.b.length()-1);
+		}
+		this.append("\\l");
 	}
 
 	

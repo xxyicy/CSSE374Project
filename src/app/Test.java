@@ -12,7 +12,7 @@ import api.IClass;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
-import impl.Class;
+import impl.Clazz;
 
 
 public class Test {
@@ -20,7 +20,7 @@ public class Test {
 	public static void main(String[] args) throws IOException {
 		ClassReader reader=new ClassReader("java.lang.String");
 		
-		IClass c = new Class();
+		IClass c = new Clazz();
 		// make class declaration visitor to get superclass and interfaces
 		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c);
 		

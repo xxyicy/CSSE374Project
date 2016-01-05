@@ -9,7 +9,7 @@ import api.IField;
 import api.IMethod;
 import visitor.api.IVisitor;
 
-public class Class implements IClass {
+public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
