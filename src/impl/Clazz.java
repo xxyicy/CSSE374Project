@@ -3,11 +3,11 @@ package impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import visitor.api.IVisitor;
 import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
-import visitor.api.IVisitor;
 
 public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
