@@ -36,7 +36,11 @@ public class Method implements IMethod {
 	
 	@Override
 	public String getName() {
-		return this.name;
+		String s = this.name;
+		s = s.replaceAll("<", "");
+		s = s.replaceAll(">", "");
+		
+		return s;
 	}
 
 	@Override

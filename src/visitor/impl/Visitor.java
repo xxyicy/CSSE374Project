@@ -109,7 +109,7 @@ public class Visitor implements IVisitor {
 		String superC = c.getDeclaration().getSuper();
 		this.appendln(c.getName()+" -> " + superC + "[arrowhead=\"onormal\"]");
 		for(String i : c.getDeclaration().getInterfaces()){
-			this.appendln(c.getName() + " -> " + i + "[arrowhead=\"onomal\",style=\"dashed\"]");
+			this.appendln(c.getName() + " -> " + i + "[arrowhead=\"onormal\",style=\"dashed\"]");
 		}
 	}
 

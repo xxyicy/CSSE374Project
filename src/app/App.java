@@ -2,6 +2,7 @@ package app;
 
 import impl.Clazz;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,9 @@ public class App {
 		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
 		
 		
-		
+		PrintWriter writer = new PrintWriter("./output/output.txt");
+		writer.print(v.toString());
+		writer.close();
 		
 		System.out.println(v.toString());
 	}
