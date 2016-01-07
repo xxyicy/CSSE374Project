@@ -1,4 +1,4 @@
-package forTest;
+package app;
 
 import impl.Clazz;
 
@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-
 import org.objectweb.asm.Opcodes;
 
 import visitor.impl.Visitor;
@@ -17,7 +16,7 @@ import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
 
-public class App {
+public class Test {
 	public static void main(String[] args) throws Exception {
 		
 		if (args.length == 0) {
@@ -50,26 +49,17 @@ public class App {
 			// DECORATE field visitor with method visitor
 			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c);
 			
-			
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			
 			
 			c.accept(v);
+			System.out.println(c);
 		}
 		
 		v.end();
 		
 
-		// TODO: add more DECORATORS here in later milestones to accomplish specific tasks
-		
-
-		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
 		
 		
-		PrintWriter writer = new PrintWriter("./output/output.txt");
-		writer.print(v.toString());
-		writer.close();
-		
-		System.out.println(v.toString());
 	}
 }

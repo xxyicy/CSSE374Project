@@ -2,6 +2,7 @@ package forTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import visitor.api.IVisitor;
 import api.IClass;
@@ -13,7 +14,10 @@ public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
-
+	private Set<String> uses;
+	private Set<String> association;
+	
+	
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
@@ -84,4 +88,14 @@ public class Clazz implements IClass {
 		return this.declaration.getName();
 	}
 
+	@Override
+	public void addUses(String u) {
+		this.uses.add(u);
+	}
+
+	@Override
+	public void addAssociation(String a) {
+		this.association.add(a);
+	}
+	
 }
