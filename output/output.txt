@@ -1,104 +1,17 @@
 digraph G {
 fontname = "Avenir Book"
 fontsize = 10
-
 node [
 fontname = "Avenir Book"
 fontsize = 10
 shape = "record"
 ]
-
 edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-App [
+java/lang/String [
 shape="record"
-label = "{\<\<class\>\>\lApp|+ init() : void\l+ main(arg0:String[]) : void throws Exception\l}"
+label = "{\<\<class\>\>\lString|- value : char[]\l- hash : int\l- serialVersionUID : long\l- serialPersistentFields : ObjectStreamField[]\l+ CASE_INSENSITIVE_ORDER : Comparator\l|+ init() : void\l+ init(arg0:String) : void\l+ init(arg0:char[]) : void\l+ init(arg0:char[],arg1:int,arg2:int) : void\l+ init(arg0:int[],arg1:int,arg2:int) : void\l+ init(arg0:byte[],arg1:int,arg2:int,arg3:int) : void\l+ init(arg0:byte[],arg1:int) : void\l- checkBounds(arg0:byte[],arg1:int,arg2:int) : void\l+ init(arg0:byte[],arg1:int,arg2:int,arg3:String) : void throws java/io/UnsupportedEncodingException\l+ init(arg0:byte[],arg1:int,arg2:int,arg3:Charset) : void\l+ init(arg0:byte[],arg1:String) : void throws java/io/UnsupportedEncodingException\l+ init(arg0:byte[],arg1:Charset) : void\l+ init(arg0:byte[],arg1:int,arg2:int) : void\l+ init(arg0:byte[]) : void\l+ init(arg0:StringBuffer) : void\l+ init(arg0:StringBuilder) : void\l init(arg0:char[],arg1:boolean) : void\l+ length() : int\l+ isEmpty() : boolean\l+ charAt(arg0:int) : char\l+ codePointAt(arg0:int) : int\l+ codePointBefore(arg0:int) : int\l+ codePointCount(arg0:int,arg1:int) : int\l+ offsetByCodePoints(arg0:int,arg1:int) : int\l getChars(arg0:char[],arg1:int) : void\l+ getChars(arg0:int,arg1:int,arg2:char[],arg3:int) : void\l+ getBytes(arg0:int,arg1:int,arg2:byte[],arg3:int) : void\l+ getBytes(arg0:String) : byte[] throws java/io/UnsupportedEncodingException\l+ getBytes(arg0:Charset) : byte[]\l+ getBytes() : byte[]\l+ equals(arg0:Object) : boolean\l+ contentEquals(arg0:StringBuffer) : boolean\l- nonSyncContentEquals(arg0:AbstractStringBuilder) : boolean\l+ contentEquals(arg0:CharSequence) : boolean\l+ equalsIgnoreCase(arg0:String) : boolean\l+ compareTo(arg0:String) : int\l+ compareToIgnoreCase(arg0:String) : int\l+ regionMatches(arg0:int,arg1:String,arg2:int,arg3:int) : boolean\l+ regionMatches(arg0:boolean,arg1:int,arg2:String,arg3:int,arg4:int) : boolean\l+ startsWith(arg0:String,arg1:int) : boolean\l+ startsWith(arg0:String) : boolean\l+ endsWith(arg0:String) : boolean\l+ hashCode() : int\l+ indexOf(arg0:int) : int\l+ indexOf(arg0:int,arg1:int) : int\l- indexOfSupplementary(arg0:int,arg1:int) : int\l+ lastIndexOf(arg0:int) : int\l+ lastIndexOf(arg0:int,arg1:int) : int\l- lastIndexOfSupplementary(arg0:int,arg1:int) : int\l+ indexOf(arg0:String) : int\l+ indexOf(arg0:String,arg1:int) : int\l indexOf(arg0:char[],arg1:int,arg2:int,arg3:String,arg4:int) : int\l indexOf(arg0:char[],arg1:int,arg2:int,arg3:char[],arg4:int,arg5:int,arg6:int) : int\l+ lastIndexOf(arg0:String) : int\l+ lastIndexOf(arg0:String,arg1:int) : int\l lastIndexOf(arg0:char[],arg1:int,arg2:int,arg3:String,arg4:int) : int\l lastIndexOf(arg0:char[],arg1:int,arg2:int,arg3:char[],arg4:int,arg5:int,arg6:int) : int\l+ substring(arg0:int) : java.lang.String\l+ substring(arg0:int,arg1:int) : java.lang.String\l+ subSequence(arg0:int,arg1:int) : java.lang.CharSequence\l+ concat(arg0:String) : java.lang.String\l+ replace(arg0:char,arg1:char) : java.lang.String\l+ matches(arg0:String) : boolean\l+ contains(arg0:CharSequence) : boolean\l+ replaceFirst(arg0:String,arg1:String) : java.lang.String\l+ replaceAll(arg0:String,arg1:String) : java.lang.String\l+ replace(arg0:CharSequence,arg1:CharSequence) : java.lang.String\l+ split(arg0:String,arg1:int) : java.lang.String[]\l+ split(arg0:String) : java.lang.String[]\l+ join(arg0:CharSequence,arg1:CharSequence[]) : java.lang.String\l+ join(arg0:CharSequence,arg1:Iterable) : java.lang.String\l+ toLowerCase(arg0:Locale) : java.lang.String\l+ toLowerCase() : java.lang.String\l+ toUpperCase(arg0:Locale) : java.lang.String\l+ toUpperCase() : java.lang.String\l+ trim() : java.lang.String\l+ toString() : java.lang.String\l+ toCharArray() : char[]\l+ format(arg0:String,arg1:Object[]) : java.lang.String\l+ format(arg0:Locale,arg1:String,arg2:Object[]) : java.lang.String\l+ valueOf(arg0:Object) : java.lang.String\l+ valueOf(arg0:char[]) : java.lang.String\l+ valueOf(arg0:char[],arg1:int,arg2:int) : java.lang.String\l+ copyValueOf(arg0:char[],arg1:int,arg2:int) : java.lang.String\l+ copyValueOf(arg0:char[]) : java.lang.String\l+ valueOf(arg0:boolean) : java.lang.String\l+ valueOf(arg0:char) : java.lang.String\l+ valueOf(arg0:int) : java.lang.String\l+ valueOf(arg0:long) : java.lang.String\l+ valueOf(arg0:float) : java.lang.String\l+ valueOf(arg0:double) : java.lang.String\l+ intern() : java.lang.String\l+ compareTo(arg0:Object) : int\l clinit() : void\l}"
 ];
-App -> Object[arrowhead="onormal"]
-ClassDeclarationVisitor [
-shape="record"
-label = "{\<\<class\>\>\lClassDeclarationVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ visit(arg0:int,arg1:int,arg2:String,arg3:String,arg4:String,arg5:String[]) : void\l}"
-];
-ClassDeclarationVisitor -> ClassVisitor[arrowhead="onormal"]
-ClassFieldVisitor [
-shape="record"
-label = "{\<\<class\>\>\lClassFieldVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass) : void\l+ visitField(arg0:int,arg1:String,arg2:String,arg3:String,arg4:Object) : FieldVisitor\l}"
-];
-ClassFieldVisitor -> ClassVisitor[arrowhead="onormal"]
-ClassFinder [
-shape="record"
-label = "{\<\<class\>\>\lClassFinder|- DOT : char\l- SLASH : char\l- CLASS_SUFFIX : String\l- BAD_PACKAGE_ERROR : String\l|+ init() : void\l+ find(arg0:String) : List\l- find(arg0:File,arg1:String) : List\l}"
-];
-ClassFinder -> Object[arrowhead="onormal"]
-ClassMethodVisitor [
-shape="record"
-label = "{\<\<class\>\>\lClassMethodVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass) : void\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l addAccessLevel(arg0:int) : String\l addReturnType(arg0:String) : String\l addArguments(arg0:String) : List\l}"
-];
-ClassMethodVisitor -> ClassVisitor[arrowhead="onormal"]
-Clazz [
-shape="record"
-label = "{\<\<class\>\>\lClazz|- methods : List\l- fields : List\l- declaration : IDeclaration\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ toString() : String\l+ getName() : String\l}"
-];
-Clazz -> Object[arrowhead="onormal"]
-Clazz -> IClass[arrowhead="onormal",style="dashed"]
-Declaration [
-shape="record"
-label = "{\<\<class\>\>\lDeclaration|- type : String\l- name : String\l- superClass : String\l- interfaces : List\l|+ init(arg0:String,arg1:String,arg2:String,arg3:List) : void\l+ toString() : String\l+ getType() : String\l+ getName() : String\l+ getSuper() : String\l+ getInterfaces() : List\l+ accept(arg0:IVisitor) : void\l- getLast(arg0:String) : String\l}"
-];
-Declaration -> Object[arrowhead="onormal"]
-Declaration -> IDeclaration[arrowhead="onormal",style="dashed"]
-Field [
-shape="record"
-label = "{\<\<class\>\>\lField|- name : String\l- type : String\l- access : String\l|+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ accept(arg0:IVisitor) : void\l}"
-];
-Field -> Object[arrowhead="onormal"]
-Field -> IField[arrowhead="onormal",style="dashed"]
-IClass [
-shape="record"
-label = "{\<\<interface\>\>\lIClass|+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ getName() : String\l}"
-];
-IClass -> Object[arrowhead="onormal"]
-IClass -> ITraverser[arrowhead="onormal",style="dashed"]
-IDeclaration [
-shape="record"
-label = "{\<\<interface\>\>\lIDeclaration|+ getType() : String\l+ getName() : String\l+ getSuper() : String\l+ getInterfaces() : List\l}"
-];
-IDeclaration -> Object[arrowhead="onormal"]
-IDeclaration -> ITraverser[arrowhead="onormal",style="dashed"]
-IField [
-shape="record"
-label = "{\<\<interface\>\>\lIField|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l}"
-];
-IField -> Object[arrowhead="onormal"]
-IField -> ITraverser[arrowhead="onormal",style="dashed"]
-IMethod [
-shape="record"
-label = "{\<\<interface\>\>\lIMethod|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getParamTypes() : List\l+ getExceptions() : List\l}"
-];
-IMethod -> Object[arrowhead="onormal"]
-IMethod -> ITraverser[arrowhead="onormal",style="dashed"]
-ITraverser [
-shape="record"
-label = "{\<\<interface\>\>\lITraverser|+ accept(arg0:IVisitor) : void\l}"
-];
-ITraverser -> Object[arrowhead="onormal"]
-IVisitor [
-shape="record"
-label = "{\<\<interface\>\>\lIVisitor|+ visit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
-];
-IVisitor -> Object[arrowhead="onormal"]
-Method [
-shape="record"
-label = "{\<\<class\>\>\lMethod|- name : String\l- type : String\l- access : String\l- params : List\l- exceptions : List\l|+ init(arg0:String,arg1:String,arg2:String,arg3:List,arg4:List) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getExceptions() : List\l+ getParamTypes() : List\l+ accept(arg0:IVisitor) : void\l- getLast(arg0:String) : String\l}"
-];
-Method -> Object[arrowhead="onormal"]
-Method -> IMethod[arrowhead="onormal",style="dashed"]
-Visitor [
-shape="record"
-label = "{\<\<class\>\>\lVisitor|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l- getLast(arg0:String) : String\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l}"
-];
-Visitor -> Object[arrowhead="onormal"]
-Visitor -> IVisitor[arrowhead="onormal",style="dashed"]
 }
