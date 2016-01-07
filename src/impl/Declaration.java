@@ -1,6 +1,5 @@
 package impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import visitor.api.IVisitor;
@@ -38,21 +37,17 @@ public class Declaration implements IDeclaration{
 
 	@Override
 	public String getName() {
-		return getLast(this.name);
+		return name;
 	}
 
 	@Override
 	public String getSuper() {
-		return this.getLast(this.superClass);
+		return superClass;
 	}
 
 	@Override
 	public List<String> getInterfaces() {
-		List<String> tmp = new ArrayList<String>();
-		for(String s : this.interfaces){
-			tmp.add(this.getLast(s));
-		}
-		return tmp;	
+		return interfaces;	
 	}
 
 	@Override
@@ -60,9 +55,6 @@ public class Declaration implements IDeclaration{
 		v.visit(this);
 	}
 	
-	private String getLast(String s){
-		String[] tmp = s.split("/");
-		return tmp[tmp.length-1];
-	}
+	
 
 }

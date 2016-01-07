@@ -29,7 +29,6 @@ public class App {
 			cs.add(clazz.getName());
 		}
 		
-		
 		Visitor v = new Visitor();
 		
 		
