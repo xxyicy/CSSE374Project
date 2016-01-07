@@ -10,43 +10,48 @@ import api.IClass;
 import api.IField;
 import impl.Field;
 
-public class ClassFieldVisitor extends ClassVisitor{
+public class ClassFieldVisitor extends ClassVisitor {
 	private IClass c;
-	
-	
-	public ClassFieldVisitor(int api, IClass c){
+
+	public ClassFieldVisitor(int api, IClass c) {
 		super(api);
 		this.c = c;
 	}
-	
-	public ClassFieldVisitor(int api, ClassVisitor decorated,IClass c) {
+
+	public ClassFieldVisitor(int api, ClassVisitor decorated, IClass c) {
 		super(api, decorated);
 		this.c = c;
 	}
-	
+
 	@Override
-	public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
-		FieldVisitor toDecorate = super.visitField(access, name, desc, signature, value);
-		
+	public FieldVisitor visitField(int access, String name, String desc,
+			String signature, Object value) {
+		FieldVisitor toDecorate = super.visitField(access, name, desc,
+				signature, value);
+
 		String type = Type.getType(desc).getClassName();
 		String acc;
-		
-		if((access & Opcodes.ACC_PRIVATE) != 0){
+
+		if ((access & Opcodes.ACC_PRIVATE) != 0) {
 			acc = "-";
-		}
-		else if((access & Opcodes.ACC_PUBLIC) != 0){
+		} else if ((access & Opcodes.ACC_PUBLIC) != 0) {
 			acc = "+";
-		}
-		else if((access & Opcodes.ACC_PROTECTED) != 0){
+		} else if ((access & Opcodes.ACC_PROTECTED) != 0) {
 			acc = "#";
-		}
-		else{
+		} else {
 			acc = "";
 		}
-		
-		IField f = new Field(name,type,acc);
+
+		IField f = new Field(name, type, acc);
 		this.c.addField(f);
-		this.c.addAssociation(type);
+		if (signature != null && signature.contains("<") && signature.contains(">")) {
+		
+			 String result = signature
+			 .substring(signature.lastIndexOf('<')+2, signature.indexOf('>')-1);
+			 this.c.addAssociation(result);
+		} else {
+			this.c.addAssociation(type);
+		}
 		return toDecorate;
 	};
 

@@ -50,15 +50,6 @@ public class ClassMethodVisitor extends ClassVisitor {
 					ClassMethodVisitor.this.c.addUses(owner);
 				}
 			}
-
-			@Override
-			public void visitFieldInsn(int opcode, String owner, String name, String desc) {
-				if (Opcodes.PUTFIELD != opcode) {
-					return;
-				}
-				ClassMethodVisitor.this.c.addAssociation(owner);
-				
-			}
 		};
 		
 		
