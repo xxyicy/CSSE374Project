@@ -38,8 +38,8 @@ public class ClassDeclarationVisitorTest {
 		List<String> nameOfInterfaces = classDeclaration.getInterfaces();
 		
 		assertEquals(INTERFACE,classDeclaration.getType());
-		assertEquals("IComponent", classDeclaration.getName());
-		assertEquals("Object", classDeclaration.getSuper());
+		assertEquals("sample/IComponent", classDeclaration.getName());
+		assertEquals("java/lang/Object", classDeclaration.getSuper());
 		assertEquals(0, nameOfInterfaces.size());
 	}
 	
@@ -53,10 +53,10 @@ public class ClassDeclarationVisitorTest {
 		List<String> nameOfInterfaces = classDeclaration.getInterfaces();
 		
 		assertEquals(ABSTRACT,classDeclaration.getType());
-		assertEquals("AbstractComponent", classDeclaration.getName());
-		assertEquals("Object", classDeclaration.getSuper());
+		assertEquals("sample/AbstractComponent", classDeclaration.getName());
+		assertEquals("java/lang/Object", classDeclaration.getSuper());
 		assertEquals(1, nameOfInterfaces.size());
-		assertEquals("IComponent",nameOfInterfaces.get(0));
+		assertEquals("sample/IComponent",nameOfInterfaces.get(0));
 	}
 	
 	@Test
@@ -69,8 +69,8 @@ public class ClassDeclarationVisitorTest {
 		List<String> nameOfInterfaces = classDeclaration.getInterfaces();
 		
 		assertEquals(CLASS,classDeclaration.getType());
-		assertEquals("LinuxButton", classDeclaration.getName());
-		assertEquals("Button", classDeclaration.getSuper());
+		assertEquals("sample/LinuxButton", classDeclaration.getName());
+		assertEquals("sample/Button", classDeclaration.getSuper());
 		assertEquals(0, nameOfInterfaces.size());
 	}
 	

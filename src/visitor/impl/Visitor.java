@@ -117,13 +117,13 @@ public class Visitor implements IVisitor {
 		
 		for (String i : c.getUses()) {
 			if (Utility.isNotBuiltIn(i)){
-				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [style=\"dashed\"]");
+				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [arrowhead=\"vee\",style=\"dashed\"]");
 			}
 		}
 		
 		for (String i : c.getAssociation()) {
 			if (Utility.isNotBuiltIn(i)){
-				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i));
+				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [arrowhead=\"vee\"]");
 			}
 		}
 		
