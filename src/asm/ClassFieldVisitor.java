@@ -54,5 +54,4 @@ public class ClassFieldVisitor extends ClassVisitor {
 		}
 		return toDecorate;
 	};
-
 }
