@@ -28,8 +28,8 @@ public class ClassMethodVisitor extends ClassVisitor {
 
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
 		
+		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
 		String acc;
 		String type;
 		List<String> args;
@@ -38,11 +38,37 @@ public class ClassMethodVisitor extends ClassVisitor {
 		acc = addAccessLevel(access);
 		type = addReturnType(desc);
 		args = addArguments(desc);
+		
+		
 
+		
+		
+		MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {
+			@Override
+			public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
+				if (name.equals("<init>")) {
+					ClassMethodVisitor.this.c.addUses(owner);
+				}
+			}
+
+			@Override
+			public void visitFieldInsn(int opcode, String owner, String name, String desc) {
+				if (Opcodes.PUTFIELD != opcode) {
+					return;
+				}
+				ClassMethodVisitor.this.c.addAssociation(owner);
+				
+			}
+		};
+		
+		
 		this.c.addMethod(new Method(name,type,acc,args,exps));
-		return toDecorate;
+		return instMv;
 	}
+	
 
+
+	
 	String addAccessLevel(int access) {
 		String level = "";
 		if ((access & Opcodes.ACC_PUBLIC) != 0) {
@@ -72,4 +98,8 @@ public class ClassMethodVisitor extends ClassVisitor {
 		}
 		return result;
 	}
+	
+
+	
+	
 }

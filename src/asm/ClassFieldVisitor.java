@@ -46,7 +46,7 @@ public class ClassFieldVisitor extends ClassVisitor{
 		
 		IField f = new Field(name,type,acc);
 		this.c.addField(f);
-		
+		this.c.addAssociation(type);
 		return toDecorate;
 	};
 
