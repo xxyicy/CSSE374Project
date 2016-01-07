@@ -24,39 +24,39 @@ shape="record",
 label = "{CheesePizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
 ];
 CheesePizza -> Pizza [arrowhead="onormal"]
-CheesePizza -> Pizza [style="dashed"]
-CheesePizza -> PizzaIngredientFactory
+CheesePizza -> Pizza [arrowhead="vee",style="dashed"]
+CheesePizza -> PizzaIngredientFactory [arrowhead="vee"]
 ChicagoPizzaIngredientFactory [
 shape="record",
 label = "{ChicagoPizzaIngredientFactory|+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
 ];
 ChicagoPizzaIngredientFactory -> PizzaIngredientFactory [arrowhead="onormal",style="dashed"]
-ChicagoPizzaIngredientFactory -> MozzarellaCheese [style="dashed"]
-ChicagoPizzaIngredientFactory -> SlicedPepperoni [style="dashed"]
-ChicagoPizzaIngredientFactory -> FrozenClams [style="dashed"]
-ChicagoPizzaIngredientFactory -> PlumTomatoSauce [style="dashed"]
-ChicagoPizzaIngredientFactory -> BlackOlives [style="dashed"]
-ChicagoPizzaIngredientFactory -> Eggplant [style="dashed"]
-ChicagoPizzaIngredientFactory -> Spinach [style="dashed"]
-ChicagoPizzaIngredientFactory -> ThickCrustDough [style="dashed"]
+ChicagoPizzaIngredientFactory -> MozzarellaCheese [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> SlicedPepperoni [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> FrozenClams [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> PlumTomatoSauce [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> BlackOlives [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> Eggplant [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> Spinach [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> ThickCrustDough [arrowhead="vee",style="dashed"]
 ChicagoPizzaStore [
 shape="record",
 label = "{ChicagoPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l}"
 ];
 ChicagoPizzaStore -> PizzaStore [arrowhead="onormal"]
-ChicagoPizzaStore -> PizzaStore [style="dashed"]
-ChicagoPizzaStore -> CheesePizza [style="dashed"]
-ChicagoPizzaStore -> VeggiePizza [style="dashed"]
-ChicagoPizzaStore -> ChicagoPizzaIngredientFactory [style="dashed"]
-ChicagoPizzaStore -> PepperoniPizza [style="dashed"]
-ChicagoPizzaStore -> ClamPizza [style="dashed"]
+ChicagoPizzaStore -> PizzaStore [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> CheesePizza [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> VeggiePizza [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> ChicagoPizzaIngredientFactory [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> PepperoniPizza [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> ClamPizza [arrowhead="vee",style="dashed"]
 ClamPizza [
 shape="record",
 label = "{ClamPizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
 ];
 ClamPizza -> Pizza [arrowhead="onormal"]
-ClamPizza -> Pizza [style="dashed"]
-ClamPizza -> PizzaIngredientFactory
+ClamPizza -> Pizza [arrowhead="vee",style="dashed"]
+ClamPizza -> PizzaIngredientFactory [arrowhead="vee"]
 Clams [
 shape="record",
 label = "{\<\<interface\>\>\nClams|+ toString() : String\l}"
@@ -105,26 +105,26 @@ shape="record",
 label = "{NYPizzaIngredientFactory|+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
 ];
 NYPizzaIngredientFactory -> PizzaIngredientFactory [arrowhead="onormal",style="dashed"]
-NYPizzaIngredientFactory -> RedPepper [style="dashed"]
-NYPizzaIngredientFactory -> SlicedPepperoni [style="dashed"]
-NYPizzaIngredientFactory -> MarinaraSauce [style="dashed"]
-NYPizzaIngredientFactory -> FreshClams [style="dashed"]
-NYPizzaIngredientFactory -> Garlic [style="dashed"]
-NYPizzaIngredientFactory -> ThinCrustDough [style="dashed"]
-NYPizzaIngredientFactory -> ReggianoCheese [style="dashed"]
-NYPizzaIngredientFactory -> Onion [style="dashed"]
-NYPizzaIngredientFactory -> Mushroom [style="dashed"]
+NYPizzaIngredientFactory -> RedPepper [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> SlicedPepperoni [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> MarinaraSauce [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> FreshClams [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Garlic [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> ThinCrustDough [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> ReggianoCheese [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Onion [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Mushroom [arrowhead="vee",style="dashed"]
 NYPizzaStore [
 shape="record",
 label = "{NYPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l}"
 ];
 NYPizzaStore -> PizzaStore [arrowhead="onormal"]
-NYPizzaStore -> PizzaStore [style="dashed"]
-NYPizzaStore -> NYPizzaIngredientFactory [style="dashed"]
-NYPizzaStore -> CheesePizza [style="dashed"]
-NYPizzaStore -> VeggiePizza [style="dashed"]
-NYPizzaStore -> PepperoniPizza [style="dashed"]
-NYPizzaStore -> ClamPizza [style="dashed"]
+NYPizzaStore -> PizzaStore [arrowhead="vee",style="dashed"]
+NYPizzaStore -> NYPizzaIngredientFactory [arrowhead="vee",style="dashed"]
+NYPizzaStore -> CheesePizza [arrowhead="vee",style="dashed"]
+NYPizzaStore -> VeggiePizza [arrowhead="vee",style="dashed"]
+NYPizzaStore -> PepperoniPizza [arrowhead="vee",style="dashed"]
+NYPizzaStore -> ClamPizza [arrowhead="vee",style="dashed"]
 Onion [
 shape="record",
 label = "{Onion|+ init() : void\l+ toString() : String\l}"
@@ -144,18 +144,18 @@ shape="record",
 label = "{PepperoniPizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
 ];
 PepperoniPizza -> Pizza [arrowhead="onormal"]
-PepperoniPizza -> Pizza [style="dashed"]
-PepperoniPizza -> PizzaIngredientFactory
+PepperoniPizza -> Pizza [arrowhead="vee",style="dashed"]
+PepperoniPizza -> PizzaIngredientFactory [arrowhead="vee"]
 Pizza [
 shape="record",
 label = "{\<\<abstract\>\>\nPizza| name : String\l dough : Dough\l sauce : Sauce\l veggies : Veggies[]\l cheese : Cheese\l pepperoni : Pepperoni\l clam : Clams\l|+ init() : void\l prepare() : void\l bake() : void\l cut() : void\l box() : void\l setName(arg0:String) : void\l getName() : String\l+ toString() : String\l}"
 ];
-Pizza -> Clams
-Pizza -> Pepperoni
-Pizza -> Dough
-Pizza -> Veggies[]
-Pizza -> Cheese
-Pizza -> Sauce
+Pizza -> Clams [arrowhead="vee"]
+Pizza -> Pepperoni [arrowhead="vee"]
+Pizza -> Dough [arrowhead="vee"]
+Pizza -> Veggies[] [arrowhead="vee"]
+Pizza -> Cheese [arrowhead="vee"]
+Pizza -> Sauce [arrowhead="vee"]
 PizzaIngredientFactory [
 shape="record",
 label = "{\<\<interface\>\>\nPizzaIngredientFactory|+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
@@ -168,8 +168,8 @@ PizzaTestDrive [
 shape="record",
 label = "{PizzaTestDrive|+ init() : void\l+ main(arg0:String[]) : void\l}"
 ];
-PizzaTestDrive -> ChicagoPizzaStore [style="dashed"]
-PizzaTestDrive -> NYPizzaStore [style="dashed"]
+PizzaTestDrive -> ChicagoPizzaStore [arrowhead="vee",style="dashed"]
+PizzaTestDrive -> NYPizzaStore [arrowhead="vee",style="dashed"]
 PlumTomatoSauce [
 shape="record",
 label = "{PlumTomatoSauce|+ init() : void\l+ toString() : String\l}"
@@ -214,8 +214,8 @@ shape="record",
 label = "{VeggiePizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
 ];
 VeggiePizza -> Pizza [arrowhead="onormal"]
-VeggiePizza -> Pizza [style="dashed"]
-VeggiePizza -> PizzaIngredientFactory
+VeggiePizza -> Pizza [arrowhead="vee",style="dashed"]
+VeggiePizza -> PizzaIngredientFactory [arrowhead="vee"]
 Veggies [
 shape="record",
 label = "{\<\<interface\>\>\nVeggies|+ toString() : String\l}"
