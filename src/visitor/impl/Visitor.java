@@ -111,6 +111,18 @@ public class Visitor implements IVisitor {
 			}
 		}
 		
+		for (String i : c.getUses()) {
+			if (!i.startsWith("java")){
+				this.appendln(c.getName() + " -> " + i + "style=\"dashed\"]");
+			}
+		}
+		
+		for (String i : c.getAssociation()) {
+			if (!i.startsWith("java")){
+				this.appendln(c.getName() + " -> " + i);
+			}
+		}
+		
 	}
 
 	@Override

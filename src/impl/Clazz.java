@@ -100,4 +100,15 @@ public class Clazz implements IClass {
 		this.association.add(a);
 	}
 
+	@Override
+	public Set<String> getUses() {
+		return this.uses;
+	}
+
+	@Override
+	public Set<String> getAssociation() {
+		return this.association;
+	}
+
+
 }

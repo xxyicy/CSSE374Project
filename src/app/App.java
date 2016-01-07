@@ -19,16 +19,15 @@ import asm.ClassMethodVisitor;
 public class App {
 	public static void main(String[] args) throws Exception {
 		
-//		if (args.length == 0) {
-//			throw new Exception("No given path");
-//		}
-//
-//		List<Class<?>> classes = ClassFinder.find(args[0]);		
-//		List<String> cs = new ArrayList<>();
-//		for (Class<?> clazz : classes) {
-//			cs.add(clazz.getName());
-//		}
-		
+		if (args.length == 0) {
+			throw new Exception("No given path");
+		}
+
+		List<Class<?>> classes = ClassFinder.find(args[0]);		
+		List<String> cs = new ArrayList<>();
+		for (Class<?> clazz : classes) {
+			cs.add(clazz.getName());
+		}
 		
 		Visitor v = new Visitor();
 		
@@ -36,8 +35,8 @@ public class App {
 		v.Start();
 		
 		
-//		for (String clazz : cs){
-			ClassReader reader=new ClassReader("java.lang.String");
+		for (String clazz : cs){
+			ClassReader reader=new ClassReader(clazz);
 			
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
@@ -53,7 +52,7 @@ public class App {
 			
 			
 			c.accept(v);
-//		}
+		}
 		
 		v.end();
 		
