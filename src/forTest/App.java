@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
-
 import org.objectweb.asm.Opcodes;
 
 import visitor.impl.Visitor;
@@ -30,7 +29,6 @@ public class App {
 			cs.add(clazz.getName());
 		}
 		
-		
 		Visitor v = new Visitor();
 		
 		
@@ -49,7 +47,6 @@ public class App {
 			
 			// DECORATE field visitor with method visitor
 			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c);
-			
 			
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			

@@ -52,8 +52,8 @@ public class Visitor implements IVisitor {
 
 	@Override
 	public void visit(IClass c) {
-		this.appendln(c.getName() + " [");
-		this.appendln("shape=\"record\"");
+		this.appendln(Utility.simplifyClassName(c.getName()) + " [");
+		this.appendln("shape=\"record\",");
 		this.append("label = \"{");
 
 	}
@@ -73,11 +73,11 @@ public class Visitor implements IVisitor {
 			this.b.deleteCharAt(this.b.length() - 1);
 		}
 
-		this.append(")" + " : " + m.getType());
+		this.append(")" + " : " + Utility.simplifyType(m.getType()));
 		if (!m.getExceptions().isEmpty()) {
 			this.append(" throws ");
 			for (String s : m.getExceptions()) {
-				this.append(s + ",");
+				this.append(Utility.simplifyClassName(s) + ",");
 			}
 			this.b.deleteCharAt(this.b.length() - 1);
 		}
@@ -86,7 +86,11 @@ public class Visitor implements IVisitor {
 
 	@Override
 	public void visit(IDeclaration d) {
-		this.append("\\<\\<" + d.getType() + "\\>\\>" + "\\l" + Utility.simplifyClassName(d.getName()));
+		if (d.getType() == "class") {
+			this.append(Utility.simplifyClassName(d.getName()));
+		}else{
+			this.append("\\<\\<" + d.getType() + "\\>\\>" + "\\n" + Utility.simplifyClassName(d.getName()));
+		}
 	}
 
 	@Override
@@ -100,26 +104,26 @@ public class Visitor implements IVisitor {
 		this.appendln("];");
 		
 		String superC = c.getDeclaration().getSuper();
-		if (!superC.startsWith("java")){
-			this.appendln(c.getName() + " -> " + Utility.simplifyClassName(superC) + "[arrowhead=\"onormal\"]");
+		if (Utility.isNotBuiltIn(superC)){
+			this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(superC) + " [arrowhead=\"onormal\"]");
 		}
 		
 		
 		for (String i : c.getDeclaration().getInterfaces()) {
-			if (!i.startsWith("java")){
-				this.appendln(c.getName() + " -> " + Utility.simplifyClassName(i) + "[arrowhead=\"onormal\",style=\"dashed\"]");
+			if (Utility.isNotBuiltIn(i)){
+				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [arrowhead=\"onormal\",style=\"dashed\"]");
 			}
 		}
 		
 		for (String i : c.getUses()) {
-			if (!i.startsWith("java")){
-				this.appendln(c.getName() + " -> " + i + "style=\"dashed\"]");
+			if (Utility.isNotBuiltIn(i)){
+				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [style=\"dashed\"]");
 			}
 		}
 		
 		for (String i : c.getAssociation()) {
-			if (!i.startsWith("java")){
-				this.appendln(c.getName() + " -> " + i);
+			if (Utility.isNotBuiltIn(i)){
+				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i));
 			}
 		}
 		

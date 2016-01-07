@@ -1,4 +1,4 @@
-package app;
+package forTest;
 
 public class Utility {
 	public static String simplifyClassName(String name){
