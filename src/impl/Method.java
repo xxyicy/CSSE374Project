@@ -26,7 +26,7 @@ public class Method implements IMethod {
 		String result = "";
 		result += "type:" + this.type + "  ";
 		result += "name:" + this.name + "  ";
-		result += "accss:" + this.access + "  "; 
+		result += "access:" + this.access + "  "; 
 		result += "params:" + this.params + "  ";
 		result += "exceps:" + this.exceptions;
 		return result;

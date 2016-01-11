@@ -10,214 +10,159 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-BlackOlives [
+ITraverser [
 shape="record",
-label = "{BlackOlives|+ init() : void\l+ toString() : String\l}"
+label = "{\<\<interface\>\>\nITraverser|+ accept(arg0:IVisitor) : void\l}"
 ];
-BlackOlives -> Veggies [arrowhead="onormal",style="dashed"]
-Cheese [
+Visitor [
 shape="record",
-label = "{\<\<interface\>\>\nCheese|+ toString() : String\l}"
+label = "{Visitor|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IRelation) : void\l}"
 ];
-CheesePizza [
+ClassMethodVisitor [
 shape="record",
-label = "{CheesePizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
+label = "{ClassMethodVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass) : void\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l addAccessLevel(arg0:int) : String\l addReturnType(arg0:String) : String\l addArguments(arg0:String) : List\l}"
 ];
-CheesePizza -> Pizza [arrowhead="onormal"]
-CheesePizza -> Pizza [arrowhead="vee",style="dashed"]
-CheesePizza -> PizzaIngredientFactory [arrowhead="vee"]
-ChicagoPizzaIngredientFactory [
+Clazz [
 shape="record",
-label = "{ChicagoPizzaIngredientFactory|+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
+label = "{Clazz|- methods : List\l- fields : List\l- declaration : IDeclaration\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ toString() : String\l+ getName() : String\l}"
 ];
-ChicagoPizzaIngredientFactory -> PizzaIngredientFactory [arrowhead="onormal",style="dashed"]
-ChicagoPizzaIngredientFactory -> MozzarellaCheese [arrowhead="vee",style="dashed"]
-ChicagoPizzaIngredientFactory -> SlicedPepperoni [arrowhead="vee",style="dashed"]
-ChicagoPizzaIngredientFactory -> FrozenClams [arrowhead="vee",style="dashed"]
-ChicagoPizzaIngredientFactory -> PlumTomatoSauce [arrowhead="vee",style="dashed"]
-ChicagoPizzaIngredientFactory -> BlackOlives [arrowhead="vee",style="dashed"]
-ChicagoPizzaIngredientFactory -> Eggplant [arrowhead="vee",style="dashed"]
-ChicagoPizzaIngredientFactory -> Spinach [arrowhead="vee",style="dashed"]
-ChicagoPizzaIngredientFactory -> ThickCrustDough [arrowhead="vee",style="dashed"]
-ChicagoPizzaStore [
+IVisitor [
 shape="record",
-label = "{ChicagoPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l}"
+label = "{\<\<interface\>\>\nIVisitor|+ visit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
 ];
-ChicagoPizzaStore -> PizzaStore [arrowhead="onormal"]
-ChicagoPizzaStore -> PizzaStore [arrowhead="vee",style="dashed"]
-ChicagoPizzaStore -> CheesePizza [arrowhead="vee",style="dashed"]
-ChicagoPizzaStore -> VeggiePizza [arrowhead="vee",style="dashed"]
-ChicagoPizzaStore -> ChicagoPizzaIngredientFactory [arrowhead="vee",style="dashed"]
-ChicagoPizzaStore -> PepperoniPizza [arrowhead="vee",style="dashed"]
-ChicagoPizzaStore -> ClamPizza [arrowhead="vee",style="dashed"]
-ClamPizza [
+Relation [
 shape="record",
-label = "{ClamPizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
+label = "{Relation|- from : String\l- to : String\l- type : String\l|+ accept(arg0:IVisitor) : void\l+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l+ hashCode() : int\l+ equals(arg0:Object) : boolean\l}"
 ];
-ClamPizza -> Pizza [arrowhead="onormal"]
-ClamPizza -> Pizza [arrowhead="vee",style="dashed"]
-ClamPizza -> PizzaIngredientFactory [arrowhead="vee"]
-Clams [
+ClassFinder [
 shape="record",
-label = "{\<\<interface\>\>\nClams|+ toString() : String\l}"
+label = "{ClassFinder|- DOT : char\l- SLASH : char\l- CLASS_SUFFIX : String\l- BAD_PACKAGE_ERROR : String\l|+ init() : void\l+ find(arg0:String) : List\l- find(arg0:File,arg1:String) : List\l}"
 ];
-Dough [
+Field [
 shape="record",
-label = "{\<\<interface\>\>\nDough|+ toString() : String\l}"
+label = "{Field|- name : String\l- type : String\l- access : String\l|+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ accept(arg0:IVisitor) : void\l}"
 ];
-Eggplant [
+Model [
 shape="record",
-label = "{Eggplant|+ init() : void\l+ toString() : String\l}"
+label = "{Model|- classes : Set\l- relations : Set\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ toString() : String\l+ getClasses() : Set\l+ getRelations() : Set\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l}"
 ];
-Eggplant -> Veggies [arrowhead="onormal",style="dashed"]
-FreshClams [
+App [
 shape="record",
-label = "{FreshClams|+ init() : void\l+ toString() : String\l}"
+label = "{App|+ init() : void\l+ main(arg0:String[]) : void throws Exception\l}"
 ];
-FreshClams -> Clams [arrowhead="onormal",style="dashed"]
-FrozenClams [
+IModel [
 shape="record",
-label = "{FrozenClams|+ init() : void\l+ toString() : String\l}"
+label = "{\<\<interface\>\>\nIModel|+ getClasses() : Set\l+ getRelations() : Set\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l}"
 ];
-FrozenClams -> Clams [arrowhead="onormal",style="dashed"]
-Garlic [
+Declaration [
 shape="record",
-label = "{Garlic|+ init() : void\l+ toString() : String\l}"
+label = "{Declaration|- type : String\l- name : String\l|+ init(arg0:String,arg1:String) : void\l+ toString() : String\l+ getType() : String\l+ getName() : String\l+ accept(arg0:IVisitor) : void\l}"
 ];
-Garlic -> Veggies [arrowhead="onormal",style="dashed"]
-MarinaraSauce [
+IClass [
 shape="record",
-label = "{MarinaraSauce|+ init() : void\l+ toString() : String\l}"
+label = "{\<\<interface\>\>\nIClass|+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ getName() : String\l}"
 ];
-MarinaraSauce -> Sauce [arrowhead="onormal",style="dashed"]
-MozzarellaCheese [
+IRelation [
 shape="record",
-label = "{MozzarellaCheese|+ init() : void\l+ toString() : String\l}"
+label = "{\<\<interface\>\>\nIRelation|+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l}"
 ];
-MozzarellaCheese -> Cheese [arrowhead="onormal",style="dashed"]
-Mushroom [
+IDeclaration [
 shape="record",
-label = "{Mushroom|+ init() : void\l+ toString() : String\l}"
+label = "{\<\<interface\>\>\nIDeclaration|+ getType() : String\l+ getName() : String\l+ getSuper() : String\l+ getInterfaces() : List\l}"
 ];
-Mushroom -> Veggies [arrowhead="onormal",style="dashed"]
-NYPizzaIngredientFactory [
+Method [
 shape="record",
-label = "{NYPizzaIngredientFactory|+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
+label = "{Method|- name : String\l- type : String\l- access : String\l- params : List\l- exceptions : List\l|+ init(arg0:String,arg1:String,arg2:String,arg3:List,arg4:List) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getExceptions() : List\l+ getParamTypes() : List\l+ accept(arg0:IVisitor) : void\l}"
 ];
-NYPizzaIngredientFactory -> PizzaIngredientFactory [arrowhead="onormal",style="dashed"]
-NYPizzaIngredientFactory -> RedPepper [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> SlicedPepperoni [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> MarinaraSauce [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> FreshClams [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> Garlic [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> ThinCrustDough [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> ReggianoCheese [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> Onion [arrowhead="vee",style="dashed"]
-NYPizzaIngredientFactory -> Mushroom [arrowhead="vee",style="dashed"]
-NYPizzaStore [
+Utility [
 shape="record",
-label = "{NYPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l}"
+label = "{Utility|+ init() : void\l+ simplifyClassName(arg0:String) : String\l+ simplifyType(arg0:String) : String\l+ isNotBuiltIn(arg0:String) : boolean\l}"
 ];
-NYPizzaStore -> PizzaStore [arrowhead="onormal"]
-NYPizzaStore -> PizzaStore [arrowhead="vee",style="dashed"]
-NYPizzaStore -> NYPizzaIngredientFactory [arrowhead="vee",style="dashed"]
-NYPizzaStore -> CheesePizza [arrowhead="vee",style="dashed"]
-NYPizzaStore -> VeggiePizza [arrowhead="vee",style="dashed"]
-NYPizzaStore -> PepperoniPizza [arrowhead="vee",style="dashed"]
-NYPizzaStore -> ClamPizza [arrowhead="vee",style="dashed"]
-Onion [
+ClassDeclarationVisitor [
 shape="record",
-label = "{Onion|+ init() : void\l+ toString() : String\l}"
+label = "{ClassDeclarationVisitor|- c : IClass\l- m : IModel\l|+ init(arg0:int,arg1:IClass,arg2:IModel) : void\l+ visit(arg0:int,arg1:int,arg2:String,arg3:String,arg4:String,arg5:String[]) : void\l}"
 ];
-Onion -> Veggies [arrowhead="onormal",style="dashed"]
-ParmesanCheese [
+IField [
 shape="record",
-label = "{ParmesanCheese|+ init() : void\l+ toString() : String\l}"
+label = "{\<\<interface\>\>\nIField|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l}"
 ];
-ParmesanCheese -> Cheese [arrowhead="onormal",style="dashed"]
-Pepperoni [
+IMethod [
 shape="record",
-label = "{\<\<interface\>\>\nPepperoni|+ toString() : String\l}"
+label = "{\<\<interface\>\>\nIMethod|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getParamTypes() : List\l+ getExceptions() : List\l}"
 ];
-PepperoniPizza [
+ClassFieldVisitor [
 shape="record",
-label = "{PepperoniPizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
+label = "{ClassFieldVisitor|- c : IClass\l|+ init(arg0:int,arg1:IClass) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass) : void\l+ visitField(arg0:int,arg1:String,arg2:String,arg3:String,arg4:Object) : FieldVisitor\l}"
 ];
-PepperoniPizza -> Pizza [arrowhead="onormal"]
-PepperoniPizza -> Pizza [arrowhead="vee",style="dashed"]
-PepperoniPizza -> PizzaIngredientFactory [arrowhead="vee"]
-Pizza [
-shape="record",
-label = "{\<\<abstract\>\>\nPizza| name : String\l dough : Dough\l sauce : Sauce\l veggies : Veggies[]\l cheese : Cheese\l pepperoni : Pepperoni\l clam : Clams\l|+ init() : void\l prepare() : void\l bake() : void\l cut() : void\l box() : void\l setName(arg0:String) : void\l getName() : String\l+ toString() : String\l}"
-];
-Pizza -> Clams [arrowhead="vee"]
-Pizza -> Pepperoni [arrowhead="vee"]
-Pizza -> Dough [arrowhead="vee"]
-Pizza -> Veggies[] [arrowhead="vee"]
-Pizza -> Cheese [arrowhead="vee"]
-Pizza -> Sauce [arrowhead="vee"]
-PizzaIngredientFactory [
-shape="record",
-label = "{\<\<interface\>\>\nPizzaIngredientFactory|+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
-];
-PizzaStore [
-shape="record",
-label = "{\<\<abstract\>\>\nPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l+ orderPizza(arg0:String) : Pizza\l}"
-];
-PizzaTestDrive [
-shape="record",
-label = "{PizzaTestDrive|+ init() : void\l+ main(arg0:String[]) : void\l}"
-];
-PizzaTestDrive -> ChicagoPizzaStore [arrowhead="vee",style="dashed"]
-PizzaTestDrive -> NYPizzaStore [arrowhead="vee",style="dashed"]
-PlumTomatoSauce [
-shape="record",
-label = "{PlumTomatoSauce|+ init() : void\l+ toString() : String\l}"
-];
-PlumTomatoSauce -> Sauce [arrowhead="onormal",style="dashed"]
-RedPepper [
-shape="record",
-label = "{RedPepper|+ init() : void\l+ toString() : String\l}"
-];
-RedPepper -> Veggies [arrowhead="onormal",style="dashed"]
-ReggianoCheese [
-shape="record",
-label = "{ReggianoCheese|+ init() : void\l+ toString() : String\l}"
-];
-ReggianoCheese -> Cheese [arrowhead="onormal",style="dashed"]
-Sauce [
-shape="record",
-label = "{\<\<interface\>\>\nSauce|+ toString() : String\l}"
-];
-SlicedPepperoni [
-shape="record",
-label = "{SlicedPepperoni|+ init() : void\l+ toString() : String\l}"
-];
-SlicedPepperoni -> Pepperoni [arrowhead="onormal",style="dashed"]
-Spinach [
-shape="record",
-label = "{Spinach|+ init() : void\l+ toString() : String\l}"
-];
-Spinach -> Veggies [arrowhead="onormal",style="dashed"]
-ThickCrustDough [
-shape="record",
-label = "{ThickCrustDough|+ init() : void\l+ toString() : String\l}"
-];
-ThickCrustDough -> Dough [arrowhead="onormal",style="dashed"]
-ThinCrustDough [
-shape="record",
-label = "{ThinCrustDough|+ init() : void\l+ toString() : String\l}"
-];
-ThinCrustDough -> Dough [arrowhead="onormal",style="dashed"]
-VeggiePizza [
-shape="record",
-label = "{VeggiePizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
-];
-VeggiePizza -> Pizza [arrowhead="onormal"]
-VeggiePizza -> Pizza [arrowhead="vee",style="dashed"]
-VeggiePizza -> PizzaIngredientFactory [arrowhead="vee"]
-Veggies [
-shape="record",
-label = "{\<\<interface\>\>\nVeggies|+ toString() : String\l}"
-];
+App -> Visitor [arrowhead="vee",style="dashed"]
+IModel -> IRelation [arrowhead="vee",style="dashed"]
+Model -> IRelation
+ClassFieldVisitor -> FieldVisitor [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> ClassVisitor [arrowhead="onormal"]
+ITraverser -> IVisitor [arrowhead="vee",style="dashed"]
+ClassFieldVisitor -> IClass
+Method -> IVisitor [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> ClassVisitor [arrowhead="vee",style="dashed"]
+Clazz -> IVisitor [arrowhead="vee",style="dashed"]
+IVisitor -> IClass [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> IClass
+ClassDeclarationVisitor -> IModel
+IClass -> ITraverser [arrowhead="onormal",style="dashed"]
+Field -> IField [arrowhead="onormal",style="dashed"]
+Clazz -> IField [arrowhead="vee",style="dashed"]
+Relation -> IVisitor [arrowhead="vee",style="dashed"]
+IClass -> IMethod [arrowhead="vee",style="dashed"]
+Visitor -> IField [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> IClass
+ClassFieldVisitor -> IClass [arrowhead="vee",style="dashed"]
+IVisitor -> IDeclaration [arrowhead="vee",style="dashed"]
+Visitor -> IClass [arrowhead="vee",style="dashed"]
+Model -> IVisitor [arrowhead="vee",style="dashed"]
+IDeclaration -> ITraverser [arrowhead="onormal",style="dashed"]
+IModel -> ITraverser [arrowhead="onormal",style="dashed"]
+Field -> IVisitor [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> IClass [arrowhead="vee",style="dashed"]
+App -> Clazz [arrowhead="vee",style="dashed"]
+Visitor -> IVisitor [arrowhead="onormal",style="dashed"]
+Clazz -> IMethod [arrowhead="vee",style="dashed"]
+Model -> IModel [arrowhead="onormal",style="dashed"]
+App -> ClassMethodVisitor [arrowhead="vee",style="dashed"]
+Relation -> IRelation [arrowhead="onormal",style="dashed"]
+ClassMethodVisitor -> Method [arrowhead="vee",style="dashed"]
+Clazz -> IDeclaration
+IField -> ITraverser [arrowhead="onormal",style="dashed"]
+IMethod -> ITraverser [arrowhead="onormal",style="dashed"]
+IRelation -> ITraverser [arrowhead="onormal",style="dashed"]
+Declaration -> IDeclaration [arrowhead="onormal",style="dashed"]
+Visitor -> IMethod [arrowhead="vee",style="dashed"]
+ClassFieldVisitor -> ClassVisitor [arrowhead="vee",style="dashed"]
+App -> ClassFieldVisitor [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> IModel [arrowhead="vee",style="dashed"]
+Visitor -> IRelation [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> Declaration [arrowhead="vee",style="dashed"]
+Model -> IClass [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> MethodVisitor [arrowhead="vee",style="dashed"]
+IVisitor -> IMethod [arrowhead="vee",style="dashed"]
+Model -> IRelation [arrowhead="vee",style="dashed"]
+IClass -> IField [arrowhead="vee",style="dashed"]
+ClassFieldVisitor -> ClassVisitor [arrowhead="onormal"]
+ClassMethodVisitor -> ClassVisitor [arrowhead="onormal"]
+App -> ClassDeclarationVisitor [arrowhead="vee",style="dashed"]
+Method -> IMethod [arrowhead="onormal",style="dashed"]
+App -> Model [arrowhead="vee",style="dashed"]
+Clazz -> IClass [arrowhead="onormal",style="dashed"]
+Clazz -> IDeclaration [arrowhead="vee",style="dashed"]
+IClass -> IDeclaration [arrowhead="vee",style="dashed"]
+App -> ClassReader [arrowhead="vee",style="dashed"]
+IModel -> IClass [arrowhead="vee",style="dashed"]
+Clazz -> IField
+ClassFieldVisitor -> Field [arrowhead="vee",style="dashed"]
+Visitor -> IDeclaration [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> IClass [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> ClassVisitor [arrowhead="vee",style="dashed"]
+Model -> IClass
+Clazz -> IMethod
+IVisitor -> IField [arrowhead="vee",style="dashed"]
+Declaration -> IVisitor [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> Relation [arrowhead="vee",style="dashed"]
 }

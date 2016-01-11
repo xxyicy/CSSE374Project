@@ -1,6 +1,7 @@
 package app;
 
 import impl.Clazz;
+import impl.Model;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.objectweb.asm.Opcodes;
 
 import visitor.impl.Visitor;
 import api.IClass;
+import api.IModel;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
@@ -30,7 +32,7 @@ public class App {
 		}
 		
 		Visitor v = new Visitor();
-		
+		IModel m = new Model();
 		
 		v.Start();
 		
@@ -40,26 +42,25 @@ public class App {
 			
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c);
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
 			
 			// DECORATE declaration visitor with field visitor
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
 			
 			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c);
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);
 			
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			
 			
-			c.accept(v);
+			
+			m.addClass(c);
 		}
 		
+		m.accept(v);
+		
 		v.end();
-		
-
-		// TODO: add more DECORATORS here in later milestones to accomplish specific tasks
-		
-
+	
 		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
 		
 		

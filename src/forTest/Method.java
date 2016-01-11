@@ -1,6 +1,5 @@
 package forTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import visitor.api.IVisitor;
@@ -27,7 +26,7 @@ public class Method implements IMethod {
 		String result = "";
 		result += "type:" + this.type + "  ";
 		result += "name:" + this.name + "  ";
-		result += "accss:" + this.access + "  "; 
+		result += "access:" + this.access + "  "; 
 		result += "params:" + this.params + "  ";
 		result += "exceps:" + this.exceptions;
 		return result;
@@ -55,12 +54,7 @@ public class Method implements IMethod {
 
 	@Override
 	public List<String> getExceptions() {
-		
-		List<String> tmp = new ArrayList<String>();
-		for(String s : this.exceptions){
-			tmp.add(this.getLast(s));
-		}
-		return tmp;	
+		return exceptions;
 		
 	}
 
@@ -72,11 +66,6 @@ public class Method implements IMethod {
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
-	}
-	
-	private String getLast(String s){
-		String[] tmp = s.split("/");
-		return tmp[tmp.length-1];
 	}
 
 }

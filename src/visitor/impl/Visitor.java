@@ -5,6 +5,7 @@ import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
+import api.IRelation;
 import app.Utility;
 
 public class Visitor implements IVisitor {
@@ -102,36 +103,33 @@ public class Visitor implements IVisitor {
 	public void postVisit(IClass c) {
 		this.appendln("}\"");
 		this.appendln("];");
-		
-		String superC = c.getDeclaration().getSuper();
-		if (Utility.isNotBuiltIn(superC)){
-			this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(superC) + " [arrowhead=\"onormal\"]");
-		}
-		
-		
-		for (String i : c.getDeclaration().getInterfaces()) {
-			if (Utility.isNotBuiltIn(i)){
-				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [arrowhead=\"onormal\",style=\"dashed\"]");
-			}
-		}
-		
-		for (String i : c.getUses()) {
-			if (Utility.isNotBuiltIn(i)){
-				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [arrowhead=\"vee\",style=\"dashed\"]");
-			}
-		}
-		
-		for (String i : c.getAssociation()) {
-			if (Utility.isNotBuiltIn(i)){
-				this.appendln(Utility.simplifyClassName(c.getName()) + " -> " + Utility.simplifyClassName(i) + " [arrowhead=\"vee\"]");
-			}
-		}
-		
 	}
 
 	@Override
 	public void visit(String s) {
 		this.append(s);
+	}
+
+	@Override
+	public void visit(IRelation r) {
+		String structure = "";
+		switch (r.getType()){
+		case "extends":
+			structure = " [arrowhead=\"onormal\"]";
+			break;
+		case "implements":
+			structure = " [arrowhead=\"onormal\",style=\"dashed\"]";
+			break;
+		case "use":
+			structure = " [arrowhead=\"vee\",style=\"dashed\"]";
+			break;
+		case "association":
+			structure = " [arrowhead=\"vee\"]";
+			break;
+		}
+		if (Utility.isNotBuiltIn(r.getTo())){
+			this.appendln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure);
+		}
 	}
 
 }

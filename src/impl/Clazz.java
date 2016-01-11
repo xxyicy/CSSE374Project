@@ -1,9 +1,7 @@
 package impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import visitor.api.IVisitor;
 import api.IClass;
@@ -15,8 +13,6 @@ public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
-	private Set<String> uses = new HashSet<String>();
-	private Set<String> association = new HashSet<String>();
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -79,8 +75,6 @@ public class Clazz implements IClass {
 		result += "methods " + this.methods + "\n";
 		result += "fields " + this.fields + "\n";
 		result += "declaration " + this.declaration + "\n";
-		result += "association " + this.association + "\n";
-		result += "uses " + this.uses + "\n";
 		return result;
 
 	}
@@ -89,26 +83,5 @@ public class Clazz implements IClass {
 	public String getName() {
 		return this.declaration.getName();
 	}
-
-	@Override
-	public void addUses(String u) {
-		this.uses.add(u);
-	}
-
-	@Override
-	public void addAssociation(String a) {
-		this.association.add(a);
-	}
-
-	@Override
-	public Set<String> getUses() {
-		return this.uses;
-	}
-
-	@Override
-	public Set<String> getAssociation() {
-		return this.association;
-	}
-
 
 }

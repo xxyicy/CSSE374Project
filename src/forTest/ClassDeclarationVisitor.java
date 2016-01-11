@@ -9,17 +9,23 @@ import org.objectweb.asm.ClassVisitor;
 import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 
+
+
 import api.IClass;
 import api.IDeclaration;
+import api.IModel;
 import impl.Declaration;
+import impl.Relation;
 
 public class ClassDeclarationVisitor extends ClassVisitor {
 	
 	private IClass c;
+	private IModel m;
 	
-	public ClassDeclarationVisitor(int api, IClass c){
+	public ClassDeclarationVisitor(int api, IClass c,IModel m){
 		super(api);
 		this.c = c;
+		this.m = m;
 	}
 	
 	@Override
@@ -40,7 +46,13 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 		
 		List<String> ins = interfaces == null ? new ArrayList<String>() : Arrays.asList(interfaces); 
 		
-		IDeclaration d = new Declaration(type, name, superName, ins);
+		for(String i : ins){
+			this.m.addRelation(new Relation(name,i,"implements"));
+		};
+		
+		this.m.addRelation(new Relation(name,superName,"extends"));
+		
+		IDeclaration d = new Declaration(type, name);
 		this.c.addDeclaration(d);
 		
 		super.visit(version, access, name, signature, superName, interfaces);

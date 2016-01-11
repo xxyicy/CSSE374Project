@@ -8,19 +8,24 @@ import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 import api.IClass;
 import api.IField;
+import api.IModel;
 import impl.Field;
+import impl.Relation;
 
 public class ClassFieldVisitor extends ClassVisitor {
 	private IClass c;
-
-	public ClassFieldVisitor(int api, IClass c) {
+	private IModel m;
+	
+	public ClassFieldVisitor(int api, IClass c, IModel m) {
 		super(api);
 		this.c = c;
+		this.m = m;
 	}
 
-	public ClassFieldVisitor(int api, ClassVisitor decorated, IClass c) {
+	public ClassFieldVisitor(int api, ClassVisitor decorated, IClass c,IModel m) {
 		super(api, decorated);
 		this.c = c;
+		this.m = m;
 	}
 
 	@Override
@@ -41,16 +46,18 @@ public class ClassFieldVisitor extends ClassVisitor {
 		} else {
 			acc = "";
 		}
-
+		
 		IField f = new Field(name, type, acc);
 		this.c.addField(f);
 		if (signature != null && signature.contains("<") && signature.contains(">")) {
 		
 			 String result = signature
 			 .substring(signature.lastIndexOf('<')+2, signature.indexOf('>')-1);
-			 this.c.addAssociation(result);
+//			 this.c.addAssociation(result);
+			 this.m.addRelation(new Relation(this.c.getName(),result,"assosciation"));
 		} else {
-			this.c.addAssociation(type);
+//			this.c.addAssociation(type);
+			 this.m.addRelation(new Relation(this.c.getName(),type,"assosciation"));
 		}
 		return toDecorate;
 	};

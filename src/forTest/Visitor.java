@@ -5,120 +5,131 @@ import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
+import api.IRelation;
+import app.Utility;
 
 public class Visitor implements IVisitor {
 	private StringBuffer b;
-	
-	
-	public Visitor(){
+
+	public Visitor() {
 		this.b = new StringBuffer();
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return this.b.toString();
 	}
-	
-	public void Start(){
+
+	public void Start() {
 		this.appendln("digraph G {");
 		this.appendln("fontname = \"Avenir Book\"");
 		this.appendln("fontsize = 10");
-		this.appendln("");
+		
 		this.appendln("node [");
 		this.appendln("fontname = \"Avenir Book\"");
 		this.appendln("fontsize = 10");
 		this.appendln("shape = \"record\"");
 		this.appendln("]");
-		this.appendln("");
+		
 		this.appendln("edge [");
 		this.appendln("fontname = \"Avenir Book\"");
 		this.appendln("fontsize = 10");
 		this.appendln("]");
 	}
-	
-	public void end(){
+
+	public void end() {
 		this.appendln("}");
-		
+
 	}
-	
-	public void appendln(String s){
+
+	public void appendln(String s) {
 		this.b.append(s);
 		this.b.append("\n");
 	}
-	
-	public void append(String s){
+
+	public void append(String s) {
 		this.b.append(s);
 	}
-	
+
 	@Override
 	public void visit(IClass c) {
-		this.appendln(c.getName()+" [");
-		this.appendln("shape=\"record\"");
+		this.appendln(Utility.simplifyClassName(c.getName()) + " [");
+		this.appendln("shape=\"record\",");
 		this.append("label = \"{");
-		
+
 	}
 
 	@Override
 	public void visit(IMethod m) {
-		this.append(m.getAccess()+" "+m.getName()+"(");
-		
-		if(!m.getParamTypes().isEmpty()){
+		this.append(m.getAccess() + " " + m.getName() + "(");
+
+		if (!m.getParamTypes().isEmpty()) {
 			int count = 0;
-			
-			for (String s : m.getParamTypes()){
-				String tmp = "arg"+count;
-				count ++;
-				this.append(tmp+":"+this.getLast(s)+",");
+
+			for (String s : m.getParamTypes()) {
+				String tmp = "arg" + count;
+				count++;
+				this.append(tmp + ":" + Utility.simplifyType(s) + ",");
 			}
-			this.b.deleteCharAt(this.b.length()-1);
+			this.b.deleteCharAt(this.b.length() - 1);
 		}
-		
-		this.append(")"+" : "+this.getLast(m.getType()));
-		if(!m.getExceptions().isEmpty()){
+
+		this.append(")" + " : " + Utility.simplifyType(m.getType()));
+		if (!m.getExceptions().isEmpty()) {
 			this.append(" throws ");
-			for(String s : m.getExceptions()){
-				this.append(s+",");
+			for (String s : m.getExceptions()) {
+				this.append(Utility.simplifyClassName(s) + ",");
 			}
-			this.b.deleteCharAt(this.b.length()-1);
+			this.b.deleteCharAt(this.b.length() - 1);
 		}
 		this.append("\\l");
 	}
 
-	
-	private String getLast(String s){
-		String[] tmp = s.split("[.]");
-		return tmp[tmp.length-1];
-	}
-	
 	@Override
 	public void visit(IDeclaration d) {
-		this.append("\\<\\<"+ d.getType() + "\\>\\>"+"\\l"+d.getName());
+		if (d.getType() == "class") {
+			this.append(Utility.simplifyClassName(d.getName()));
+		}else{
+			this.append("\\<\\<" + d.getType() + "\\>\\>" + "\\n" + Utility.simplifyClassName(d.getName()));
+		}
 	}
 
 	@Override
 	public void visit(IField f) {
-		this.append(f.getAccess()+" "+f.getName()+" : "+getLast(f.getType()) + "\\l" );
+		this.append(f.getAccess() + " " + f.getName() + " : " + Utility.simplifyType(f.getType()) + "\\l");
 	}
-	
-	
 
 	@Override
 	public void postVisit(IClass c) {
 		this.appendln("}\"");
 		this.appendln("];");
-		String superC = c.getDeclaration().getSuper();
-		this.appendln(c.getName()+" -> " + superC + "[arrowhead=\"onormal\"]");
-		for(String i : c.getDeclaration().getInterfaces()){
-			this.appendln(c.getName() + " -> " + i + "[arrowhead=\"onormal\",style=\"dashed\"]");
-		}
 	}
 
-	
 	@Override
 	public void visit(String s) {
 		this.append(s);
 	}
-	
-	
+
+	@Override
+	public void visit(IRelation r) {
+		String structure = "";
+		switch (r.getType()){
+		case "extends":
+			structure = " [arrowhead=\"onormal\"]";
+			break;
+		case "implements":
+			structure = " [arrowhead=\"onormal\",style=\"dashed\"]";
+			break;
+		case "use":
+			structure = " [arrowhead=\"vee\",style=\"dashed\"]";
+			break;
+		case "association":
+			structure = " [arrowhead=\"vee\"]";
+			break;
+		}
+		if (Utility.isNotBuiltIn(r.getTo())){
+			this.appendln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure);
+		}
+	}
 
 }
