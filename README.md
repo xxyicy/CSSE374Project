@@ -2,6 +2,8 @@
 
 MileStone 1:
 
+![UML Diagram](/UML/milestone1_manually.png "UML Diagram")
+
 Our project consists of three parts.
 
 The first part is the modified ASM part that reads in all the class files and puts data into the internal representation of classes.(asm package)
@@ -11,6 +13,8 @@ The third part is the visitor of the visitor pattern, it holds a stringBuffer to
 
 
 MileStone 2:
+
+![UML Diagram](/UML/milestone2_manually.png "UML Diagram")
 
 We added more logic into the ASM part(ClassMethodVisitor and ClassFieldVisitor) to read in information about assciation and uses.
 
