@@ -8,46 +8,65 @@ import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 
 import api.IClass;
 import api.IField;
+import api.IModel;
+import api.IRelation;
 import impl.Field;
+import impl.Relation;
 
-public class ClassFieldVisitor extends ClassVisitor{
+public class ClassFieldVisitor extends ClassVisitor {
 	private IClass c;
-	
-	
-	public ClassFieldVisitor(int api, IClass c){
+	private IModel m;
+
+	public ClassFieldVisitor(int api, IClass c, IModel m) {
 		super(api);
 		this.c = c;
+		this.m = m;
 	}
-	
-	public ClassFieldVisitor(int api, ClassVisitor decorated,IClass c) {
+
+	public ClassFieldVisitor(int api, ClassVisitor decorated, IClass c, IModel m) {
 		super(api, decorated);
 		this.c = c;
+		this.m = m;
 	}
-	
+
 	@Override
-	public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
-		FieldVisitor toDecorate = super.visitField(access, name, desc, signature, value);
-		
+	public FieldVisitor visitField(int access, String name, String desc,
+			String signature, Object value) {
+//		System.out.println("Class :"+this.c.getName()+" Start visiting fields");
+		FieldVisitor toDecorate = super.visitField(access, name, desc,
+				signature, value);
+
 		String type = Type.getType(desc).getClassName();
 		String acc;
-		
-		if((access & Opcodes.ACC_PRIVATE) != 0){
+
+		if ((access & Opcodes.ACC_PRIVATE) != 0) {
 			acc = "-";
-		}
-		else if((access & Opcodes.ACC_PUBLIC) != 0){
+		} else if ((access & Opcodes.ACC_PUBLIC) != 0) {
 			acc = "+";
-		}
-		else if((access & Opcodes.ACC_PROTECTED) != 0){
+		} else if ((access & Opcodes.ACC_PROTECTED) != 0) {
 			acc = "#";
-		}
-		else{
+		} else {
 			acc = "";
 		}
 		
-		IField f = new Field(name,type,acc);
+		IField f = new Field(name, type, acc);
 		this.c.addField(f);
+		if (signature != null && signature.contains("<")
+				&& signature.contains(">")) {
+
+			String result = signature.substring(signature.lastIndexOf('<') + 2,
+					signature.indexOf('>') - 1);
+			// this.c.addAssociation(result);
+			
 		
+			this.m.addRelation(new Relation(this.c.getName(), result,
+					"association"));
+		} else {
+			// this.c.addAssociation(type);
+			
+			this.m.addRelation(new Relation(this.c.getName(), type,
+					"association"));
+		}
 		return toDecorate;
 	};
-
 }

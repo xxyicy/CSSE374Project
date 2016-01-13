@@ -2,6 +2,7 @@ package forTest;
 
 import visitor.api.IVisitor;
 import api.IRelation;
+import app.Utility;
 
 public class Relation implements IRelation {
 	private String from;
@@ -42,11 +43,15 @@ public class Relation implements IRelation {
 
 	@Override
 	public int hashCode() {
+		String from = Utility.simplifyClassName(this.from);
+		String to = Utility.simplifyClassName(this.to);
+		
+		
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((from == null) ? 0 : from.hashCode());
 		result = prime * result + ((to == null) ? 0 : to.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
 		return result;
 	}
 
@@ -58,16 +63,21 @@ public class Relation implements IRelation {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
+		
+		
 		Relation other = (Relation) obj;
+		
+		
+		
 		if (from == null) {
 			if (other.from != null)
 				return false;
-		} else if (!from.equals(other.from))
+		} else if (!Utility.simplifyClassName(from).equals(Utility.simplifyClassName(other.from)))
 			return false;
 		if (to == null) {
 			if (other.to != null)
 				return false;
-		} else if (!to.equals(other.to))
+		} else if (!Utility.simplifyClassName(to).equals(Utility.simplifyClassName(other.to)))
 			return false;
 		if (type == null) {
 			if (other.type != null)

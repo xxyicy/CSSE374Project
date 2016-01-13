@@ -35,7 +35,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc,
 			String signature, String[] exceptions) {
-
+//		System.out.println("Class :"+this.c.getName()+" Start visiting methods");
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc,
 				signature, exceptions);
 		String acc;
@@ -48,29 +48,37 @@ public class ClassMethodVisitor extends ClassVisitor {
 		type = addReturnType(desc);
 
 		
-		if (!type.equals("void")) {
-//			this.c.addUses(type);
-			IRelation typeUse = new Relation(this.c.getName(), type, "use");
+		IRelation typeUse = new Relation(this.c.getName(), type, "use");
+		if (!type.equals("void") && !this.m.contains(typeUse)) {			
 			this.m.addRelation(typeUse);
 		}
 
 		args = addArguments(desc);
 		for (String arg : args) {
 			IRelation argUse = new Relation(this.c.getName(), arg, "use");
-			this.m.addRelation(argUse);
-//			this.c.addUses(arg);
+			if(!this.m.contains(argUse)){
+				this.m.addRelation(argUse);
+			}
 		}
 
 		String self = this.c.getName();
 
 		MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {
+			
 			@Override
 			public void visitMethodInsn(int opcode, String owner, String name,
 					String desc, boolean itf) {
+				System.out.println("opcode: "+opcode);
+				System.out.println("owner: "+owner);
+				System.out.println("name: "+name);
+				System.out.println("desc: "+desc);
 				if (name.equals("<init>") && !owner.equals("java/lang/Object")) {
 					IRelation r = new Relation(self, owner, "use");
+					if(!ClassMethodVisitor.this.m.contains(r)){
+						ClassMethodVisitor.this.m.addRelation(r);
+					}
 //					ClassMethodVisitor.this.c.addUses(owner);
-					ClassMethodVisitor.this.m.addRelation(r);
+					
 				}
 			}
 		};

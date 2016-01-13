@@ -32,8 +32,7 @@ public class App {
 		}
 		
 		Visitor v = new Visitor();
-		IModel m = new Model();
-		
+		IModel m = new Model();	
 		v.Start();
 		
 		
@@ -48,15 +47,15 @@ public class App {
 			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
 			
 			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);
-			
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			
 			
-			
-			m.addClass(c);
+			if(!c.getName().contains("$")){
+				m.addClass(c);
+			}		
 		}
-		
+		m.removeRelationNotInPackage();
 		m.accept(v);
 		
 		v.end();

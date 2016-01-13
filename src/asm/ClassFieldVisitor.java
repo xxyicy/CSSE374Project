@@ -9,20 +9,21 @@ import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
 import api.IClass;
 import api.IField;
 import api.IModel;
+import api.IRelation;
 import impl.Field;
 import impl.Relation;
 
 public class ClassFieldVisitor extends ClassVisitor {
 	private IClass c;
 	private IModel m;
-	
+
 	public ClassFieldVisitor(int api, IClass c, IModel m) {
 		super(api);
 		this.c = c;
 		this.m = m;
 	}
 
-	public ClassFieldVisitor(int api, ClassVisitor decorated, IClass c,IModel m) {
+	public ClassFieldVisitor(int api, ClassVisitor decorated, IClass c, IModel m) {
 		super(api, decorated);
 		this.c = c;
 		this.m = m;
@@ -31,6 +32,7 @@ public class ClassFieldVisitor extends ClassVisitor {
 	@Override
 	public FieldVisitor visitField(int access, String name, String desc,
 			String signature, Object value) {
+//		System.out.println("Class :"+this.c.getName()+" Start visiting fields");
 		FieldVisitor toDecorate = super.visitField(access, name, desc,
 				signature, value);
 
@@ -49,15 +51,21 @@ public class ClassFieldVisitor extends ClassVisitor {
 		
 		IField f = new Field(name, type, acc);
 		this.c.addField(f);
-		if (signature != null && signature.contains("<") && signature.contains(">")) {
+		if (signature != null && signature.contains("<")
+				&& signature.contains(">")) {
+
+			String result = signature.substring(signature.lastIndexOf('<') + 2,
+					signature.indexOf('>') - 1);
+			// this.c.addAssociation(result);
+			
 		
-			 String result = signature
-			 .substring(signature.lastIndexOf('<')+2, signature.indexOf('>')-1);
-//			 this.c.addAssociation(result);
-			 this.m.addRelation(new Relation(this.c.getName(),result,"assosciation"));
+			this.m.addRelation(new Relation(this.c.getName(), result,
+					"association"));
 		} else {
-//			this.c.addAssociation(type);
-			 this.m.addRelation(new Relation(this.c.getName(),type,"assosciation"));
+			// this.c.addAssociation(type);
+			
+			this.m.addRelation(new Relation(this.c.getName(), type,
+					"association"));
 		}
 		return toDecorate;
 	};
