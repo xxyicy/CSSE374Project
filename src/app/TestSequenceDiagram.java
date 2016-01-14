@@ -2,16 +2,11 @@ package app;
 
 import impl.Clazz;
 import impl.Model;
-
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
-
 import visitor.impl.SDEditOutputStream;
 import api.IClass;
 import api.IModel;

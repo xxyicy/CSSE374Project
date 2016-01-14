@@ -22,7 +22,18 @@ We added more logic to parse the internal representation so the GV texture could
 
 We also created a Utility class that stores all kinds of "Util" functions (i.e. function to get the last part of a name like java.lang.String -> String).
 
-Overall, out project still follows the visitor pattern.
+Overall, our project still follows the visitor pattern.
+
+
+MileStone 3:
+
+We created one more data structure to maintain the information about Method calls, basically it's a set of one to many relation that means this method calls the other methods in its body.
+
+We added more logic into the ASM part(ClassMethodVisitor) to read in information about Method calls. 
+
+Also, we wrote a parser to parse the Method call relations into a text representation that can be accepted by SDEdit.
+
+Overall, our project still follows the visitor pattern.
 
 
 
@@ -59,12 +70,19 @@ Tianjiao Mo:
 			update internal representation of class.
 
 MileStone 3:
-Ashok Vardhan Raja: Store all the methodRelation information into model 
-					finish transfers java code into internal representation 
 
-XinyuXiao:
+Ashok Vardhan Raja: Store all the methodRelation information into model.
+					finish transfers java code into internal representation.
+                    Generate test cases to test if ASM can correctly read in method call information.
 
-Tianjiao Mo: Create methodRelation data structure to store information needed in sequence diagram
+XinyuXiao: Write the parser to parse the method call information into a texture representation accepted by SDEdit.
+           Manually draw the sequence diagram for our designed tool.
+           Help design the parsing structure of ASM.
+
+Tianjiao Mo: Create methodRelation data structure to store information needed in sequence diagram.
+             Write the Driver(main method) for the designed tool.
+             Manually draw the sequence diagram for shuffle.
+             
 
 
 3. How to use:
@@ -77,3 +95,12 @@ Step 2: java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
 
 Step 3: dot -Tpng output/output.txt > <output-file-name>
 please use “.png” as the suffix of the output file.
+
+
+For MileStone 3:
+
+Step1 : The same
+
+Step2 : java -classpath ./bin:./lib/asm-all-5.0.4.jar app.AppForSequenceDiagram <Path-to-package> <Path-to-function>
+
+Step3 : The output will be written to output/SequenceDiagramOutput.txt 
