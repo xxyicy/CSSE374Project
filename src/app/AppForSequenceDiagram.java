@@ -21,24 +21,24 @@ import asm.ClassMethodVisitor;
 public class AppForSequenceDiagram {
 	public static void main(String[] args) throws Exception {
 		
-//		if (args.length < 2) {
-//			throw new Exception("No given class");
-//		}
-//			
-//		
-//		
-//		List<Class<?>> classes = ClassFinder.find(args[0]);		
-//		List<String> cs = new ArrayList<>();
-//		for (Class<?> clazz : classes) {
-//			cs.add(clazz.getName());
-//		}
+		if (args.length > 2) {
+			throw new Exception("No given class");
+		}
+			
+		
+		
+		List<Class<?>> classes = ClassFinder.find(args[0]);		
+		List<String> cs = new ArrayList<>();
+		for (Class<?> clazz : classes) {
+			cs.add(clazz.getName());
+		}
 
 		IModel m = new Model();	
 		
 		
 		
-//		for (String clazz : cs){
-			ClassReader reader=new ClassReader("java.util.Collections");
+		for (String clazz : cs){
+			ClassReader reader=new ClassReader(clazz);
 		
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
@@ -56,14 +56,14 @@ public class AppForSequenceDiagram {
 			if(!c.getName().contains("$")){
 				m.addClass(c);
 			}		
-//		}
+		}
 		
 		int depth = 5;
 		if(args.length==3){
 			depth = Integer.parseInt(args[2]);
 		}
 		
-		SDEditOutputStream v = new SDEditOutputStream(depth,args[0],m.getMethodRelation());
+		SDEditOutputStream v = new SDEditOutputStream(depth,args[1],m.getMethodRelation());
 		
 	
 		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
