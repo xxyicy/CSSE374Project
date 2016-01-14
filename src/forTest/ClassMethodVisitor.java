@@ -25,38 +25,32 @@ public class ClassMethodVisitor extends ClassVisitor {
 		this.m = m;
 	}
 
-	public ClassMethodVisitor(int api, ClassVisitor decorated, IClass c,
-			IModel m) {
+	public ClassMethodVisitor(int api, ClassVisitor decorated, IClass c, IModel m) {
 		super(api, decorated);
 		this.c = c;
 		this.m = m;
 	}
 
 	@Override
-	public MethodVisitor visitMethod(int access, String name, String desc,
-			String signature, String[] exceptions) {
-//		System.out.println("Class :"+this.c.getName()+" Start visiting methods");
-		MethodVisitor toDecorate = super.visitMethod(access, name, desc,
-				signature, exceptions);
+	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);
 		String acc;
 		String type;
 		List<String> args;
-		List<String> exps = exceptions == null ? new ArrayList<String>()
-				: Arrays.asList(exceptions);
+		List<String> exps = exceptions == null ? new ArrayList<String>() : Arrays.asList(exceptions);
 
 		acc = addAccessLevel(access);
 		type = addReturnType(desc);
 
-		
 		IRelation typeUse = new Relation(this.c.getName(), type, "use");
-		if (!type.equals("void") && !this.m.contains(typeUse)) {			
+		if (!type.equals("void") && !this.m.contains(typeUse)) {
 			this.m.addRelation(typeUse);
 		}
 
 		args = addArguments(desc);
 		for (String arg : args) {
 			IRelation argUse = new Relation(this.c.getName(), arg, "use");
-			if(!this.m.contains(argUse)){
+			if (!this.m.contains(argUse)) {
 				this.m.addRelation(argUse);
 			}
 		}
@@ -64,16 +58,17 @@ public class ClassMethodVisitor extends ClassVisitor {
 		String self = this.c.getName();
 
 		MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {
+
 			@Override
-			public void visitMethodInsn(int opcode, String owner, String name,
-					String desc, boolean itf) {
+			public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
+				System.out.println(opcode + owner + name);
 				if (name.equals("<init>") && !owner.equals("java/lang/Object")) {
 					IRelation r = new Relation(self, owner, "use");
-					if(!ClassMethodVisitor.this.m.contains(r)){
-						ClassMethodVisitor.this.m.addRelation(r);
+					for (IRelation r1 : ClassMethodVisitor.this.m.getRelations()) {
+						if (!(r1.getType().equals("extends") && r1.getFrom().equals(self) && r1.getTo().equals(owner)))
+							ClassMethodVisitor.this.m.addRelation(r);
 					}
-//					ClassMethodVisitor.this.c.addUses(owner);
-					
+
 				}
 			}
 		};

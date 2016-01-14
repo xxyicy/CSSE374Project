@@ -2,21 +2,21 @@ package sample;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class TestClass2 {
-	private TestClass1 testField;
+public class TestClass2 extends TestClass1{
+//	private TestClass1 testField;
+	public static int count;
+	private List<Button> buttons;
 	
-	public void testMethod1(Button b, LinuxButton c){
+	public void testMethod1(AbstractComponent c){
 		// just for test;
+		buttons = new ArrayList<Button>();
 	}
 	
-	public void testMethod2(ArrayList<LinuxButton> arr){
-		// just for test
-	}
-	
-	public TestClass1 testMethod3(){
-		return testField;
+	public String testMethod3(){
+		return "";
 	}
 	
 	public Button testMethod4(){

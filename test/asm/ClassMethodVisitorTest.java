@@ -3,7 +3,7 @@ package asm;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +14,9 @@ import org.objectweb.asm.Opcodes;
 
 import api.IClass;
 import api.IMethod;
+import api.IModel;
+import api.IRelation;
+import impl.Model;
 import impl.Clazz;
 
 public class ClassMethodVisitorTest {
@@ -22,12 +25,16 @@ public class ClassMethodVisitorTest {
 	private final String PUBLIC = "+";
 	private final String PROTECTED = "#";
 	private final String DEFAULT = "";
+	private IModel m;
 	private IClass c;
 	private ClassVisitor visitor;
 
 	public ClassMethodVisitorTest() {
+		m = new Model();
 		c = new Clazz();
-		visitor = new ClassMethodVisitor(Opcodes.ASM5, c);
+		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
+		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
+		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c,m);
 	}
 
 	@Test
@@ -77,30 +84,39 @@ public class ClassMethodVisitorTest {
 
 	// test use
 	@Test
-	public void tsetVisit4() throws IOException {
+	public void tsetUse1() throws IOException {
 		String className = "sample.TestClass2";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		Set<String> useSet = c.getUses();
-		Iterator<String> t = useSet.iterator();
-		
-		assertEquals("java/lang/Object", t.next());
-		assertEquals("sample/LinuxButton", t.next());
-		assertEquals("java/awt/Rectangle", t.next());
+		Set<IRelation> relations = m.getRelations();
+		Set<String> useNames = new HashSet<String>();
+		for (IRelation r: relations){
+			if (r.getType().equals("use")){
+				System.out.println(r.getTo());
+				useNames.add(r.getTo());
+			}
+		}
+		assertTrue(useNames.contains("sample.AbstractComponent"));
+		assertTrue(useNames.contains("sample/LinuxButton"));
 	}
 
 	// test use
 	@Test
-	public void tsetVisit5() throws IOException {
+	public void tsetUse2() throws IOException {
 		String className = "sample.AbstractComponent";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		Set<String> useSet = c.getUses();
-		Iterator<String> t = useSet.iterator();
-
-		assertEquals("java/lang/Object", t.next());
-		assertEquals("sample/AbstractComponent", t.next());
-		assertEquals("java/util/ArrayList", t.next());
+		Set<IRelation> relations = m.getRelations();
+		Set<String> useNames = new HashSet<String>();
+		for (IRelation r: relations){
+			if (r.getType().equals("use")){
+//				System.out.println(r.getTo());
+				useNames.add(r.getTo());
+			}
+		}
+		assertTrue(useNames.contains("sample.AbstractComponent"));
+		assertTrue(useNames.contains("sample/Button"));
+		assertTrue(useNames.contains("int"));
 
 	}
 }

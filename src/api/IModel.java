@@ -11,5 +11,4 @@ public interface IModel extends ITraverser {
 	public void addClass(IClass c);
 	public void addRelation(IRelation r);
 	boolean contains(IRelation other);
-	public void removeRelationNotInPackage();
 }
