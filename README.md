@@ -27,6 +27,8 @@ Overall, our project still follows the visitor pattern.
 
 MileStone 3:
 
+![UML Diagram](/UML/AppForSeuenceDiagram.png "UML Diagram")
+
 We created one more data structure to maintain the information about Method calls, basically it's a set of one to many relation that means this method calls the other methods in its body.
 
 We added more logic into the ASM part(ClassMethodVisitor) to read in information about Method calls. 
