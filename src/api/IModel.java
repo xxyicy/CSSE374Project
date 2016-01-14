@@ -13,5 +13,6 @@ public interface IModel extends ITraverser {
 	public void addRelation(IRelation r);
 	boolean contains(IRelation other);
 	public Set<IMethodRelation> getMethodRelation();
-	public void addMethodRelation(IMethodRelation m);
+	public void addMethodRelation(IMethod m, IMethodRelation mr);
+	public IMethodRelation getMethodRelationbyName(String name);
 }

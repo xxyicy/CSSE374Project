@@ -58,6 +58,13 @@ Tianjiao Mo:
 			logic to read in Uses and Association information.
 			update internal representation of class.
 
+MileStone 3:
+Ashok Vardhan Raja: Store all the methodRelation information into model 
+					finish transfers java code into internal representation 
+
+XinyuXiao:
+
+Tianjiao Mo: Create methodRelation data structure to store information needed in sequence diagram
 
 
 3. How to use:

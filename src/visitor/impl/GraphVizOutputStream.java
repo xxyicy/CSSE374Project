@@ -5,13 +5,14 @@ import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
+import api.IMethodRelation;
 import api.IRelation;
 import app.Utility;
 
-public class Visitor implements IVisitor {
+public class GraphVizOutputStream implements IVisitor {
 	private StringBuffer b;
 
-	public Visitor() {
+	public GraphVizOutputStream() {
 		this.b = new StringBuffer();
 	}
 
@@ -42,12 +43,12 @@ public class Visitor implements IVisitor {
 
 	}
 
-	public void appendln(String s) {
+	private void appendln(String s) {
 		this.b.append(s);
 		this.b.append("\n");
 	}
 
-	public void append(String s) {
+	private void append(String s) {
 		this.b.append(s);
 	}
 
@@ -130,6 +131,11 @@ public class Visitor implements IVisitor {
 		if (Utility.isNotBuiltIn(r.getTo())){
 			this.appendln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure);
 		}
+	}
+
+	@Override
+	public void visit(IMethodRelation mr) {
+		// do nothing
 	}
 
 }

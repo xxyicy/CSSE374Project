@@ -5,6 +5,7 @@ import java.util.List;
 
 import api.IMethod;
 import api.IMethodRelation;
+import visitor.api.IVisitor;
 
 public class MethodRelation implements IMethodRelation {
 	private IMethod from;
@@ -39,6 +40,11 @@ public class MethodRelation implements IMethodRelation {
 	public void addMethod(IMethod m) {
 		this.to.add(m);
 		
+	}
+
+	@Override
+	public void accept(IVisitor v) {
+		v.visit(this);
 	}
 	
 	

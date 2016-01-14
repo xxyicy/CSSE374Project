@@ -63,7 +63,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		Method method = new Method(name, type, acc, args, exps,this.c.getName());
 		this.c.addMethod(method);
 		IMethodRelation methodRelation = new MethodRelation(method);
-		this.m.addMethodRelation(methodRelation);
+		this.m.addMethodRelation(method,methodRelation);
 		MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {
 
 			@Override
