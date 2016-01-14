@@ -3,6 +3,7 @@ package app;
 import impl.Clazz;
 import impl.Model;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,9 +66,9 @@ public class AppForSequenceDiagram {
 		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
 		
 		
-//		PrintWriter writer = new PrintWriter("./output/output.txt");
-//		writer.print(v.toString());
-//		writer.close();
+		PrintWriter writer = new PrintWriter("./output/SequenceDiagramOutput.txt");
+		writer.print(v.toString());
+		writer.close();
 		
 		System.out.println(v.toString());
 	}
