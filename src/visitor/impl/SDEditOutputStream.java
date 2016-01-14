@@ -31,7 +31,7 @@ public class SDEditOutputStream {
 		this.classes = new StringBuffer();
 		// this.currentDepth = 0;
 		IMethodRelation start = getMethodRelationbyName(this.name);
-		System.out.println(start.toString());
+//		System.out.println(methodRelations);
 		parse(start, 0);
 	}
 
@@ -39,13 +39,14 @@ public class SDEditOutputStream {
 		if (depth == this.depth) {
 			return;
 		}
-		if (this.initializedArray.contains(start.getFrom().getClassName())) {
+		String className = start.getFrom().getClassName();
+		if (this.initializedArray.contains(className)) {
 			classes.append("/");
 		}
-
+		
 		String name = "arg" + count;
-		this.declaration.put(start.getFrom().getClassName(), name);
-		classes.append(name + ":" + Utility.simplifyClassName(start.getFrom().getClassName()) + "\n");
+		this.declaration.put(className, name);
+		classes.append(name + ":" + Utility.simplifyClassName(className) + "\n");
 		count++;
 		List<IMethod> start_to = start.getTo();
 		for (int i = 0; i < start_to.size(); i++) {
@@ -55,15 +56,13 @@ public class SDEditOutputStream {
 				if (start_to.get(i).getName().equals("init")) {
 					classes.append("/");
 				}
-				name = "arg" + count;
-				this.declaration.put(start_to.get(i).getClassName(), name);
-				classes.append(name + ":" + Utility.simplifyClassName(start_to.get(i).getClassName()) + "\n");
+				this.declaration.put(start_to.get(i).getClassName(), "arg" + count);
+				classes.append("arg" + count + ":" + Utility.simplifyClassName(start_to.get(i).getClassName()) + "\n");
 				count++;
 			}
 			this.content.append(this.declaration.get(start_to.get(i).getClassName()));
 			this.content.append(".");
 			if (start_to.get(i).getName().equals("init")) {
-
 				this.content.append("new\n");
 				this.initializedArray.add(start_to.get(i).getClassName());
 			} else {
@@ -80,6 +79,9 @@ public class SDEditOutputStream {
 				this.content.append(":");
 				this.content.append(Utility.simplifyClassName(start_to.get(i).getType()) + "\n");
 			}
+			if (start_to.get(i).getName().equals("forTest/SDEditOutputStream")){
+				System.out.println("name");
+			}
 			if (methodRelations.get(start_to.get(i)) != null) {
 				parse(methodRelations.get(start_to.get(i)), depth++);
 			}
@@ -88,29 +90,29 @@ public class SDEditOutputStream {
 	}
 
 	public IMethodRelation getMethodRelationbyName(String name) {
-		System.out.println(name);
 		int lastDotIndex = name.lastIndexOf(".");
 		String className = name.substring(0, lastDotIndex);
 		className.replaceAll("/", ".");
-		System.out.println(className);
 		String methodNameAndParams = name.substring(lastDotIndex + 1);
 		int firstparIndex = methodNameAndParams.lastIndexOf("(");
 		String method = methodNameAndParams.substring(0, firstparIndex);
-		System.out.println(method);
 		String params = methodNameAndParams.substring(firstparIndex + 1, methodNameAndParams.length() - 1);
-		String[] paramArr = new String[0];
+		String[] paramArr;
 		if (params.contains(",")) {
 			paramArr = params.split(",");
+		}else if (params.length() == 0){
+			paramArr = new String[0];
+		}else{
+			paramArr = new String[1];
+			paramArr[0] = params;
 		}
+		System.out.println(paramArr.length);
 		String[] paramTypeArr = new String[paramArr.length];
 		for (int i = 0; i < paramArr.length; i++) {
 			paramTypeArr[i] = paramArr[i].split(" ")[0];
 			int index = paramTypeArr[i].lastIndexOf("<");
 			if (index > 0) {
 				paramTypeArr[i] = paramTypeArr[i].substring(0, index);
-				System.out.println(paramTypeArr[i]);
-			} else {
-				System.out.println(paramTypeArr[i]);
 			}
 		}
 
@@ -119,15 +121,13 @@ public class SDEditOutputStream {
 			if (m.getFrom().getName().equals(method) && newClassName.equals(className)) {
 				System.out.println("true");
 				System.out.println(m.getFrom().getParamTypes().size());
-				System.out.println(paramTypeArr.length);
 				if (m.getFrom().getParamTypes().size() != paramTypeArr.length) {
 					continue;
 				}
-				System.out.println("true");
 				boolean isTheSame = true;
+				System.out.println("true");
 				for (int i = 0; i < m.getFrom().getParamTypes().size(); i++) {
 					String param = Utility.simplifyClassName(m.getFrom().getParamTypes().get(i));
-					System.out.println(param + " " + paramTypeArr[i]);
 					if (!param.equals(paramTypeArr[i])) {
 						isTheSame = false;
 					}
