@@ -26,9 +26,9 @@ Model [
 shape="record",
 label = "{Model|- classes : Set\l- relations : Set\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ contains(arg0:IRelation) : boolean\l+ toString() : String\l+ getClasses() : Set\l+ getRelations() : Set\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l- checkRelation(arg0:IRelation) : boolean\l+ removeRelationNotInPackage() : void\l}"
 ];
-Visitor [
+Utility [
 shape="record",
-label = "{Visitor|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IRelation) : void\l}"
+label = "{Utility|+ init() : void\l+ simplifyClassName(arg0:String) : String\l+ simplifyType(arg0:String) : String\l+ isNotBuiltIn(arg0:String) : boolean\l}"
 ];
 Clazz [
 shape="record",
@@ -38,9 +38,9 @@ IDeclaration [
 shape="record",
 label = "{\<\<interface\>\>\nIDeclaration|+ getType() : String\l+ getName() : String\l}"
 ];
-Utility [
+Relation [
 shape="record",
-label = "{Utility|+ init() : void\l+ simplifyClassName(arg0:String) : String\l+ simplifyType(arg0:String) : String\l+ isNotBuiltIn(arg0:String) : boolean\l}"
+label = "{Relation|- from : String\l- to : String\l- type : String\l|+ accept(arg0:IVisitor) : void\l+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l+ hashCode() : int\l+ equals(arg0:Object) : boolean\l}"
 ];
 ClassDeclarationVisitor [
 shape="record",
@@ -66,9 +66,13 @@ IMethod [
 shape="record",
 label = "{\<\<interface\>\>\nIMethod|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getParamTypes() : List\l+ getExceptions() : List\l}"
 ];
-Relation [
+OutputStream [
 shape="record",
-label = "{Relation|- from : String\l- to : String\l- type : String\l|+ accept(arg0:IVisitor) : void\l+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l+ hashCode() : int\l+ equals(arg0:Object) : boolean\l}"
+label = "{OutputStream|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IRelation) : void\l}"
+];
+Visitor [
+shape="record",
+label = "{Visitor|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IRelation) : void\l}"
 ];
 ClassFieldVisitor [
 shape="record",
@@ -97,6 +101,7 @@ ClassDeclarationVisitor -> IClass [arrowhead="vee"]
 Visitor -> IRelation [arrowhead="vee",style="dashed"]
 ClassDeclarationVisitor -> Declaration [arrowhead="vee",style="dashed"]
 ClassMethodVisitor -> Relation [arrowhead="vee",style="dashed"]
+OutputStream -> IRelation [arrowhead="vee",style="dashed"]
 IVisitor -> IMethod [arrowhead="vee",style="dashed"]
 Clazz -> IDeclaration [arrowhead="vee"]
 Method -> IVisitor [arrowhead="vee",style="dashed"]
@@ -104,7 +109,9 @@ IClass -> IField [arrowhead="vee",style="dashed"]
 Clazz -> IVisitor [arrowhead="vee",style="dashed"]
 IVisitor -> IClass [arrowhead="vee",style="dashed"]
 IVisitor -> IRelation [arrowhead="vee",style="dashed"]
+OutputStream -> IMethod [arrowhead="vee",style="dashed"]
 ClassFieldVisitor -> IClass [arrowhead="vee"]
+OutputStream -> IField [arrowhead="vee",style="dashed"]
 IClass -> ITraverser [arrowhead="onormal",style="dashed"]
 Field -> IField [arrowhead="onormal",style="dashed"]
 Relation -> IVisitor [arrowhead="vee",style="dashed"]
@@ -121,8 +128,10 @@ Field -> IVisitor [arrowhead="vee",style="dashed"]
 Clazz -> IClass [arrowhead="onormal",style="dashed"]
 Visitor -> IVisitor [arrowhead="onormal",style="dashed"]
 IClass -> IDeclaration [arrowhead="vee",style="dashed"]
+OutputStream -> IDeclaration [arrowhead="vee",style="dashed"]
 Model -> IModel [arrowhead="onormal",style="dashed"]
 IModel -> IClass [arrowhead="vee",style="dashed"]
+OutputStream -> IVisitor [arrowhead="onormal",style="dashed"]
 Model -> IClass [arrowhead="vee"]
 Relation -> IRelation [arrowhead="onormal",style="dashed"]
 ClassMethodVisitor -> Method [arrowhead="vee",style="dashed"]
@@ -131,6 +140,7 @@ ClassFieldVisitor -> Field [arrowhead="vee",style="dashed"]
 Visitor -> IDeclaration [arrowhead="vee",style="dashed"]
 ClassMethodVisitor -> IModel [arrowhead="vee"]
 Clazz -> IField [arrowhead="vee"]
+OutputStream -> IClass [arrowhead="vee",style="dashed"]
 IField -> ITraverser [arrowhead="onormal",style="dashed"]
 IMethod -> ITraverser [arrowhead="onormal",style="dashed"]
 Model -> IRelation [arrowhead="vee"]

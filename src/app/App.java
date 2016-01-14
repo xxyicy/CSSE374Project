@@ -38,7 +38,7 @@ public class App {
 		
 		for (String clazz : cs){
 			ClassReader reader=new ClassReader(clazz);
-			
+			System.out.println(clazz);
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
 			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
@@ -48,6 +48,7 @@ public class App {
 			
 			// DECORATE field visitor with method visitor
 			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
+		
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			
 			
