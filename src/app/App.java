@@ -30,7 +30,6 @@ public class App {
 		for (Class<?> clazz : classes) {
 			cs.add(clazz.getName());
 		}
-		
 		Visitor v = new Visitor();
 		IModel m = new Model();	
 		v.Start();
