@@ -3,6 +3,7 @@ package asm;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -14,27 +15,34 @@ import org.objectweb.asm.Opcodes;
 
 import api.IClass;
 import api.IField;
+import api.IModel;
+import api.IRelation;
 import impl.Clazz;
+import impl.Model;
 
 public class ClassFieldVisitorTest {
 
 	private final String PRIVATE = "-";
 	private final String DEFAULT = "";
+	private final String PUBLIC = "+";
+	private IModel m;
 	private IClass c;
 	private ClassVisitor visitor;
 
 	public ClassFieldVisitorTest() {
-
-		c = new Clazz();
-		visitor = new ClassFieldVisitor(Opcodes.ASM5, c);
+		this.m = new Model();
+		this.c = new Clazz();
+		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
+		visitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
 	}
 
 	@Test
-	public void testVisit1() throws IOException {
+	public void testMethodNameAndAccess() throws IOException {
 		String className = "sample.Button";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
 		List<IField> classField = c.getFields();
+		System.out.println(classField);
 		IField field = classField.get(0);
 
 		assertEquals("text", field.getName());
@@ -43,7 +51,7 @@ public class ClassFieldVisitorTest {
 	}
 
 	@Test
-	public void testVisit2() throws IOException {
+	public void testMethodNameAndAccess2() throws IOException {
 		String className = "sample.AbstractComponent";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
@@ -54,31 +62,54 @@ public class ClassFieldVisitorTest {
 		assertEquals(PRIVATE, field.getAccess());
 		assertEquals("java.util.List", field.getType());
 	}
-
-	// test association
-	@Test
-	public void tsetVisit3() throws IOException {
+	
+	@Test 
+	public void testMethodNameAndAccess3() throws IOException {
 		String className = "sample.TestClass2";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		Set<String> associationSet = c.getAssociation();
+		List<IField> classField = c.getFields();
+		IField field = classField.get(1);
 
-		assertEquals("sample.TestClass1", associationSet.iterator().next());
+		assertEquals("count", field.getName());
+		assertEquals(PUBLIC, field.getAccess());
+		assertEquals("int", field.getType());
 	}
 
 	// test association
 	@Test
-	public void tsetVisit4() throws IOException {
+	public void tsetAssociation1() throws IOException {
+		String className = "sample.TestClass2";
+		ClassReader reader = new ClassReader(className);
+		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
+		Set<IRelation> relations = m.getRelations();
+		Set<String> associationNames = new HashSet<String>();
+		for (IRelation r: relations){
+			if (r.getType().equals("association")){
+				associationNames.add(r.getTo());
+			}
+		}
+		assertTrue(associationNames.contains("sample.TestClass1"));
+		assertTrue(associationNames.contains("sample/Button"));
+		assertTrue(associationNames.contains("int"));
+		
+	}
+
+	// test association
+	@Test
+	public void tsetAssociation2() throws IOException {
 		String className = "sample.AbstractComponent";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		Set<String> associationSet = c.getAssociation();
-		Iterator<String> t = associationSet.iterator();
-
-		assertEquals("java.awt.Rectangle", t.next());
-		assertEquals("sample.IComponent", t.next());
-		assertEquals("sample/IComponent", t.next());
-
+		Set<IRelation> relations = m.getRelations();
+		Set<String> associationNames = new HashSet<String>();
+		for (IRelation r: relations){
+			if (r.getType().equals("association")){
+				associationNames.add(r.getTo());
+			}
+		}
+		assertTrue(associationNames.contains("java.awt.Rectangle"));
+		assertTrue(associationNames.contains("sample.IComponent"));
 	}
 
 }

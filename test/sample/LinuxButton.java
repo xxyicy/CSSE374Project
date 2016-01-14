@@ -37,6 +37,7 @@ public class LinuxButton extends Button {
 		 g.setColor(Color.black);
 		 g.drawString(this.text, bound.x + H_SPACE, bound.y + 16);
 
+		 
 	}
 
 }

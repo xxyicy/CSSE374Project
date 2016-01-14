@@ -59,7 +59,8 @@ public class Test {
 			m.addClass(c);
 			
 		}
-		m.removeRelationNotInPackage();
+		
+		Utility.removeRelationNotInPackage(m);
 		m.accept(v);
 		
 		v.end();

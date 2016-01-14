@@ -32,7 +32,6 @@ public class ClassFieldVisitor extends ClassVisitor {
 	@Override
 	public FieldVisitor visitField(int access, String name, String desc,
 			String signature, Object value) {
-//		System.out.println("Class :"+this.c.getName()+" Start visiting fields");
 		FieldVisitor toDecorate = super.visitField(access, name, desc,
 				signature, value);
 

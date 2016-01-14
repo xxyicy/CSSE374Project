@@ -1,5 +1,5 @@
 package sample;
 
-public class TestClass1 {
+public abstract class TestClass1 {
 
 }

@@ -56,8 +56,9 @@ public class App {
 				m.addClass(c);
 			}		
 		}
-		m.removeRelationNotInPackage();
+		
 		m.accept(v);
+		
 		
 		v.end();
 	

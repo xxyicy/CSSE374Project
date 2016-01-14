@@ -28,23 +28,12 @@ public class Model implements IModel {
 	public boolean contains(IRelation other){
 		String ofrom =  Utility.simplifyClassName(other.getFrom());
 		String oto =  Utility.simplifyClassName(other.getTo());
-		
-
-		
 		for( IRelation r : this.relations){	
-			
-			
 			String rfrom =  Utility.simplifyClassName(r.getFrom());
 			String rto =  Utility.simplifyClassName(r.getTo());
 
 			if (r.getType().equals("association") && rfrom.equals(ofrom) && rto.equals(oto)){
-				if(ofrom.equals("Model") && oto.equals("IRelation") && rfrom.equals("Model")){
-					System.out.println("ofrom: "+ofrom+" "+" oto: "+oto +" rfrom: "+rfrom+"  rto: "+rto+ "  "+r.getType());
-					
-				}
-				System.out.println("already contains association");
 				return true;
-				
 			}
 		}
 		return false;	
@@ -71,6 +60,7 @@ public class Model implements IModel {
 
 	@Override
 	public Set<IRelation> getRelations() {
+		removeRelationNotInPackage();
 		return this.relations;
 	}
 
@@ -92,9 +82,7 @@ public class Model implements IModel {
 	}
 
 
-
-	@Override
-	public void removeRelationNotInPackage() {
+	private void removeRelationNotInPackage() {
 		Set<String> names = new HashSet<String>();
 		for(IClass c: this.classes){
 			String tmp = Utility.simplifyClassName(c.getName());

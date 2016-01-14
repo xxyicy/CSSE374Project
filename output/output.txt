@@ -10,62 +10,75 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-Method [
+ChicagoPizzaStore [
 shape="record",
-label = "{Method|- name : String\l- type : String\l- access : String\l- params : List\l- exceptions : List\l|+ init(arg0:String,arg1:String,arg2:String,arg3:List,arg4:List) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getExceptions() : List\l+ getParamTypes() : List\l+ accept(arg0:IVisitor) : void\l}"
+label = "{ChicagoPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l}"
 ];
-Declaration [
+Pepperoni [
 shape="record",
-label = "{Declaration|- type : String\l- name : String\l|+ init(arg0:String,arg1:String) : void\l+ toString() : String\l+ getType() : String\l+ getName() : String\l+ accept(arg0:IVisitor) : void\l}"
+label = "{\<\<interface\>\>\nPepperoni|+ toString() : String\l}"
 ];
-Field [
+ClamPizza [
 shape="record",
-label = "{Field|- name : String\l- type : String\l- access : String\l|+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ accept(arg0:IVisitor) : void\l}"
+label = "{ClamPizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
 ];
-Model [
+NYPizzaStore [
 shape="record",
-label = "{Model|- classes : Set\l- relations : Set\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ contains(arg0:IRelation) : boolean\l+ toString() : String\l+ getClasses() : Set\l+ getRelations() : Set\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l- checkRelation(arg0:IRelation) : boolean\l+ removeRelationNotInPackage() : void\l}"
+label = "{NYPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l}"
 ];
+<<<<<<< HEAD
 Utility [
 shape="record",
 label = "{Utility|+ init() : void\l+ simplifyClassName(arg0:String) : String\l+ simplifyType(arg0:String) : String\l+ isNotBuiltIn(arg0:String) : boolean\l}"
-];
-Clazz [
+=======
+ParmesanCheese [
 shape="record",
-label = "{Clazz|- methods : List\l- fields : List\l- declaration : IDeclaration\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ toString() : String\l+ getName() : String\l}"
+label = "{ParmesanCheese|+ init() : void\l+ toString() : String\l}"
+>>>>>>> a6ac64255b300bdcb0cf79e5924c003bce61128f
 ];
-IDeclaration [
+PizzaIngredientFactory [
 shape="record",
-label = "{\<\<interface\>\>\nIDeclaration|+ getType() : String\l+ getName() : String\l}"
+label = "{\<\<interface\>\>\nPizzaIngredientFactory|+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
 ];
+Garlic [
+shape="record",
+label = "{Garlic|+ init() : void\l+ toString() : String\l}"
+];
+<<<<<<< HEAD
 Relation [
 shape="record",
 label = "{Relation|- from : String\l- to : String\l- type : String\l|+ accept(arg0:IVisitor) : void\l+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l+ hashCode() : int\l+ equals(arg0:Object) : boolean\l}"
-];
-ClassDeclarationVisitor [
+=======
+Eggplant [
 shape="record",
-label = "{ClassDeclarationVisitor|- c : IClass\l- m : IModel\l|+ init(arg0:int,arg1:IClass,arg2:IModel) : void\l+ visit(arg0:int,arg1:int,arg2:String,arg3:String,arg4:String,arg5:String[]) : void\l}"
+label = "{Eggplant|+ init() : void\l+ toString() : String\l}"
+>>>>>>> a6ac64255b300bdcb0cf79e5924c003bce61128f
 ];
-ITraverser [
+PlumTomatoSauce [
 shape="record",
-label = "{\<\<interface\>\>\nITraverser|+ accept(arg0:IVisitor) : void\l}"
+label = "{PlumTomatoSauce|+ init() : void\l+ toString() : String\l}"
 ];
-IClass [
+FreshClams [
 shape="record",
-label = "{\<\<interface\>\>\nIClass|+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ getName() : String\l}"
+label = "{FreshClams|+ init() : void\l+ toString() : String\l}"
 ];
-IField [
+FrozenClams [
 shape="record",
-label = "{\<\<interface\>\>\nIField|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l}"
+label = "{FrozenClams|+ init() : void\l+ toString() : String\l}"
 ];
-IVisitor [
+PizzaTestDrive [
 shape="record",
-label = "{\<\<interface\>\>\nIVisitor|+ visit(arg0:IClass) : void\l+ visit(arg0:IRelation) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
+label = "{PizzaTestDrive|+ init() : void\l+ main(arg0:String[]) : void\l}"
 ];
-IMethod [
+Veggies [
 shape="record",
-label = "{\<\<interface\>\>\nIMethod|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ getParamTypes() : List\l+ getExceptions() : List\l}"
+label = "{\<\<interface\>\>\nVeggies|+ toString() : String\l}"
 ];
+SlicedPepperoni [
+shape="record",
+label = "{SlicedPepperoni|+ init() : void\l+ toString() : String\l}"
+];
+<<<<<<< HEAD
 OutputStream [
 shape="record",
 label = "{OutputStream|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IRelation) : void\l}"
@@ -73,23 +86,29 @@ label = "{OutputStream|- b : StringBuffer\l|+ init() : void\l+ toString() : Stri
 Visitor [
 shape="record",
 label = "{Visitor|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l+ appendln(arg0:String) : void\l+ append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IRelation) : void\l}"
-];
-ClassFieldVisitor [
+=======
+NYPizzaIngredientFactory [
 shape="record",
-label = "{ClassFieldVisitor|- c : IClass\l- m : IModel\l|+ init(arg0:int,arg1:IClass,arg2:IModel) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass,arg3:IModel) : void\l+ visitField(arg0:int,arg1:String,arg2:String,arg3:String,arg4:Object) : FieldVisitor\l}"
+label = "{NYPizzaIngredientFactory|+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
+>>>>>>> a6ac64255b300bdcb0cf79e5924c003bce61128f
 ];
-IModel [
+BlackOlives [
 shape="record",
-label = "{\<\<interface\>\>\nIModel|+ getClasses() : Set\l+ getRelations() : Set\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l+ contains(arg0:IRelation) : boolean\l+ removeRelationNotInPackage() : void\l}"
+label = "{BlackOlives|+ init() : void\l+ toString() : String\l}"
 ];
-IRelation [
+ThinCrustDough [
 shape="record",
-label = "{\<\<interface\>\>\nIRelation|+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l}"
+label = "{ThinCrustDough|+ init() : void\l+ toString() : String\l}"
 ];
-ClassMethodVisitor [
+Onion [
 shape="record",
-label = "{ClassMethodVisitor|- c : IClass\l- m : IModel\l|+ init(arg0:int,arg1:IClass,arg2:IModel) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass,arg3:IModel) : void\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l addAccessLevel(arg0:int) : String\l addReturnType(arg0:String) : String\l addArguments(arg0:String) : List\l access$0(arg0:ClassMethodVisitor) : IModel\l}"
+label = "{Onion|+ init() : void\l+ toString() : String\l}"
 ];
+PizzaStore [
+shape="record",
+label = "{\<\<abstract\>\>\nPizzaStore|+ init() : void\l# createPizza(arg0:String) : Pizza\l+ orderPizza(arg0:String) : Pizza\l}"
+];
+<<<<<<< HEAD
 IModel -> IRelation [arrowhead="vee",style="dashed"]
 Clazz -> IMethod [arrowhead="vee"]
 Declaration -> IDeclaration [arrowhead="onormal",style="dashed"]
@@ -148,4 +167,155 @@ IVisitor -> IField [arrowhead="vee",style="dashed"]
 Declaration -> IVisitor [arrowhead="vee",style="dashed"]
 IRelation -> ITraverser [arrowhead="onormal",style="dashed"]
 ClassDeclarationVisitor -> Relation [arrowhead="vee",style="dashed"]
+=======
+CheesePizza [
+shape="record",
+label = "{CheesePizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
+];
+VeggiePizza [
+shape="record",
+label = "{VeggiePizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
+];
+ChicagoPizzaIngredientFactory [
+shape="record",
+label = "{ChicagoPizzaIngredientFactory|+ init() : void\l+ createDough() : Dough\l+ createSauce() : Sauce\l+ createCheese() : Cheese\l+ createVeggies() : Veggies[]\l+ createPepperoni() : Pepperoni\l+ createClam() : Clams\l}"
+];
+Pizza [
+shape="record",
+label = "{\<\<abstract\>\>\nPizza| name : String\l dough : Dough\l sauce : Sauce\l veggies : Veggies[]\l cheese : Cheese\l pepperoni : Pepperoni\l clam : Clams\l|+ init() : void\l prepare() : void\l bake() : void\l cut() : void\l box() : void\l setName(arg0:String) : void\l getName() : String\l+ toString() : String\l}"
+];
+PepperoniPizza [
+shape="record",
+label = "{PepperoniPizza| ingredientFactory : PizzaIngredientFactory\l|+ init(arg0:PizzaIngredientFactory) : void\l prepare() : void\l}"
+];
+Spinach [
+shape="record",
+label = "{Spinach|+ init() : void\l+ toString() : String\l}"
+];
+RedPepper [
+shape="record",
+label = "{RedPepper|+ init() : void\l+ toString() : String\l}"
+];
+Dough [
+shape="record",
+label = "{\<\<interface\>\>\nDough|+ toString() : String\l}"
+];
+ThickCrustDough [
+shape="record",
+label = "{ThickCrustDough|+ init() : void\l+ toString() : String\l}"
+];
+ReggianoCheese [
+shape="record",
+label = "{ReggianoCheese|+ init() : void\l+ toString() : String\l}"
+];
+Mushroom [
+shape="record",
+label = "{Mushroom|+ init() : void\l+ toString() : String\l}"
+];
+MarinaraSauce [
+shape="record",
+label = "{MarinaraSauce|+ init() : void\l+ toString() : String\l}"
+];
+MozzarellaCheese [
+shape="record",
+label = "{MozzarellaCheese|+ init() : void\l+ toString() : String\l}"
+];
+Sauce [
+shape="record",
+label = "{\<\<interface\>\>\nSauce|+ toString() : String\l}"
+];
+Cheese [
+shape="record",
+label = "{\<\<interface\>\>\nCheese|+ toString() : String\l}"
+];
+Clams [
+shape="record",
+label = "{\<\<interface\>\>\nClams|+ toString() : String\l}"
+];
+NYPizzaIngredientFactory -> Onion [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> VeggiePizza [arrowhead="vee",style="dashed"]
+NYPizzaStore -> VeggiePizza [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Dough [arrowhead="vee",style="dashed"]
+ThickCrustDough -> Dough [arrowhead="onormal",style="dashed"]
+BlackOlives -> Veggies [arrowhead="onormal",style="dashed"]
+FreshClams -> Clams [arrowhead="onormal",style="dashed"]
+VeggiePizza -> Pizza [arrowhead="onormal"]
+NYPizzaIngredientFactory -> ReggianoCheese [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> MozzarellaCheese [arrowhead="vee",style="dashed"]
+CheesePizza -> Pizza [arrowhead="onormal"]
+ChicagoPizzaIngredientFactory -> Sauce [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> RedPepper [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Veggies[] [arrowhead="vee",style="dashed"]
+Pizza -> Clams [arrowhead="vee"]
+Pizza -> Dough [arrowhead="vee"]
+ChicagoPizzaStore -> Pizza [arrowhead="vee",style="dashed"]
+Pizza -> Veggies[] [arrowhead="vee"]
+NYPizzaStore -> Pizza [arrowhead="vee",style="dashed"]
+Garlic -> Veggies [arrowhead="onormal",style="dashed"]
+NYPizzaIngredientFactory -> FreshClams [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> PizzaIngredientFactory [arrowhead="onormal",style="dashed"]
+PizzaStore -> Pizza [arrowhead="vee",style="dashed"]
+ParmesanCheese -> Cheese [arrowhead="onormal",style="dashed"]
+ChicagoPizzaStore -> PizzaStore [arrowhead="onormal"]
+PizzaIngredientFactory -> Dough [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Mushroom [arrowhead="vee",style="dashed"]
+VeggiePizza -> PizzaIngredientFactory [arrowhead="vee"]
+MarinaraSauce -> Sauce [arrowhead="onormal",style="dashed"]
+ChicagoPizzaIngredientFactory -> Dough [arrowhead="vee",style="dashed"]
+NYPizzaStore -> PizzaStore [arrowhead="onormal"]
+ChicagoPizzaIngredientFactory -> Veggies[] [arrowhead="vee",style="dashed"]
+FrozenClams -> Clams [arrowhead="onormal",style="dashed"]
+Pizza -> Cheese [arrowhead="vee"]
+ChicagoPizzaIngredientFactory -> FrozenClams [arrowhead="vee",style="dashed"]
+PizzaIngredientFactory -> Pepperoni [arrowhead="vee",style="dashed"]
+PizzaIngredientFactory -> Veggies[] [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Cheese [arrowhead="vee",style="dashed"]
+PepperoniPizza -> PizzaIngredientFactory [arrowhead="vee"]
+ChicagoPizzaIngredientFactory -> Pepperoni [arrowhead="vee",style="dashed"]
+NYPizzaStore -> PepperoniPizza [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> ChicagoPizzaIngredientFactory [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> PlumTomatoSauce [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> PepperoniPizza [arrowhead="vee",style="dashed"]
+ReggianoCheese -> Cheese [arrowhead="onormal",style="dashed"]
+PizzaIngredientFactory -> Clams [arrowhead="vee",style="dashed"]
+ClamPizza -> Pizza [arrowhead="onormal"]
+Spinach -> Veggies [arrowhead="onormal",style="dashed"]
+CheesePizza -> PizzaIngredientFactory [arrowhead="vee"]
+ChicagoPizzaIngredientFactory -> Eggplant [arrowhead="vee",style="dashed"]
+Mushroom -> Veggies [arrowhead="onormal",style="dashed"]
+ThinCrustDough -> Dough [arrowhead="onormal",style="dashed"]
+PizzaTestDrive -> ChicagoPizzaStore [arrowhead="vee",style="dashed"]
+RedPepper -> Veggies [arrowhead="onormal",style="dashed"]
+ChicagoPizzaIngredientFactory -> ThickCrustDough [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> SlicedPepperoni [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> BlackOlives [arrowhead="vee",style="dashed"]
+Eggplant -> Veggies [arrowhead="onormal",style="dashed"]
+ChicagoPizzaStore -> ClamPizza [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Pepperoni [arrowhead="vee",style="dashed"]
+ChicagoPizzaStore -> CheesePizza [arrowhead="vee",style="dashed"]
+NYPizzaStore -> CheesePizza [arrowhead="vee",style="dashed"]
+Onion -> Veggies [arrowhead="onormal",style="dashed"]
+PizzaTestDrive -> NYPizzaStore [arrowhead="vee",style="dashed"]
+PizzaIngredientFactory -> Cheese [arrowhead="vee",style="dashed"]
+Pizza -> Pepperoni [arrowhead="vee"]
+PizzaIngredientFactory -> Sauce [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Clams [arrowhead="vee",style="dashed"]
+MozzarellaCheese -> Cheese [arrowhead="onormal",style="dashed"]
+ChicagoPizzaIngredientFactory -> Cheese [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Garlic [arrowhead="vee",style="dashed"]
+PlumTomatoSauce -> Sauce [arrowhead="onormal",style="dashed"]
+ChicagoPizzaIngredientFactory -> Spinach [arrowhead="vee",style="dashed"]
+ChicagoPizzaIngredientFactory -> SlicedPepperoni [arrowhead="vee",style="dashed"]
+NYPizzaStore -> ClamPizza [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> ThinCrustDough [arrowhead="vee",style="dashed"]
+PepperoniPizza -> Pizza [arrowhead="onormal"]
+NYPizzaIngredientFactory -> MarinaraSauce [arrowhead="vee",style="dashed"]
+SlicedPepperoni -> Pepperoni [arrowhead="onormal",style="dashed"]
+NYPizzaStore -> NYPizzaIngredientFactory [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> Sauce [arrowhead="vee",style="dashed"]
+NYPizzaIngredientFactory -> PizzaIngredientFactory [arrowhead="onormal",style="dashed"]
+ClamPizza -> PizzaIngredientFactory [arrowhead="vee"]
+Pizza -> Sauce [arrowhead="vee"]
+ChicagoPizzaIngredientFactory -> Clams [arrowhead="vee",style="dashed"]
+>>>>>>> a6ac64255b300bdcb0cf79e5924c003bce61128f
 }
