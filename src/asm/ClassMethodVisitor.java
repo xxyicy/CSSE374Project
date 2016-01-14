@@ -63,13 +63,13 @@ public class ClassMethodVisitor extends ClassVisitor {
 		Method method = new Method(name, type, acc, args, exps,this.c.getName());
 		this.c.addMethod(method);
 		IMethodRelation methodRelation = new MethodRelation(method);
-		
+		this.m.addMethodRelation(method,methodRelation);
 		MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {
 
 			@Override
 			public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
 				
-				if (name.equals("<init>") && !owner.equals("java/lang/Object")) {
+				if (name.equals("<init>")) {
 					
 					IRelation r = new Relation(self, owner, "use");
 					Boolean hasSuper = true;
@@ -77,16 +77,24 @@ public class ClassMethodVisitor extends ClassVisitor {
 						if (r1.getType().equals("extends") && r1.getFrom().equals(self) && r1.getTo().equals(owner))
 							hasSuper = false;
 					}
-					if (hasSuper)
+					if (hasSuper){
 						ClassMethodVisitor.this.m.addRelation(r);
-				}
+						String accCalled = "";
+						String typeCalled = addReturnType(desc);
+						List<String> args = addArguments(desc);
+						IMethod called = new Method(name,typeCalled,accCalled,args,new ArrayList<String>(),owner);
+						methodRelation.addMethod(called);
+					}
+						
+				}else{
+					String accCalled = "";
+					String typeCalled = addReturnType(desc);
+					List<String> args = addArguments(desc);
+					IMethod called = new Method(name,typeCalled,accCalled,args,new ArrayList<String>(),owner);
+					methodRelation.addMethod(called);
+				}		
 				
-
-				String accCalled = "";
-				String typeCalled = addReturnType(desc);
-				List<String> args = addArguments(desc);
-				IMethod called = new Method(name,typeCalled,accCalled,args,new ArrayList<String>(),owner);
-				methodRelation.addMethod(called);
+				
 			}
 		};
 

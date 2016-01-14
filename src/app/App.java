@@ -11,7 +11,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import visitor.impl.Visitor;
+import visitor.impl.GraphVizOutputStream;
 import api.IClass;
 import api.IModel;
 import asm.ClassDeclarationVisitor;
@@ -30,7 +30,10 @@ public class App {
 		for (Class<?> clazz : classes) {
 			cs.add(clazz.getName());
 		}
-		Visitor v = new Visitor();
+
+		
+		GraphVizOutputStream v = new GraphVizOutputStream();
+
 		IModel m = new Model();	
 		v.Start();
 		

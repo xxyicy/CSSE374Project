@@ -4,6 +4,7 @@ import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
+import api.IMethodRelation;
 import api.IRelation;
 
 public interface IVisitor {
@@ -16,5 +17,6 @@ public interface IVisitor {
 	void visit(IMethod m);
 	void visit(IDeclaration d);
 	void visit(IField f);
+	void visit(IMethodRelation mr);
 	void postVisit(IClass c);
 }
