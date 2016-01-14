@@ -15,7 +15,7 @@ import app.Utility;
 public class Model implements IModel {
 	private Set<IClass> classes = new HashSet<IClass>();
 	private Set<IRelation> relations = new HashSet<IRelation>();
-	private List<IMethodRelation> methodRelations = new ArrayList<IMethodRelation>();
+	private Set<IMethodRelation> methodRelations = new HashSet<IMethodRelation>();
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -52,6 +52,9 @@ public class Model implements IModel {
 		for(IRelation r : this.relations){
 			result += r.toString();
 		}
+		for(IMethodRelation m: this.methodRelations){
+			result+= m.toString();
+		}
 		return result;
 	}
 	
@@ -81,6 +84,19 @@ public class Model implements IModel {
 	
 	private boolean checkRelation(IRelation r){
 		return !r.getFrom().contains("$") && !r.getTo().contains("$");
+	}
+
+	@Override
+	public Set<IMethodRelation> getMethodRelation() {
+		// TODO Auto-generated method stub
+		return this.methodRelations;
+	}
+
+	@Override
+	public void addMethodRelation(IMethodRelation m) {
+		// TODO Auto-generated method stub
+		this.methodRelations.add(m);
+		
 	}
 
 

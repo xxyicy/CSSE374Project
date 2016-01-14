@@ -25,6 +25,17 @@ public class MethodRelation implements IMethodRelation {
 	}
 
 	@Override
+	public String toString(){
+		String result = "";
+		result += "from: "+from.getClassName() + " "+from.getName() +"\n" + "to: ";
+		for (IMethod s: to){
+			result += s.getClassName()+"  "+s.getName()+",";
+		}
+		result += "\n";
+		return result;		
+	}
+	
+	@Override
 	public void addMethod(IMethod m) {
 		this.to.add(m);
 		
