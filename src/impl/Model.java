@@ -87,9 +87,9 @@ public class Model implements IModel {
 	}
 
 	@Override
-	public Set<IMethodRelation> getMethodRelation() {
+	public Hashtable<IMethod,IMethodRelation> getMethodRelation() {
 		// TODO Auto-generated method stub
-		return (Set<IMethodRelation>) this.methodRelations.values();
+		return this.methodRelations;
 	}
 
 	@Override
@@ -99,46 +99,9 @@ public class Model implements IModel {
 		
 	}
 
-	@Override
-	public IMethodRelation getMethodRelationbyName(String name) {
-		int lastDotIndex = name.lastIndexOf(".");
-		String className = name.substring(0, lastDotIndex);
-		className.replace("/", ".");
-		String methodNameAndParams = name.substring(lastDotIndex+1);
-		int firstparIndex = methodNameAndParams.lastIndexOf("(");
-		String method = methodNameAndParams.substring(0, firstparIndex);
-		String params = methodNameAndParams.substring(firstparIndex+1, methodNameAndParams.length()-1);
-		String[] paramArr = params.split(",");
-		String[] paramTypeArr = new String[paramArr.length];
-		for (int i=0;i<paramArr.length;i++){
-			paramTypeArr[i] = paramArr[i].split(" ")[0];
-			int index = paramTypeArr[i].lastIndexOf("<");
-			if (index > 0){
-				paramTypeArr[i] = paramTypeArr[i].substring(0, index);
-			}
-		}
-		
-		for (IMethodRelation m: this.methodRelations.values()){
-			String newClassName = m.getFrom().getClassName().replace("/", ".");
-			if (m.getFrom().getName().equals(method) && newClassName.equals(className)){
-				if (m.getFrom().getParamTypes().size() != paramTypeArr.length){
-					continue;
-				}
-				boolean isTheSame = true;
-				for (int i=0;i<m.getFrom().getParamTypes().size();i++){
-					String param = Utility.simplifyClassName(m.getFrom().getParamTypes().get(i));
-					if (!param.equals(paramTypeArr[i])){
-						isTheSame = false;
-					}
-				}
-				if (isTheSame){
-					return m;
-				}
-			}
-		}
-		
-		return null;
-	}
+
+
+	
 
 
 	

@@ -1,6 +1,7 @@
 package api;
 
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +13,6 @@ public interface IModel extends ITraverser {
 	public void addClass(IClass c);
 	public void addRelation(IRelation r);
 	boolean contains(IRelation other);
-	public Set<IMethodRelation> getMethodRelation();
+	public Hashtable<IMethod,IMethodRelation> getMethodRelation();
 	public void addMethodRelation(IMethod m, IMethodRelation mr);
-	public IMethodRelation getMethodRelationbyName(String name);
 }

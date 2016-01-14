@@ -23,7 +23,6 @@ public class Method implements IMethod {
 		this.params = params;
 		this.exceptions = exceptions;
 		this.className = className;
-		
 	}
 	
 	
@@ -80,58 +79,5 @@ public class Method implements IMethod {
 		
 		return this.className;
 	}
-
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((className == null) ? 0 : className.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((params == null) ? 0 : params.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Method other = (Method) obj;
-		if (className == null) {
-			if (other.className != null)
-				return false;
-		} else if (!className.equals(other.className))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (params == null) {
-			if (other.params != null)
-				return false;
-		} 
-		if(params.size() != other.getParamTypes().size()){
-			return false;
-		}
-		for(int i=0;i<params.size();i++){
-			if(!params.get(i).equals(other.params.get(i))){
-				return false;
-			}
-		}
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
-	}
-	
 
 }

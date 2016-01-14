@@ -9,8 +9,8 @@ import api.IRelation;
 
 public class Utility {
 	public static String simplifyClassName(String name){
-		name = name.replaceAll("[.]", "[/]");
-		String[] nameArr = name.split("[/]");
+		name = name.replaceAll("[.]", "/");
+		String[] nameArr = name.split("/");
 		return nameArr[nameArr.length-1];
 	}
 	

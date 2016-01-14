@@ -29,6 +29,9 @@ public class MethodRelation implements IMethodRelation {
 	public String toString(){
 		String result = "";
 		result += "from: "+from.getClassName() + " "+from.getName() +"\n" + "to: ";
+		for (String s: from.getParamTypes()){
+			result +=s+",";
+		}
 		for (IMethod s: to){
 			result += s.getClassName()+"  "+s.getName()+",";
 		}
