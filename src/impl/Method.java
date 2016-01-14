@@ -12,14 +12,20 @@ public class Method implements IMethod {
 	private String access;
 	private List<String> params;
 	private List<String> exceptions;
+	private String className;
 	
-	public Method(String name,String type,String access,List<String> params, List<String> exceptions){
+	
+	
+	public Method(String name,String type,String access,List<String> params, List<String> exceptions,String className){
 		this.name = name;
 		this.type = type;
 		this.access = access;
 		this.params = params;
 		this.exceptions = exceptions;
+		this.className = className;
+		
 	}
+	
 	
 	@Override
 	public String toString() {
@@ -66,6 +72,13 @@ public class Method implements IMethod {
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
+	}
+
+
+	@Override
+	public String getClassName() {
+		
+		return this.className;
 	}
 
 }

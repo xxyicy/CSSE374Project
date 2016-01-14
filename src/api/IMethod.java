@@ -10,4 +10,5 @@ public interface IMethod extends ITraverser {
 	public String getAccess();
 	public List<String> getParamTypes();
 	public List<String> getExceptions();
+	public String getClassName();
 }

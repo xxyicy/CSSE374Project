@@ -32,9 +32,12 @@ public class ClassFieldVisitor extends ClassVisitor {
 	@Override
 	public FieldVisitor visitField(int access, String name, String desc,
 			String signature, Object value) {
+//		System.out.println("Class :"+this.c.getName()+" Start visiting fields");
 		FieldVisitor toDecorate = super.visitField(access, name, desc,
 				signature, value);
 
+	
+		
 		String type = Type.getType(desc).getClassName();
 		String acc;
 
@@ -66,6 +69,7 @@ public class ClassFieldVisitor extends ClassVisitor {
 			this.m.addRelation(new Relation(this.c.getName(), type,
 					"association"));
 		}
+		
 		return toDecorate;
 	};
 }

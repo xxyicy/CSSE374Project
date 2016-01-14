@@ -1,10 +1,13 @@
 package impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import visitor.api.IVisitor;
 import api.IClass;
+import api.IMethodRelation;
 import api.IModel;
 import api.IRelation;
 import app.Utility;
@@ -12,7 +15,7 @@ import app.Utility;
 public class Model implements IModel {
 	private Set<IClass> classes = new HashSet<IClass>();
 	private Set<IRelation> relations = new HashSet<IRelation>();
-	
+	private List<IMethodRelation> methodRelations = new ArrayList<IMethodRelation>();
 	
 	@Override
 	public void accept(IVisitor v) {
