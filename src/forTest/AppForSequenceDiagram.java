@@ -62,6 +62,7 @@ public class AppForSequenceDiagram {
 		if(args.length==3){
 			depth = Integer.parseInt(args[2]);
 		}
+		
 		SDEditOutputStream v = new SDEditOutputStream(depth,args[1],m.getMethodRelation());
 		
 	
