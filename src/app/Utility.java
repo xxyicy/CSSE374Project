@@ -49,4 +49,31 @@ public class Utility {
 		}
 		return newRelations;
 	}
+	
+	public static String[] parseMethodSignature(String input){
+		int lastDotIndex = input.lastIndexOf(".");
+		String className = input.substring(0, lastDotIndex);
+		className.replaceAll("/", ".");
+		String methodNameAndParams = input.substring(lastDotIndex + 1);
+		int firstparIndex = methodNameAndParams.lastIndexOf("(");
+		String method = methodNameAndParams.substring(0, firstparIndex);
+		String params = methodNameAndParams.substring(firstparIndex + 1, methodNameAndParams.length() - 1);
+		String[] paramArr;
+		if (params.contains(",")) {
+			paramArr = params.split(",");
+		}else if (params.length() == 0){
+			paramArr = new String[0];
+		}else{
+			paramArr = new String[1];
+			paramArr[0] = params;
+		}
+		String[] result = new String[2+paramArr.length];
+		result[0] = className;
+		result[1] = method;
+		for(int i = 0;i<paramArr.length;i++){
+			result[i+2] = paramArr[i];
+		}
+		return result;
+	}
+	
 }

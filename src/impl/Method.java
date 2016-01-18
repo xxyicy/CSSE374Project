@@ -1,18 +1,22 @@
 package impl;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import app.Utility;
 import visitor.api.IVisitor;
 import api.IMethod;
 
 
+
 public class Method implements IMethod {
+	
 	private String name;
 	private String type;
 	private String access;
 	private List<String> params;
 	private List<String> exceptions;
 	private String className;
+	private List<IMethod> calls;
 	
 	
 	
@@ -23,6 +27,7 @@ public class Method implements IMethod {
 		this.params = params;
 		this.exceptions = exceptions;
 		this.className = className;
+		this.calls = new ArrayList<IMethod>();
 	}
 	
 	
@@ -126,6 +131,69 @@ public class Method implements IMethod {
 		} else if (!type.equals(other.type))
 			return false;
 		return true;
+	}
+
+
+	@Override
+	public List<IMethod> getCalls() {
+		return this.calls;
+	}
+
+
+
+
+	@Override
+	public void addCall(IMethod call) {
+		// TODO Auto-generated method stub
+		this.calls.add(call);
+	}
+
+
+
+
+
+	@Override
+	public void setClassName(String c) {
+		// TODO Auto-generated method stub
+		this.className = c;
+	}
+
+
+	@Override
+	public void setReturnType(String c) {
+		this.type = c;
+	}
+
+
+	@Override
+	public boolean compareMethod(IMethod m) {
+		if(this.className.equals(m.getClassName()) && this.name.equals(m.getName()) && this.params.size() ==
+				m.getParamTypes().size()){
+			for (int i =0; i< this.params.size(); i++){
+				String thisParam = Utility.simplifyClassName(this.params.get(i));
+				String mParam = Utility.simplifyClassName(m.getParamTypes().get(i));
+				if(!thisParam.equals(mParam)){
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+
+	@Override
+	public String printCallChains(int depth) {
+		String result = "";
+		for(int i =0;i<depth;i++){
+			result += "  ";
+		}
+		result += "->";
+		result += this.className+this.name+"\n";
+		for(IMethod m : this.calls){
+			result += m.printCallChains(depth +1);
+		}
+		return result;
 	}
 
 }
