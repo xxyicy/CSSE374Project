@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
-
 
 public class AppForSequenceDiagram {
 	public static void main(String[] args) throws Exception {
@@ -35,45 +33,37 @@ public class AppForSequenceDiagram {
 			params.add(methodInfo[i].split(" ")[0]);
 		}
 
-
 		System.out.println(params);
 
-		
-		
-		
-		
-		IMethod startMethod = new Method(methodName,"","",params,new ArrayList<String>(),methodClassName);
-		
+		IMethod startMethod = new Method(methodName, "", "", params,
+				new ArrayList<String>(), methodClassName);
+
 		List<String> classesRead = new ArrayList<String>();
-		
-		
-		
-		readClassAndMethods(startMethod,depth,classesRead);
-		
+
+		readClassAndMethods(startMethod, depth, classesRead);
+
 		System.out.println(startMethod.printCallChains(0));
-		
-	
-		
+
 	}
-	
-	
-	public static void readClassAndMethods(IMethod current,int curDepth,List<String> classesRead) throws IOException{
-		if(curDepth < 1){
+
+	public static void readClassAndMethods(IMethod current, int curDepth,
+			List<String> classesRead) throws IOException {
+		if (curDepth < 1) {
 			return;
 		}
-		//add the class to read list
-		if(!classesRead.contains(current.getClassName())){
-			classesRead.add(current.getClassName());
-			ClassReader reader = new ClassReader(current.getClassName());
-			ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5, current,current.getClassName());
-			reader.accept(sequenceVisitor,ClassReader.EXPAND_FRAMES);
-			
-			//Recursive call to include all methods called within the range of depth
-			for (IMethod m : current.getCalls()) {
-				readClassAndMethods(m,curDepth-1,classesRead);
-			}
+		// add the class to read list
+
+		ClassReader reader = new ClassReader(current.getClassName());
+		ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5,
+				current, current.getClassName());
+		
+		reader.accept(sequenceVisitor, ClassReader.EXPAND_FRAMES);
+
+		// Recursive call to include all methods called within the range of
+		// depth
+		for (IMethod m : current.getCalls()) {
+			readClassAndMethods(m, curDepth - 1, classesRead);
 		}
-		
-		
+
 	}
 }
