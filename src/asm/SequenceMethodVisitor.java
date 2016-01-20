@@ -69,6 +69,7 @@ public class SequenceMethodVisitor extends ClassVisitor {
 					String returnType = addReturnType(desc);
 					List<String> args = addArguments(desc);
 					IMethod called = new Method(name,returnType,"NN",args,new ArrayList<String>(),className);
+					called.setParent(method);
 					SequenceMethodVisitor.this.m.addCall(called);
 					
 				}

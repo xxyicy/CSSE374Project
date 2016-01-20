@@ -17,6 +17,7 @@ public class Method implements IMethod {
 	private List<String> exceptions;
 	private String className;
 	private List<IMethod> calls;
+	private IMethod parent;
 	
 	
 	
@@ -189,12 +190,28 @@ public class Method implements IMethod {
 		for(int i =0;i<depth;i++){
 			result += "  ";
 		}
+		if(this.parent != null){
+			result += this.parent.getName()+": ";
+		}
 		result += "->";
 		result += this.className+this.name+"\n";
 		for(IMethod m : this.calls){
 			result += m.printCallChains(depth +1);
 		}
 		return result;
+	}
+
+
+	@Override
+	public void setParent(IMethod parent) {
+		this.parent = parent;
+		
+	}
+
+
+	@Override
+	public IMethod getParent() {
+		return this.parent;
 	}
 
 }
