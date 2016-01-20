@@ -13,6 +13,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
 import api.IClass;
@@ -131,7 +132,8 @@ public class App {
 
 		readClassAndMethods(startMethod, depth, classesRead);
 		
-		SDEditOutputStream v = new SDEditOutputStream(depth,startMethod);
+		ISDVisitor v = new SDEditOutputStream();
+		startMethod.accept(v);
 		System.out.println(v.toString());
 		
 		

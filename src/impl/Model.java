@@ -1,13 +1,10 @@
 package impl;
 
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.Set;
 
 import visitor.api.IVisitor;
 import api.IClass;
-import api.IMethod;
-import api.IMethodRelation;
 import api.IModel;
 import api.IRelation;
 import app.Utility;
@@ -15,7 +12,6 @@ import app.Utility;
 public class Model implements IModel {
 	private Set<IClass> classes = new HashSet<IClass>();
 	private Set<IRelation> relations = new HashSet<IRelation>();
-	private Hashtable<IMethod,IMethodRelation> methodRelations = new Hashtable<IMethod,IMethodRelation>();
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -52,9 +48,6 @@ public class Model implements IModel {
 		for(IRelation r : this.relations){
 			result += r.toString();
 		}
-		for(IMethodRelation m: this.methodRelations.values()){
-			result+= m.toString();
-		}
 		return result;
 	}
 	
@@ -84,19 +77,6 @@ public class Model implements IModel {
 	
 	private boolean checkRelation(IRelation r){
 		return !r.getFrom().contains("$") && !r.getTo().contains("$");
-	}
-
-	@Override
-	public Hashtable<IMethod,IMethodRelation> getMethodRelation() {
-		// TODO Auto-generated method stub
-		return this.methodRelations;
-	}
-
-	@Override
-	public void addMethodRelation(IMethod m, IMethodRelation mr) {
-		// TODO Auto-generated method stub
-		this.methodRelations.put(m, mr);
-		
 	}
 
 

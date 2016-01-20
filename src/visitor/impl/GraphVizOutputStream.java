@@ -5,7 +5,6 @@ import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
-import api.IMethodRelation;
 import api.IRelation;
 import app.Utility;
 
@@ -75,7 +74,7 @@ public class GraphVizOutputStream implements IVisitor {
 			this.b.deleteCharAt(this.b.length() - 1);
 		}
 
-		this.append(")" + " : " + Utility.simplifyType(m.getType()));
+		this.append(")" + " : " + Utility.simplifyType(m.getReturnType()));
 		if (!m.getExceptions().isEmpty()) {
 			this.append(" throws ");
 			for (String s : m.getExceptions()) {
@@ -133,9 +132,5 @@ public class GraphVizOutputStream implements IVisitor {
 		}
 	}
 
-	@Override
-	public void visit(IMethodRelation mr) {
-		// do nothing
-	}
 
 }

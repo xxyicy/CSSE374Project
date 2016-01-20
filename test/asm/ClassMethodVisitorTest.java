@@ -47,7 +47,7 @@ public class ClassMethodVisitorTest {
 
 		assertEquals("setText", method.getName());
 		assertEquals(PRIVATE, method.getAccess());
-		assertEquals("void", method.getType());
+		assertEquals("void", method.getReturnType());
 		assertEquals("java.lang.String", method.getParamTypes().get(0));
 		assertEquals("java/lang/Exception", method.getExceptions().get(0));
 	}
@@ -62,7 +62,7 @@ public class ClassMethodVisitorTest {
 
 		assertEquals("drawComponent", method.getName());
 		assertEquals(PUBLIC, method.getAccess());
-		assertEquals("void", method.getType());
+		assertEquals("void", method.getReturnType());
 		assertEquals("java.awt.Graphics2D", method.getParamTypes().get(0));
 		assertEquals(0, method.getExceptions().size());
 	}
@@ -77,7 +77,7 @@ public class ClassMethodVisitorTest {
 
 		assertEquals("init", method.getName());
 		assertEquals(DEFAULT, method.getAccess());
-		assertEquals("void", method.getType());
+		assertEquals("void", method.getReturnType());
 		assertEquals(0, method.getParamTypes().size());
 		assertEquals(0, method.getExceptions().size());
 	}

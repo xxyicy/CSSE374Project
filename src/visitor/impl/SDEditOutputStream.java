@@ -2,72 +2,43 @@ package visitor.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 import api.IMethod;
-import api.IMethodRelation;
 import app.Utility;
+import visitor.api.ISDVisitor;
 
-public class SDEditOutputStream {
+public class SDEditOutputStream extends ISDVisitor {
 	private Map<String, String> declaration;
 	private List<String> initializedArray;
 	private StringBuffer classes;
 	private StringBuffer content;
 	private int count = 0;
-	private int depth;
-	private IMethod startMethod;
 
-	public SDEditOutputStream(int depth, IMethod method) {
-		this.depth = depth;
-		this.startMethod = method;
+	public SDEditOutputStream() {
 		this.declaration = new HashMap<String, String>();
 		this.content = new StringBuffer();
 		this.classes = new StringBuffer();
 		this.initializedArray = new ArrayList<String>();
-		parse(this.startMethod, 0);
 	}
 
-	public void parse(IMethod start, int depth) {
-		if (depth == this.depth) {
-			return;
-		}
+	@Override
+	public String toString() {
+		return this.classes.toString() + "\n" + this.content.toString();
 
-		addClassName(start.getClassName(), "");
+	}
 
-		List<IMethod> start_to = start.getCalls();
-		for (int i = 0; i < start_to.size(); i++) {
-			this.content.append(this.declaration.get(Utility.simplifyClassName(start.getClassName())));
-			this.content.append(":");
+	@Override
+	public void visit(IMethod m) {
+		addClassName(m.getClassName(), "");
+		
+		addMessage(m.getParent(), m);
 
-			// check if there is new class appears, if is add to declaration
-			// string
-			addClassName(start_to.get(i).getClassName(), start_to.get(i).getName());
-
-			this.content.append(this.declaration.get(Utility.simplifyClassName(start_to.get(i).getClassName())));
-			this.content.append(".");
-			if (start_to.get(i).getName().equals("init")) {
-				this.content.append("new\n");
-				this.initializedArray.add(start_to.get(i).getClassName());
-			} else {
-				this.content.append(Utility.simplifyClassName(start_to.get(i).getName()) + "(");
-				List<String> params = start_to.get(i).getParamTypes();
-				for (int j = 0; j < params.size() - 1; j++) {
-					this.content.append(Utility.simplifyType(params.get(j)) + ",");
-				}
-				if (!params.isEmpty())
-					this.content.append(Utility.simplifyType(params.get(params.size() - 1)) + ")");
-				else {
-					this.content.append(")");
-				}
-				this.content.append(":");
-				this.content.append(Utility.simplifyClassName(start_to.get(i).getType()) + "\n");
-			}
-
-			parse(start_to.get(i), depth++);
-
-		}
+//		List<IMethod> start_to = m.getCalls();
+//		for (int i = 0; i < start_to.size(); i++) {
+//			addMessage(m, start_to.get(i));
+//		}
 	}
 
 	private void addClassName(String className, String methodName) {
@@ -84,9 +55,35 @@ public class SDEditOutputStream {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return this.classes.toString() + "\n" + this.content.toString();
+	private void addMessage(IMethod caller, IMethod callee) {
+		String simplifiedCallerClassName = Utility.simplifyClassName(caller.getClassName());
+		String simplifiedCalleeClassName = Utility.simplifyClassName(callee.getClassName());
+		this.content.append(this.declaration.get(simplifiedCallerClassName));
+		this.content.append(":");
+
+//		// check if there is new class appears, if is add to declaration
+//		// string
+//		addClassName(callee.getClassName(), callee.getName());
+
+		this.content.append(this.declaration.get(simplifiedCalleeClassName));
+		this.content.append(".");
+		if (callee.getName().equals("init")) {
+			this.content.append("new\n");
+			this.initializedArray.add(callee.getClassName());
+		} else {
+			this.content.append(callee.getName() + "(");
+			List<String> params = callee.getParamTypes();
+			for (int j = 0; j < params.size() - 1; j++) {
+				this.content.append(Utility.simplifyType(params.get(j)) + ",");
+			}
+			if (!params.isEmpty())
+				this.content.append(Utility.simplifyType(params.get(params.size() - 1)) + ")");
+			else {
+				this.content.append(")");
+			}
+			this.content.append(":");
+			this.content.append(Utility.simplifyType(callee.getReturnType()) + "\n");
+		}
 
 	}
 

@@ -9,14 +9,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import api.IClass;
 import api.IMethod;
-import api.IMethodRelation;
-import api.IModel;
-import api.IRelation;
 import impl.Method;
-import impl.MethodRelation;
-import impl.Relation;
 
 public class SequenceMethodVisitor extends ClassVisitor {
 	private IMethod m;

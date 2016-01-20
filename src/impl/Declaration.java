@@ -42,9 +42,6 @@ public class Declaration implements IDeclaration{
 		return (this.patternCode & api.patternCode.Singleton) == api.patternCode.Singleton;
 	}
 
-	
-	
-
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
@@ -61,13 +58,6 @@ public class Declaration implements IDeclaration{
 	public void andWithCode(int code) {
 		this.patternCode = this.patternCode & code;
 		
-	}
-	
-
-	
-	
-
-	
-	
+	}	
 
 }
