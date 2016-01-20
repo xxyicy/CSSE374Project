@@ -14,6 +14,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 import visitor.impl.GraphVizOutputStream;
+import visitor.impl.SDEditOutputStream;
 import api.IClass;
 import api.IMethod;
 import api.IModel;
@@ -130,6 +131,14 @@ public class App {
 		List<String> classesRead = new ArrayList<String>();
 
 		readClassAndMethods(startMethod, depth, classesRead);
+		
+		SDEditOutputStream v = new SDEditOutputStream(depth,startMethod);
+		System.out.println(v.toString());
+		
+		
+		PrintWriter writer = new PrintWriter("./output/output.txt");
+		writer.print(v.toString());
+		writer.close();
 
 		System.out.println(startMethod.printCallChains(0));
 
