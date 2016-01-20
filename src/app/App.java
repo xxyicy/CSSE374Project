@@ -1,8 +1,10 @@
 package app;
 
 import impl.Clazz;
+import impl.Method;
 import impl.Model;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +15,44 @@ import org.objectweb.asm.Opcodes;
 
 import visitor.impl.GraphVizOutputStream;
 import api.IClass;
+import api.IMethod;
 import api.IModel;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
+import asm.SequenceMethodVisitor;
 
 public class App {
+	
+	
+	
 	public static void main(String[] args) throws Exception {
 		
-		if (args.length == 0) {
-			throw new Exception("No given path");
+		if (args.length < 2) {
+			throw new Exception("Not Enough Parameters");
 		}
-
-		List<Class<?>> classes = ClassFinder.find(args[0]);		
+		
+		if (args[0].equals("UML")){
+			createUmlDiagram(args[1]);
+		}
+		else if(args[0].equals("SD")){
+			String[] params = new String[2];
+			params[0] = args[1];
+			params[1] = args[2];
+			createSequenceDiagram(params);
+		}
+		else{
+			throw new Exception("Command not found");
+		}
+		
+	
+	}
+	
+	
+	
+	
+	public static void createUmlDiagram(String arg) throws IOException{
+		List<Class<?>> classes = ClassFinder.find(arg);		
 		List<String> cs = new ArrayList<>();
 		for (Class<?> clazz : classes) {
 			cs.add(clazz.getName());
@@ -70,4 +97,64 @@ public class App {
 		
 		System.out.println(v.toString());
 	}
+	
+	
+	
+	
+	
+	
+	public static void createSequenceDiagram(String[] args) throws Exception{
+		if (args.length < 1) {
+			throw new Exception("No given method name");
+		}
+
+		System.out.println(args[0]);
+
+		String methodFQS = args[0];
+
+		int depth = args.length == 2 ? Integer.valueOf(args[1]) : 5;
+
+		String[] methodInfo = Utility.parseMethodSignature(methodFQS);
+		String methodClassName = methodInfo[0];
+		String methodName = methodInfo[1];
+		List<String> params = new ArrayList<String>();
+		for (int i = 2; i < methodInfo.length; i++) {
+			params.add(methodInfo[i].split(" ")[0]);
+		}
+
+		System.out.println(params);
+
+		IMethod startMethod = new Method(methodName, "", "", params,
+				new ArrayList<String>(), methodClassName);
+
+		List<String> classesRead = new ArrayList<String>();
+
+		readClassAndMethods(startMethod, depth, classesRead);
+
+		System.out.println(startMethod.printCallChains(0));
+
+	}
+
+	public static void readClassAndMethods(IMethod current, int curDepth,
+			List<String> classesRead) throws IOException {
+		if (curDepth < 1) {
+			return;
+		}
+		// add the class to read list
+
+		ClassReader reader = new ClassReader(current.getClassName());
+		ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5,
+				current, current.getClassName());
+		
+		reader.accept(sequenceVisitor, ClassReader.EXPAND_FRAMES);
+
+		// Recursive call to include all methods called within the range of
+		// depth
+		for (IMethod m : current.getCalls()) {
+			readClassAndMethods(m, curDepth - 1, classesRead);
+		}
+
+	}
+	
+	
 }
