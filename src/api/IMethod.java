@@ -12,9 +12,9 @@ public interface IMethod extends ITraverser {
 	public List<String> getExceptions();
 	public String getClassName();
 	public List<IMethod> getCalls();
-
+	public void setParent(IMethod parent);
 	public void addCall(IMethod call);
-
+	public IMethod getParent();
 	public void setClassName(String c);
 	public void setReturnType(String c);
 	public boolean compareMethod(IMethod m);
