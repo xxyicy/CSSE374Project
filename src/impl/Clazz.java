@@ -72,6 +72,8 @@ public class Clazz implements IClass {
 	@Override
 	public String toString() {
 		String result = "";
+		result += "ClassName: " + this.getName() + "\n";
+		result += "ClassCode: ";
 		result += "methods " + this.methods + "\n";
 		result += "fields " + this.fields + "\n";
 		result += "declaration " + this.declaration + "\n";

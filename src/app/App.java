@@ -61,7 +61,6 @@ public class App {
 
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
-
 		IModel m = new Model();	
 		v.Start();
 		

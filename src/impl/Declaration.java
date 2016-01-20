@@ -1,21 +1,19 @@
 package impl;
 
-
 import visitor.api.IVisitor;
 import api.IDeclaration;
 
 public class Declaration implements IDeclaration{
 	private String type;
 	private String name;
-//	private String superClass;
-//	private List<String> interfaces;
+	private int patternCode;
+	
 	
 	
 	public Declaration(String type, String name){
 		this.type = type;
 		this.name = name;
-//		this.superClass = superClass;
-//		this.interfaces = interfaces;
+		this.patternCode = 0b0000;
 	}
 	
 	@Override
@@ -23,8 +21,7 @@ public class Declaration implements IDeclaration{
 		String result = "";
 		result += "type " + this.type + "  ";
 		result += "name " + this.name + "  ";
-//		result += "superClass " + this.superClass + "  ";
-//		result += "interfaces: " + this.interfaces;
+		result += "code " + this.patternCode + "  ";
 		return result;
 	}
 	
@@ -39,20 +36,37 @@ public class Declaration implements IDeclaration{
 		return name;
 	}
 
-//	@Override
-//	public String getSuper() {
-//		return superClass;
-//	}
-//
-//	@Override
-//	public List<String> getInterfaces() {
-//		return interfaces;	
-//	}
+	@Override
+	public boolean isSingleton(){
+		
+		return (this.patternCode & api.patternCode.Singleton) == api.patternCode.Singleton;
+	}
+
+	
+	
 
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
 	}
+	
+	
+	@Override
+	public void orWithCode(int code){
+		this.patternCode = this.patternCode | code;
+	}
+	
+
+	@Override
+	public void andWithCode(int code) {
+		this.patternCode = this.patternCode & code;
+		
+	}
+	
+
+	
+	
+
 	
 	
 
