@@ -41,10 +41,28 @@ public class ClassMethodVisitor extends ClassVisitor {
 		String type;
 		List<String> args;
 		List<String> exps = exceptions == null ? new ArrayList<String>() : Arrays.asList(exceptions);
+		
+		
 
+		
 		acc = addAccessLevel(access);
 		type = addReturnType(desc);
-
+		
+		if(name.equals("<init>") && acc.equals("-")){
+			System.out.println("private constructor here");
+			this.c.getDeclaration().orWithCode(0b0001);
+		}
+		
+		if(name.equals("<init>") && acc.equals("-")){
+			System.out.println("public constructor here");
+			this.c.getDeclaration().andWithCode(0b0111);
+		}
+		
+		if(acc.equals("+") && type.equals(this.c.getName())){
+			this.c.getDeclaration().orWithCode(0b0010);
+		}
+		
+		
 		IRelation typeUse = new Relation(this.c.getName(), type, "use");
 		if (!type.equals("void") && !this.m.contains(typeUse)) {
 			this.m.addRelation(typeUse);
@@ -57,9 +75,8 @@ public class ClassMethodVisitor extends ClassVisitor {
 				this.m.addRelation(argUse);
 			}
 		}
-
-		String self = this.c.getName();
 		
+		String self = this.c.getName();
 		Method method = new Method(name, type, acc, args, exps,this.c.getName());
 		this.c.addMethod(method);
 		IMethodRelation methodRelation = new MethodRelation(method);
