@@ -50,7 +50,7 @@ public class ClassFieldVisitor extends ClassVisitor {
 		
 		
 		
-		
+	
 		
 		if((access & Opcodes.ACC_STATIC) != 0 && type.equals("-") && this.c.getName().equals(type) ){
 			this.c.getDeclaration().orWithCode(4);

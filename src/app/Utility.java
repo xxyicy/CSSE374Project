@@ -73,6 +73,13 @@ public class Utility {
 		for(int i = 0;i<paramArr.length;i++){
 			result[i+2] = paramArr[i];
 		}
+		
+		for(int i = 2; i< result.length;i++){
+			if(result[i].contains("<") && result[i].contains(">")){
+				int firstIndex = result[i].indexOf("<");
+				result[i] = result[i].substring(0,firstIndex);
+			}
+		}
 		return result;
 	}
 	

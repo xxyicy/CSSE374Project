@@ -140,7 +140,7 @@ public class App {
 			return;
 		}
 		// add the class to read list
-
+		
 		ClassReader reader = new ClassReader(current.getClassName());
 		ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5,
 				current, current.getClassName());
@@ -150,6 +150,7 @@ public class App {
 		// Recursive call to include all methods called within the range of
 		// depth
 		for (IMethod m : current.getCalls()) {
+		
 			readClassAndMethods(m, curDepth - 1, classesRead);
 		}
 
