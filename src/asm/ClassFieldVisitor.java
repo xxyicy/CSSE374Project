@@ -3,13 +3,10 @@ package asm;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Type;
-
 import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
-
 import api.IClass;
 import api.IField;
 import api.IModel;
-import api.IRelation;
 import impl.Field;
 import impl.Relation;
 
@@ -36,7 +33,7 @@ public class ClassFieldVisitor extends ClassVisitor {
 		FieldVisitor toDecorate = super.visitField(access, name, desc,
 				signature, value);
 
-	
+		
 		
 		String type = Type.getType(desc).getClassName();
 		String acc;
@@ -49,6 +46,14 @@ public class ClassFieldVisitor extends ClassVisitor {
 			acc = "#";
 		} else {
 			acc = "";
+		}
+		
+		
+		
+	
+		
+		if((access & Opcodes.ACC_STATIC) != 0 && type.equals("-") && this.c.getName().equals(type) ){
+			this.c.getDeclaration().orWithCode(4);
 		}
 		
 		IField f = new Field(name, type, acc);

@@ -17,6 +17,7 @@ public class Method implements IMethod {
 	private List<String> exceptions;
 	private String className;
 	private List<IMethod> calls;
+	private IMethod parent;
 	
 	
 	
@@ -53,7 +54,7 @@ public class Method implements IMethod {
 	}
 
 	@Override
-	public String getType() {
+	public String getReturnType() {
 		return this.type;
 	}
 
@@ -76,6 +77,9 @@ public class Method implements IMethod {
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
+		for (IMethod m: this.calls){
+			m.accept(v);
+		}
 	}
 
 
@@ -141,10 +145,9 @@ public class Method implements IMethod {
 
 
 
-
+	// add next methods called by this method 
 	@Override
 	public void addCall(IMethod call) {
-		// TODO Auto-generated method stub
 		this.calls.add(call);
 	}
 
@@ -154,7 +157,6 @@ public class Method implements IMethod {
 
 	@Override
 	public void setClassName(String c) {
-		// TODO Auto-generated method stub
 		this.className = c;
 	}
 
@@ -188,12 +190,28 @@ public class Method implements IMethod {
 		for(int i =0;i<depth;i++){
 			result += "  ";
 		}
+		if(this.parent != null){
+			result += this.parent.getName()+": ";
+		}
 		result += "->";
 		result += this.className+this.name+"\n";
 		for(IMethod m : this.calls){
 			result += m.printCallChains(depth +1);
 		}
 		return result;
+	}
+
+
+	@Override
+	public void setParent(IMethod parent) {
+		this.parent = parent;
+		
+	}
+
+
+	@Override
+	public IMethod getParent() {
+		return this.parent;
 	}
 
 }

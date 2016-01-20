@@ -13,7 +13,9 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
+import visitor.impl.SDEditOutputStream;
 import api.IClass;
 import api.IMethod;
 import api.IModel;
@@ -60,7 +62,6 @@ public class App {
 
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
-
 		IModel m = new Model();	
 		v.Start();
 		
@@ -130,8 +131,17 @@ public class App {
 		List<String> classesRead = new ArrayList<String>();
 
 		readClassAndMethods(startMethod, depth, classesRead);
+		
+		ISDVisitor v = new SDEditOutputStream();
+		startMethod.accept(v);
+		System.out.println(v.toString());
+		
+		
+		PrintWriter writer = new PrintWriter("./output/output.txt");
+		writer.print(v.toString());
+		writer.close();
 
-		System.out.println(startMethod.printCallChains(0));
+//		System.out.println(startMethod.printCallChains(0));
 
 	}
 
@@ -141,7 +151,7 @@ public class App {
 			return;
 		}
 		// add the class to read list
-
+		
 		ClassReader reader = new ClassReader(current.getClassName());
 		ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5,
 				current, current.getClassName());
@@ -151,6 +161,7 @@ public class App {
 		// Recursive call to include all methods called within the range of
 		// depth
 		for (IMethod m : current.getCalls()) {
+		
 			readClassAndMethods(m, curDepth - 1, classesRead);
 		}
 

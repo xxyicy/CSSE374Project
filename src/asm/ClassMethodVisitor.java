@@ -11,11 +11,9 @@ import org.objectweb.asm.Type;
 
 import api.IClass;
 import api.IMethod;
-import api.IMethodRelation;
 import api.IModel;
 import api.IRelation;
 import impl.Method;
-import impl.MethodRelation;
 import impl.Relation;
 
 public class ClassMethodVisitor extends ClassVisitor {
@@ -41,10 +39,28 @@ public class ClassMethodVisitor extends ClassVisitor {
 		String type;
 		List<String> args;
 		List<String> exps = exceptions == null ? new ArrayList<String>() : Arrays.asList(exceptions);
+		
+		
 
+		
 		acc = addAccessLevel(access);
 		type = addReturnType(desc);
-
+		
+		if(name.equals("<init>") && acc.equals("-")){
+			System.out.println("private constructor here");
+			this.c.getDeclaration().orWithCode(0b0001);
+		}
+		
+		if(name.equals("<init>") && acc.equals("-")){
+			System.out.println("public constructor here");
+			this.c.getDeclaration().andWithCode(0b0111);
+		}
+		
+		if(acc.equals("+") && type.equals(this.c.getName())){
+			this.c.getDeclaration().orWithCode(0b0010);
+		}
+		
+		
 		IRelation typeUse = new Relation(this.c.getName(), type, "use");
 		if (!type.equals("void") && !this.m.contains(typeUse)) {
 			this.m.addRelation(typeUse);
@@ -57,20 +73,17 @@ public class ClassMethodVisitor extends ClassVisitor {
 				this.m.addRelation(argUse);
 			}
 		}
-
-		String self = this.c.getName();
 		
-		Method method = new Method(name, type, acc, args, exps,this.c.getName());
+		String self = this.c.getName();
+		IMethod method = new Method(name, type, acc, args, exps,this.c.getName());
 		this.c.addMethod(method);
-		IMethodRelation methodRelation = new MethodRelation(method);
-		this.m.addMethodRelation(method,methodRelation);
+		
 		MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {
 
 			@Override
 			public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
 				
 				if (name.equals("<init>")) {
-					
 					IRelation r = new Relation(self, owner, "use");
 					Boolean hasSuper = true;
 					for (IRelation r1 : ClassMethodVisitor.this.m.getRelations()) {
@@ -79,22 +92,10 @@ public class ClassMethodVisitor extends ClassVisitor {
 					}
 					if (hasSuper){
 						ClassMethodVisitor.this.m.addRelation(r);
-						String accCalled = "";
-						String typeCalled = addReturnType(desc);
-						List<String> args = addArguments(desc);
-						IMethod called = new Method(name,typeCalled,accCalled,args,new ArrayList<String>(),owner);
-						methodRelation.addMethod(called);
 					}
 						
-				}else{
-					String accCalled = "";
-					String typeCalled = addReturnType(desc);
-					List<String> args = addArguments(desc);
-					IMethod called = new Method(name,typeCalled,accCalled,args,new ArrayList<String>(),owner);
-					methodRelation.addMethod(called);
-				}		
-				
-				
+				}	
+	
 			}
 		};
 

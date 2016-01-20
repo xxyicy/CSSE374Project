@@ -9,14 +9,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import api.IClass;
 import api.IMethod;
-import api.IMethodRelation;
-import api.IModel;
-import api.IRelation;
 import impl.Method;
-import impl.MethodRelation;
-import impl.Relation;
 
 public class SequenceMethodVisitor extends ClassVisitor {
 	private IMethod m;
@@ -55,9 +49,13 @@ public class SequenceMethodVisitor extends ClassVisitor {
 //		System.out.println("passed in: "+this.m);
 //		System.out.println("found method");
 		
+		
+		
+
 		//check if it's the passed in one
 		if(method.compareMethod(this.m)){
 			//update the return type of m since it's initially empty string;
+	
 			this.m.setReturnType(type);
 			MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {
 				@Override
@@ -66,10 +64,12 @@ public class SequenceMethodVisitor extends ClassVisitor {
 					if (owner.equals("java/lang/Object")) {
 						return;
 					}
+				
 					String className = owner;
 					String returnType = addReturnType(desc);
 					List<String> args = addArguments(desc);
 					IMethod called = new Method(name,returnType,"NN",args,new ArrayList<String>(),className);
+					called.setParent(method);
 					SequenceMethodVisitor.this.m.addCall(called);
 					
 				}
