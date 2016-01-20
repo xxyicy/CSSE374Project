@@ -141,10 +141,10 @@ public class App {
 		writer.print(v.toString());
 		writer.close();
 
-		System.out.println(startMethod.printCallChains(0));
+//		System.out.println(startMethod.printCallChains(0));
 
 	}
-//	java.util.Collections
+
 	public static void readClassAndMethods(IMethod current, int curDepth,
 			List<String> classesRead) throws IOException {
 		if (curDepth < 1) {

@@ -48,6 +48,7 @@ public class Declaration implements IDeclaration{
 	}
 	
 	
+	
 	@Override
 	public void orWithCode(int code){
 		this.patternCode = this.patternCode | code;

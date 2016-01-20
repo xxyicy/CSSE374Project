@@ -11,42 +11,42 @@ import visitor.api.ISDVisitor;
 
 public class SDEditOutputStream extends ISDVisitor {
 	private Map<String, String> declaration;
-	private List<String> initializedArray;
+	private List<String> existedClass;
 	private StringBuffer classes;
 	private StringBuffer content;
 	private int count = 0;
 
 	public SDEditOutputStream() {
 		this.declaration = new HashMap<String, String>();
+		this.existedClass = new ArrayList<String>();
 		this.content = new StringBuffer();
 		this.classes = new StringBuffer();
-		this.initializedArray = new ArrayList<String>();
 	}
 
 	@Override
 	public String toString() {
 		return this.classes.toString() + "\n" + this.content.toString();
-
+		
 	}
 
 	@Override
 	public void visit(IMethod m) {
-		addClassName(m.getClassName(), "");
-		
-		addMessage(m.getParent(), m);
+		addClassName(m.getClassName(), m.getName());
 
-//		List<IMethod> start_to = m.getCalls();
-//		for (int i = 0; i < start_to.size(); i++) {
-//			addMessage(m, start_to.get(i));
-//		}
+		if (m.getParent() != null) {
+			addMessage(m.getParent(), m);
+		}
+
 	}
 
 	private void addClassName(String className, String methodName) {
 		String simplifiedClassName = Utility.simplifyClassName(className);
-		// String simplifiedClassName = className;
 		if (this.declaration.get(simplifiedClassName) == null) {
-			if (methodName.equals("init") || this.initializedArray.contains(simplifiedClassName)) {
+
+			if (methodName.equals("init")) {
 				classes.append("/");
+			}else{
+				existedClass.add(simplifiedClassName);
 			}
 			String newName = "arg" + count;
 			this.declaration.put(simplifiedClassName, newName);
@@ -58,19 +58,17 @@ public class SDEditOutputStream extends ISDVisitor {
 	private void addMessage(IMethod caller, IMethod callee) {
 		String simplifiedCallerClassName = Utility.simplifyClassName(caller.getClassName());
 		String simplifiedCalleeClassName = Utility.simplifyClassName(callee.getClassName());
-		this.content.append(this.declaration.get(simplifiedCallerClassName));
-		this.content.append(":");
-
-//		// check if there is new class appears, if is add to declaration
-//		// string
-//		addClassName(callee.getClassName(), callee.getName());
-
-		this.content.append(this.declaration.get(simplifiedCalleeClassName));
-		this.content.append(".");
+		
 		if (callee.getName().equals("init")) {
-			this.content.append("new\n");
-			this.initializedArray.add(callee.getClassName());
+			String message = this.declaration.get(simplifiedCalleeClassName) + "." + "new\n";
+			if (!this.content.toString().contains(message) && !this.existedClass.contains(simplifiedCalleeClassName)) {
+				this.content.append(this.declaration.get(simplifiedCallerClassName) + ":");
+				this.content.append(message);
+				this.existedClass.add(simplifiedCalleeClassName);
+			}
 		} else {
+			this.content.append(this.declaration.get(simplifiedCallerClassName) + ":");
+			this.content.append(this.declaration.get(simplifiedCalleeClassName) + ".");
 			this.content.append(callee.getName() + "(");
 			List<String> params = callee.getParamTypes();
 			for (int j = 0; j < params.size() - 1; j++) {
@@ -84,7 +82,6 @@ public class SDEditOutputStream extends ISDVisitor {
 			this.content.append(":");
 			this.content.append(Utility.simplifyType(callee.getReturnType()) + "\n");
 		}
-
 	}
 
 }
