@@ -55,8 +55,10 @@ public class GraphVizOutputStream implements IVisitor {
 	public void visit(IClass c) {
 		this.appendln(Utility.simplifyClassName(c.getName()) + " [");
 		this.appendln("shape=\"record\",");
+		if (c.getDeclaration().isSingleton()){
+			this.appendln("color=\"blue\"");
+		}
 		this.append("label = \"{");
-
 	}
 
 	@Override
@@ -87,10 +89,13 @@ public class GraphVizOutputStream implements IVisitor {
 
 	@Override
 	public void visit(IDeclaration d) {
-		if (d.getType() == "class") {
-			this.append(Utility.simplifyClassName(d.getName()));
-		}else{
+		if (d.getType() == "interface") {
 			this.append("\\<\\<" + d.getType() + "\\>\\>" + "\\n" + Utility.simplifyClassName(d.getName()));
+		}else{
+			this.append(Utility.simplifyClassName(d.getName()));
+			if (d.isSingleton()){
+				this.append("\\<\\<Singleton\\>\\>\\n");
+			}
 		}
 	}
 

@@ -13,6 +13,7 @@ public class TestClass2 extends TestClass1{
 	public void testMethod1(AbstractComponent c){
 		// just for test;
 		buttons = new ArrayList<Button>();
+		testMethod5();
 	}
 	
 	public String testMethod3(){
@@ -21,6 +22,12 @@ public class TestClass2 extends TestClass1{
 	
 	public Button testMethod4(){
 		Button b = new LinuxButton("a", new Rectangle(1,1,1,1));
+		return b;
+	}
+	
+	
+	public Button testMethod5(){
+		Button b  = new WindowButton("a",new Rectangle(1,1,1,1));
 		return b;
 	}
 }

@@ -46,17 +46,24 @@ public class ClassMethodVisitor extends ClassVisitor {
 		acc = addAccessLevel(access);
 		type = addReturnType(desc);
 		
+		if(acc.equals("-")){
+			System.out.println("private here : "+name);
+		}
+		
 		if(name.equals("<init>") && acc.equals("-")){
 			System.out.println("private constructor here");
 			this.c.getDeclaration().orWithCode(0b0001);
 		}
 		
-		if(name.equals("<init>") && acc.equals("-")){
+		if(name.equals("<init>") && acc.equals("+")){
 			System.out.println("public constructor here");
 			this.c.getDeclaration().andWithCode(0b0111);
 		}
 		
-		if(acc.equals("+") && type.equals(this.c.getName()) && (access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC ){
+		System.out.println(acc+type+((access & Opcodes.ACC_STATIC) != 0) + this.c.getName());
+		
+		if(acc.equals("+") && type.equals(this.c.getName()) && (access & Opcodes.ACC_STATIC) != 0 ){
+			System.out.println("public static return self type");
 			this.c.getDeclaration().orWithCode(0b0010);
 		}
 		
@@ -105,11 +112,11 @@ public class ClassMethodVisitor extends ClassVisitor {
 
 	String addAccessLevel(int access) {
 		String level = "";
-		if ((access & Opcodes.ACC_PUBLIC) == Opcodes.ACC_PUBLIC) {
+		if ((access & Opcodes.ACC_PUBLIC) != 0 ) {
 			level = "+";
-		} else if ((access & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED) {
+		} else if ((access & Opcodes.ACC_PROTECTED) != 0) {
 			level = "#";
-		} else if ((access & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PROTECTED) {
+		} else if ((access & Opcodes.ACC_PRIVATE) != 0) {
 			level = "-";
 		} else {
 			level = "";

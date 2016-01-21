@@ -21,7 +21,6 @@ import api.IModel;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
-import asm.SequenceMethodVisitor;
 
 public class App {
 	
@@ -94,6 +93,7 @@ public class App {
 		writer.close();
 		
 		System.out.println(v.toString());
+		System.out.println(m);
 	}
 	
 	
@@ -125,7 +125,7 @@ public class App {
 
 		List<String> classesRead = new ArrayList<String>();
 
-		readClassAndMethods(startMethod, depth, classesRead);
+		Utility.readClassAndMethods(startMethod, depth, classesRead);
 		
 		ISDVisitor v = new SDEditOutputStream();
 		startMethod.accept(v);
@@ -140,27 +140,6 @@ public class App {
 
 	}
 
-	public static void readClassAndMethods(IMethod current, int curDepth,
-			List<String> classesRead) throws IOException {
-		if (curDepth < 1) {
-			return;
-		}
-		// add the class to read list
-		
-		ClassReader reader = new ClassReader(current.getClassName());
-		ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5,
-				current, current.getClassName());
-		
-		reader.accept(sequenceVisitor, ClassReader.EXPAND_FRAMES);
-
-		// Recursive call to include all methods called within the range of
-		// depth
-		for (IMethod m : current.getCalls()) {
-		
-			readClassAndMethods(m, curDepth - 1, classesRead);
-		}
-
-	}
 	
 	
 }

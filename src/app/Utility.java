@@ -1,11 +1,19 @@
 package app;
 
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Opcodes;
+
 import api.IClass;
+import api.IMethod;
 import api.IModel;
 import api.IRelation;
+import asm.SequenceMethodVisitor;
 
 public class Utility {
 	public static String simplifyClassName(String name){
@@ -82,5 +90,27 @@ public class Utility {
 		}
 		return result;
 	}
+	
+	public static void readClassAndMethods(IMethod current, int curDepth,
+			List<String> classesRead) throws IOException {
+		if (curDepth < 1) {
+			return;
+		}
+		// add the class to read list
+
+		ClassReader reader = new ClassReader(current.getClassName());
+		ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5,
+				current, current.getClassName());
+		
+		reader.accept(sequenceVisitor, ClassReader.EXPAND_FRAMES);
+
+		// Recursive call to include all methods called within the range of
+		// depth
+		for (IMethod m : current.getCalls()) {
+			readClassAndMethods(m, curDepth - 1, classesRead);
+		}
+
+	}
+
 	
 }

@@ -9,12 +9,10 @@ import api.IDeclaration;
 import api.IField;
 import api.IMethod;
 
-
 public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
-	
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -87,7 +85,6 @@ public class Clazz implements IClass {
 	public String getName() {
 		return this.declaration.getName();
 	}
-
 
 
 }
