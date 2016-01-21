@@ -8,13 +8,11 @@ import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
-import api.IMethodRelation;
 
 public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
-	private List<IMethodRelation> methodR = new ArrayList<IMethodRelation>();
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -88,16 +86,5 @@ public class Clazz implements IClass {
 		return this.declaration.getName();
 	}
 
-	@Override
-	public void addMethod1(IMethodRelation m) {
-		// TODO Auto-generated method stub
-		this.methodR.add(m);
-	}
-
-	@Override
-	public List<IMethodRelation> getMe() {
-		// TODO Auto-generated method stub
-		return this.methodR;
-	}
 
 }

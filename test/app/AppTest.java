@@ -46,7 +46,7 @@ public class AppTest {
 		//ArrayList<IMethod> st = new ArrayList<IMethod>();
 		List<String> classesRead = new ArrayList<String>();
 		
-		readClassAndMethods(startMethod, depth, classesRead);
+		Utility.readClassAndMethods(startMethod, depth, classesRead);
 		List<IMethod> ml = startMethod.getCalls();
 		
 		String className = "java/lang/String";
@@ -79,25 +79,5 @@ public class AppTest {
 
 		
 	}
-	public static void readClassAndMethods(IMethod current, int curDepth,
-			List<String> classesRead) throws IOException {
-		if (curDepth < 1) {
-			return;
-		}
-		// add the class to read list
-
-		ClassReader reader = new ClassReader(current.getClassName());
-		ClassVisitor sequenceVisitor = new SequenceMethodVisitor(Opcodes.ASM5,
-				current, current.getClassName());
-		
-		reader.accept(sequenceVisitor, ClassReader.EXPAND_FRAMES);
-
-		// Recursive call to include all methods called within the range of
-		// depth
-		for (IMethod m : current.getCalls()) {
-			readClassAndMethods(m, curDepth - 1, classesRead);
-		}
-
-	}
-
+	
 }
