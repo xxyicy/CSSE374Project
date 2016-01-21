@@ -3,7 +3,7 @@ package Milestone4;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.util.List;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +12,6 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 import api.IClass;
-import api.IMethod;
 import api.IModel;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
