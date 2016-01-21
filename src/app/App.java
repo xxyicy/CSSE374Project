@@ -141,7 +141,7 @@ public class App {
 		writer.print(v.toString());
 		writer.close();
 
-//		System.out.println(startMethod.printCallChains(0));
+		System.out.println(startMethod.printCallChains(0));
 
 	}
 

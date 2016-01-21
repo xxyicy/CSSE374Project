@@ -13,7 +13,7 @@ public class Declaration implements IDeclaration{
 	public Declaration(String type, String name){
 		this.type = type;
 		this.name = name;
-		this.patternCode = 0b0000;
+		this.patternCode = 0b1000;
 	}
 	
 	@Override
