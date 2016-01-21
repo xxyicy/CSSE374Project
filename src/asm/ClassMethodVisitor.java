@@ -56,7 +56,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 			this.c.getDeclaration().andWithCode(0b0111);
 		}
 		
-		if(acc.equals("+") && type.equals(this.c.getName())){
+		if(acc.equals("+") && type.equals(this.c.getName()) && (access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC ){
 			this.c.getDeclaration().orWithCode(0b0010);
 		}
 		
@@ -65,7 +65,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		if (!type.equals("void") && !this.m.contains(typeUse)) {
 			this.m.addRelation(typeUse);
 		}
-
+		
 		args = addArguments(desc);
 		for (String arg : args) {
 			IRelation argUse = new Relation(this.c.getName(), arg, "use");
@@ -105,17 +105,16 @@ public class ClassMethodVisitor extends ClassVisitor {
 
 	String addAccessLevel(int access) {
 		String level = "";
-		if ((access & Opcodes.ACC_PUBLIC) != 0) {
+		if ((access & Opcodes.ACC_PUBLIC) == Opcodes.ACC_PUBLIC) {
 			level = "+";
-		} else if ((access & Opcodes.ACC_PROTECTED) != 0) {
+		} else if ((access & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED) {
 			level = "#";
-		} else if ((access & Opcodes.ACC_PRIVATE) != 0) {
+		} else if ((access & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PROTECTED) {
 			level = "-";
 		} else {
 			level = "";
 		}
 		return level;
-
 	}
 
 	String addReturnType(String desc) {

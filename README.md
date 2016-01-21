@@ -52,13 +52,16 @@ Open a terminal window and navigate to the directory of this project.
 #### Run java Code
 ```
 java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
+
+java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
+
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
 
 #### Generate UML diagram
 ```
-dot -T <output/output.txt > <output-file-name>
+dot -Tpng output/output.txt > <output-file-name>
 ```
 please use “.png” as the suffix of the output file.
 
@@ -102,7 +105,8 @@ Open a terminal window and navigate to the directory of this project.
 
 #### Run java Code
 ```
-java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
+java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
+dot -Tpng output/output.txt > <output-file-name>
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
@@ -158,7 +162,7 @@ Open a terminal window and navigate to the directory of this project.
 
 #### Run java Code
 ```
-java -classpath ./bin:./lib/asm-all-5.0.4.jar app.AppForSequenceDiagram <Path-to-package> <Path-to-function>
+java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App SD <Path-to-function> <int:Depth>
 ```
 
 #### Generate UML diagram
@@ -167,4 +171,42 @@ The output will be written to output/SequenceDiagramOutput.txt
 
 ## Milestone 4
 ### Design of the tool
+We create one more int field called code in the Declaration class to represent different attributes of certain classes.
+Also, we created one more patternCode class to store the code to determine certain patterns. (i.e. the singleton pattern
+is 1111, see definitions for each digit in that class);
+
+More logics to determine the attribute of class are added to both the ClassFieldVisitor and ClassMethodVisitor.
+
+More logics in the parser are added to check if <<Singleton>> label should be added.
+
+
+
+
+
+### Who-Did-What
+
+| *Name*         	| *Who did what*                                                                                                        
+|-------------------|----------------------------------------------------------------------------------------
+| Xinyu Xiao     	| 
+|                                                                                           
+| 			     	| Write the parse logic to check if a class is Singleton.           
+|                                                                                            
+| 				 	| 
+|                                                                         
+| Tianjiao Mo    	| Create patternCode class and update content in the Declaration class.
+|
+|				 	| Update logics in both ClassMethodVisitor and ClassFieldVisitor. 
+|
+|				 	| Draw one of the UML diagrams.
+|
+| Ashok Vardhan Raja| Write the test cases.
+|
+|					| 
+|
+|					| 
+
+
+
+
+
 

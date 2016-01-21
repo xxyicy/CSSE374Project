@@ -38,25 +38,27 @@ public class ClassFieldVisitor extends ClassVisitor {
 		String type = Type.getType(desc).getClassName();
 		String acc;
 
-		if ((access & Opcodes.ACC_PRIVATE) != 0) {
+		if ((access & Opcodes.ACC_PRIVATE) == Opcodes.ACC_PRIVATE) {
 			acc = "-";
-		} else if ((access & Opcodes.ACC_PUBLIC) != 0) {
+		} else if ((access & Opcodes.ACC_PUBLIC) == Opcodes.ACC_PUBLIC) {
 			acc = "+";
-		} else if ((access & Opcodes.ACC_PROTECTED) != 0) {
+		} else if ((access & Opcodes.ACC_PROTECTED) == Opcodes.ACC_PROTECTED) {
 			acc = "#";
 		} else {
 			acc = "";
 		}
 		
-		
+		boolean isStatic = (access & Opcodes.ACC_STATIC) == Opcodes.ACC_STATIC;
 		
 	
 		
-		if((access & Opcodes.ACC_STATIC) != 0 && type.equals("-") && this.c.getName().equals(type) ){
+		if(  isStatic &&type.equals("-") && this.c.getName().equals(type) ){
 			this.c.getDeclaration().orWithCode(4);
 		}
 		
 		IField f = new Field(name, type, acc);
+		f.setStatic(isStatic);
+		
 		this.c.addField(f);
 		if (signature != null && signature.contains("<")
 				&& signature.contains(">")) {

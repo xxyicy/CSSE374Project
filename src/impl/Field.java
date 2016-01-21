@@ -4,6 +4,7 @@ import visitor.api.IVisitor;
 import api.IField;
 
 public class Field implements IField {
+	private boolean isStatic;
 	private String name;
 	private String type;
 	private String access;
@@ -42,6 +43,16 @@ public class Field implements IField {
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
+	}
+
+	@Override
+	public boolean isStatic() {
+		
+		return this.isStatic;
+	}
+
+	public void setStatic(boolean isStatic) {
+		this.isStatic = isStatic;
 	}
 
 }
