@@ -51,6 +51,7 @@ public class Field implements IField {
 		return this.isStatic;
 	}
 
+	@Override
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}

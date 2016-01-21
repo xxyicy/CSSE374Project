@@ -46,23 +46,21 @@ public class ClassMethodVisitor extends ClassVisitor {
 		acc = addAccessLevel(access);
 		type = addReturnType(desc);
 		
-		if(acc.equals("-")){
-			System.out.println("private here : "+name);
-		}
+		
 		
 		if(name.equals("<init>") && acc.equals("-")){
-			System.out.println("private constructor here");
+			
 			this.c.getDeclaration().orWithCode(0b0001);
 		}
 		
 		if(name.equals("<init>") && acc.equals("+")){
-			System.out.println("public constructor here");
+			
 			this.c.getDeclaration().andWithCode(0b0111);
 		}
 		
-		System.out.println(acc+type+((access & Opcodes.ACC_STATIC) != 0) + this.c.getName());
+		String className = this.c.getName().replaceAll("/", ".");
 		
-		if(acc.equals("+") && type.equals(this.c.getName()) && (access & Opcodes.ACC_STATIC) != 0 ){
+		if(acc.equals("+") && type.equals(className) && (access & Opcodes.ACC_STATIC) != 0 ){
 			System.out.println("public static return self type");
 			this.c.getDeclaration().orWithCode(0b0010);
 		}
