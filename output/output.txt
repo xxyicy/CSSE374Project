@@ -10,20 +10,10 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-VirtualThread [
-shape="record",
-label = "{VirtualThread|+ init() : void\l+ run() : void\l}"
-];
-Client [
-shape="record",
-label = "{Client|+ init() : void\l+ main(arg0:String[]) : void throws InterruptedException\l}"
-];
-MainVirtualThread [
+ChocolateBoiler [
 shape="record",
 color="blue"
-label = "{MainVirtualThread\n\<\<Singleton\>\>\n|- uniqueInstance : MainVirtualThread\l- threadArray : List\l+ count : int\l- finished : boolean\l| clinit() : void\l- init() : void\l+ getInstance() : MainVirtualThread\l+ addThread(arg0:VirtualThread) : void\l+ getThreadArray() : List\l+ run() : void\l}"
+label = "{ChocolateBoiler\n\<\<Singleton\>\>\n|- empty : boolean\l- boiled : boolean\l- uniqueInstance : ChocolateBoiler\l|- init() : void\l+ getInstance() : ChocolateBoiler\l+ fill() : void\l+ drain() : void\l+ boil() : void\l+ isEmpty() : boolean\l+ isBoiled() : boolean\l}"
 ];
-MainVirtualThread -> MainVirtualThread [arrowhead="vee"]
-Client -> VirtualThread [arrowhead="vee",style="dashed"]
-MainVirtualThread -> VirtualThread [arrowhead="vee"]
+ChocolateBoiler -> ChocolateBoiler [arrowhead="vee"]
 }
