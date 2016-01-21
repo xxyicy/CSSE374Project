@@ -1,4 +1,4 @@
-package asm;
+package Milestone1;
 
 import static org.junit.Assert.*;
 
@@ -16,6 +16,7 @@ import api.IClass;
 import api.IDeclaration;
 import api.IModel;
 import api.IRelation;
+import asm.ClassDeclarationVisitor;
 import impl.Model;
 import impl.Clazz;
 

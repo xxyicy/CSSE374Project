@@ -6,6 +6,10 @@
 
 
 
+
+
+
+
 ## Milestone 1
 ### Design of the tool
 
@@ -67,6 +71,10 @@ please use “.png” as the suffix of the output file.
 
 
 
+
+
+
+
 ## Milestone 2
 ### Design of the tool
 
@@ -116,6 +124,10 @@ dot -Tpng output/output.txt > <output-file-name>
 dot -T <output/output.txt > <output-file-name>
 ```
 please use “.png” as the suffix of the output file.
+
+
+
+
 
 
 
@@ -169,6 +181,10 @@ java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App SD <Path-to-function> <int
 The output will be written to output/SequenceDiagramOutput.txt
  
 
+
+
+
+
 ## Milestone 4
 ### Design of the tool
 We create one more int field called code in the Declaration class to represent different attributes of certain classes.
@@ -187,26 +203,37 @@ More logics in the parser are added to check if <<Singleton>> label should be ad
 
 | *Name*         	| *Who did what*                                                                                                        
 |-------------------|----------------------------------------------------------------------------------------
-| Xinyu Xiao     	| 
+| Xinyu Xiao     	| Updated the parse logic to draw the sequence diagram & readme file
 |                                                                                           
 | 			     	| Write the parse logic to check if a class is Singleton.           
 |                                                                                            
-| 				 	| 
+| 				 	| Create sample test classes
 |                                                                         
 | Tianjiao Mo    	| Create patternCode class and update content in the Declaration class.
 |
 |				 	| Update logics in both ClassMethodVisitor and ClassFieldVisitor. 
 |
-|				 	| Draw one of the UML diagrams.
+|				 	| Updated UML diagrams for milestone 3
 |
 | Ashok Vardhan Raja| Write the test cases.
 |
-|					| 
+|					| Create UML for singleton class manually
 |
-|					| 
+|					| Updated test cases for Milestone 3
 
 
+### How to use
 
+#### Before start
+Open a terminal window and navigate to the directory of this project.
+
+#### Run java Code
+```
+java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App SD <Path-to-function> <int:Depth>
+```
+
+#### Generate UML diagram
+The output will be written to output/SequenceDiagramOutput.txt
 
 
 

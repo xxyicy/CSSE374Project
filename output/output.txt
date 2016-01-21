@@ -12,8 +12,12 @@ fontsize = 10
 ]
 ChocolateBoiler [
 shape="record",
-color="blue"
-label = "{ChocolateBoiler\n\<\<Singleton\>\>\n|- empty : boolean\l- boiled : boolean\l- uniqueInstance : ChocolateBoiler\l|- init() : void\l+ getInstance() : ChocolateBoiler\l+ fill() : void\l+ drain() : void\l+ boil() : void\l+ isEmpty() : boolean\l+ isBoiled() : boolean\l}"
+label = "{ChocolateBoiler|- empty : boolean\l- boiled : boolean\l- uniqueInstance : ChocolateBoiler\l|- init() : void\l+ getInstance() : ChocolateBoiler\l+ fill() : void\l+ drain() : void\l+ boil() : void\l+ isEmpty() : boolean\l+ isBoiled() : boolean\l}"
 ];
+Singleton1 [
+shape="record",
+label = "{Singleton1|- uniqueInstance : Singleton1\l|- init() : void\l+ getInstance() : Singleton1\l}"
+];
+Singleton1 -> Singleton1 [arrowhead="vee"]
 ChocolateBoiler -> ChocolateBoiler [arrowhead="vee"]
 }
