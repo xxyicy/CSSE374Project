@@ -22,7 +22,7 @@ import impl.Method;
 import visitor.api.ISDVisitor;
 import visitor.impl.SDEditOutputStream;
 
-public class AppTest {
+public class Milestone3TestASMPARSE {
 	String[] args;
 	String[] args1;
 
