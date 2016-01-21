@@ -94,7 +94,7 @@ public class GraphVizOutputStream implements IVisitor {
 		}else{
 			this.append(Utility.simplifyClassName(d.getName()));
 			if (d.isSingleton()){
-				this.append("\\<\\<Singleton\\>\\>\\n");
+				this.append("\\n\\<\\<Singleton\\>\\>\\n");
 			}
 		}
 	}

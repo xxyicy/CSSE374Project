@@ -13,6 +13,7 @@ public class Model implements IModel {
 	private Set<IClass> classes = new HashSet<IClass>();
 	private Set<IRelation> relations = new HashSet<IRelation>();
 	
+	
 	@Override
 	public void accept(IVisitor v) {
 		for (IClass c: this.classes) {
@@ -37,7 +38,6 @@ public class Model implements IModel {
 		}
 		return false;	
 	}
-
 	
 	@Override
 	public String toString(){
