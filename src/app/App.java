@@ -12,7 +12,6 @@ import java.util.List;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
-
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
@@ -25,8 +24,6 @@ import asm.ClassMethodVisitor;
 import asm.SequenceMethodVisitor;
 
 public class App {
-	
-	
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -108,8 +105,6 @@ public class App {
 		if (args.length < 1) {
 			throw new Exception("No given method name");
 		}
-
-		System.out.println(args[0]);
 
 		String methodFQS = args[0];
 
