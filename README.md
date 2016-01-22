@@ -134,7 +134,8 @@ please use “.png” as the suffix of the output file.
 ## Milestone 3
 ### Design of the tool
 
-![UML Diagram](/UML/milestone3project_manually.png "UML Diagram")
+
+![UML Diagram](/UML/milestone3_manually.png "UML Diagram")
 
 We created one more data structure to maintain the information about Method calls, basically it's a set of one to many relation that means this method calls the other methods in its body.
 
@@ -229,11 +230,13 @@ Open a terminal window and navigate to the directory of this project.
 
 #### Run java Code
 ```
-java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App SD <Path-to-function> <int:Depth>
-```
+java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
 
-#### Generate UML diagram
-The output will be written to output/SequenceDiagramOutput.txt
+java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
+
+```
+<Path-to-package> : the path to the directory being read and parsed.
+(this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
 
 
 

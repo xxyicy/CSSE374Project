@@ -118,7 +118,7 @@ public class App {
 			params.add(methodInfo[i].split(" ")[0]);
 		}
 
-		System.out.println(params);
+		
 
 		IMethod startMethod = new Method(methodName, "", "", params,
 				new ArrayList<String>(), methodClassName);
