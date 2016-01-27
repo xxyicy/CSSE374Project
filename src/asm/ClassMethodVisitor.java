@@ -61,7 +61,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		String className = this.c.getName().replaceAll("/", ".");
 		
 		if(acc.equals("+") && type.equals(className) && (access & Opcodes.ACC_STATIC) != 0 ){
-			System.out.println("public static return self type");
+		
 			this.c.getDeclaration().orWithCode(0b0010);
 		}
 		

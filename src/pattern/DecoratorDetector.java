@@ -17,6 +17,7 @@ public class DecoratorDetector implements IDetector {
 	public void detect(IModel m) {
 		for(IClass c : m.getClasses()){
 			IField f = this.composeSuper(c, m);
+		
 			
 		}
 	}
@@ -28,8 +29,9 @@ public class DecoratorDetector implements IDetector {
 		Set<IRelation> rs = m.getRelations();
 		Set<String> supers = this.getSuperClasses(c, rs);
 		for(IField f: c.getFields()){
-			if(supers.contains(f.getType())){
-				System.out.println(c.getName()+"composes of type"+f.getType());
+			String target = f.getType().replaceAll("[.]", "/");
+			if(supers.contains(target)){
+				System.out.println(c.getName()+" composes of type :"+f.getType());
 				return f;
 			}
 		}
