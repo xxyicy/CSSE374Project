@@ -1,6 +1,7 @@
 package impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
-	private Set<String> tags;
+	private Set<String> tags = new HashSet<String>();
 	
 	@Override
 	public void accept(IVisitor v) {

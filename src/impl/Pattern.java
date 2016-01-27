@@ -1,12 +1,12 @@
 package impl;
 
-import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import api.IClass;
 import api.IPattern;
-import api.IRelation;
+
 
 public class Pattern implements IPattern{
 	private String name;

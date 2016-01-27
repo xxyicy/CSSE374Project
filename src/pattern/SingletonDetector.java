@@ -13,6 +13,7 @@ public class SingletonDetector implements IDetector {
 			if(isSingleton(c)){
 				IPattern p = new Pattern("Singleton");
 				p.addClass(c);
+				c.addTag("Singleton");
 				m.addPattern(p);
 			}
 		}

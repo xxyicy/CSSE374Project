@@ -13,6 +13,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import pattern.DecoratorDetector;
 import pattern.IDetector;
 import pattern.SingletonDetector;
 import visitor.api.ISDVisitor;
@@ -65,7 +66,14 @@ public class App {
 		
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
+		
+		
+		
+		
 		IModel m = new Model();	
+		
+		
+		
 		List<String> classRead = new ArrayList<>();
 		
 		
@@ -93,6 +101,9 @@ public class App {
 		
 		IDetector d = new SingletonDetector();
 		d.detect(m);
+		
+		IDetector decorator = new DecoratorDetector();
+		decorator.detect(m);
 		
 //		v.Start();
 //		

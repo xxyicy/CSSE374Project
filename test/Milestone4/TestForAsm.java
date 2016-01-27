@@ -96,6 +96,8 @@ public class TestForAsm {
 		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
 		assertEquals(false, c.getDeclaration().isSingleton());
 	}
+	
+
 
 	@Test
 	public void Test4() throws IOException {
