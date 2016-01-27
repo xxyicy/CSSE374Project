@@ -19,5 +19,7 @@ public interface IMethod extends ITraverser {
 	public void setReturnType(String c);
 	public boolean compareMethod(IMethod m);
 	public String printCallChains(int depth);
+	public boolean isStatic();
+	public void setStatic(boolean s);
 	
 }

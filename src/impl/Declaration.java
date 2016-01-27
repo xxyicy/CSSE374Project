@@ -36,11 +36,11 @@ public class Declaration implements IDeclaration{
 		return name;
 	}
 
-	@Override
-	public boolean isSingleton(){
-		
-		return (this.patternCode & api.patternCode.Singleton) == api.patternCode.Singleton;
-	}
+//	@Override
+//	public boolean isSingleton(){
+//		
+//		return (this.patternCode & api.patternCode.Singleton) == api.patternCode.Singleton;
+//	}
 
 	@Override
 	public void accept(IVisitor v) {
@@ -59,6 +59,11 @@ public class Declaration implements IDeclaration{
 	public void andWithCode(int code) {
 		this.patternCode = this.patternCode & code;
 		
+	}
+
+	@Override
+	public int getCode() {
+		return this.patternCode;
 	}	
 
 }

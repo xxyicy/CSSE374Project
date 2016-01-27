@@ -2,6 +2,7 @@ package impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import visitor.api.IVisitor;
 import api.IClass;
@@ -13,6 +14,7 @@ public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
+	private Set<String> tags;
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -84,6 +86,14 @@ public class Clazz implements IClass {
 	@Override
 	public String getName() {
 		return this.declaration.getName();
+	}
+
+	public Set<String> getTags() {
+		return tags;
+	}
+
+	public void addTag(String tag) {
+		this.tags.add(tag);
 	}
 
 

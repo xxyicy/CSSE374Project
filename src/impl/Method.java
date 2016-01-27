@@ -18,6 +18,7 @@ public class Method implements IMethod {
 	private String className;
 	private List<IMethod> calls;
 	private IMethod parent;
+	private boolean isStatic;
 	
 	
 	
@@ -212,6 +213,18 @@ public class Method implements IMethod {
 	@Override
 	public IMethod getParent() {
 		return this.parent;
+	}
+
+
+	@Override
+	public boolean isStatic() {
+		return this.isStatic;
+	}
+
+
+	@Override
+	public void setStatic(boolean s) {
+		this.isStatic = s;
 	}
 
 }

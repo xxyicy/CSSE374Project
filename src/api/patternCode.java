@@ -5,6 +5,4 @@ public abstract interface patternCode{
 									       //  010 : public getInstance function
 										   //  100 : private static field of type of the class itself
 										   // 1000 : has no public constructor	
-	
-	
 }

@@ -6,13 +6,15 @@ import java.util.Set;
 import visitor.api.IVisitor;
 import api.IClass;
 import api.IModel;
+import api.IPattern;
 import api.IRelation;
 import app.Utility;
 
 public class Model implements IModel {
 	private Set<IClass> classes = new HashSet<IClass>();
 	private Set<IRelation> relations = new HashSet<IRelation>();
-	
+	private Set<IPattern> patterns = new HashSet<IPattern>();
+	//private Set<IDetector> detectors = new HashSet<IDetector>();
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -49,6 +51,10 @@ public class Model implements IModel {
 		for(IRelation r : this.relations){
 			result += r.toString();
 		}
+		
+		for(IPattern p : this.patterns){
+			result += p.toString();
+		}
 		return result;
 	}
 	
@@ -79,6 +85,24 @@ public class Model implements IModel {
 	private boolean checkRelation(IRelation r){
 		return !r.getFrom().contains("$") && !r.getTo().contains("$");
 	}
+
+	@Override
+	public Set<IPattern> getPatterns() {
+		return patterns;
+	}
+
+	@Override
+	public void addPattern(IPattern pattern) {
+		this.patterns.add(pattern);
+	}
+
+	
+//	@Override
+//	public void detectAllPatterns() {
+//		for(IDetector d: this.detectors){
+//			d.detect(this);
+//		}	
+//	}
 
 
 

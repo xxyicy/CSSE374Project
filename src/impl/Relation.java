@@ -8,6 +8,7 @@ public class Relation implements IRelation {
 	private String from;
 	private String to;
 	private String type;
+	private String des;
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -22,7 +23,7 @@ public class Relation implements IRelation {
 	
 	@Override
 	public String toString(){
-		return "Relation {from:"+from+" to: "+to+" type: "+type+ " }"+"\n";
+		return "Relation {from: "+from+" to: "+to+" type: "+type+" des:"+des+ " }"+"\n";
 	}
 	
 	@Override
@@ -67,8 +68,6 @@ public class Relation implements IRelation {
 		
 		Relation other = (Relation) obj;
 		
-		
-		
 		if (from == null) {
 			if (other.from != null)
 				return false;
@@ -86,10 +85,15 @@ public class Relation implements IRelation {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String getDes() {
+		return this.des;
+	}
+
+	public void setDes(String des) {
+		this.des = des;
+	}
 	
-//	@Override
-//	public boolean equals(Object obj) {
-//		Relation other = (Relation) obj;
-//		return (this.from.equals(other.from) && this.to.equals(other.to) && this.type.equals(other.type));
-//	}	
+	
 }

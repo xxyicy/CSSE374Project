@@ -15,6 +15,7 @@ public class GraphVizOutputStream implements IVisitor {
 		this.b = new StringBuffer();
 	}
 
+
 	@Override
 	public String toString() {
 		return this.b.toString();

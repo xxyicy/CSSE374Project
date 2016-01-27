@@ -1,4 +1,5 @@
 package SingletonTest;
+
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
@@ -29,58 +30,65 @@ import impl.Model;
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
+
 public class Milestone4Test {
-	
-		private IModel m;
-		private IClass c;
-		private ClassVisitor visitor;
-		private GraphVizOutputStream v;
-		@Before
-		public void setUp() throws Exception {
-			m = new Model();
-			c = new Clazz();
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
-			visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-			v = new GraphVizOutputStream();
-		}
+
+	private IModel m;
+	private IClass c;
+	private ClassVisitor visitor;
+	private GraphVizOutputStream v;
+
+	@Before
+	public void setUp() throws Exception {
+		m = new Model();
+		c = new Clazz();
+		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c,
+				m);
+		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5,
+				decVisitor, c, m);
+		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+		v = new GraphVizOutputStream();
+	}
 
 	@Test
-	public void TestSingleton() throws IOException{
+	public void TestSingleton() throws IOException {
 		String className = "sample.Singleton1";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(true,c.getDeclaration().isSingleton());
-		
-			
+		assertEquals(true, c.getDeclaration().isSingleton());
+
 	}
+
 	@Test
-	public void Test2() throws IOException{
+	public void Test2() throws IOException {
 		String className1 = "java.lang.Runtime";
 		ClassReader reader1 = new ClassReader(className1);
 		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(true,c.getDeclaration().isSingleton());
+		assertEquals(true, c.getDeclaration().isSingleton());
 	}
+
 	@Test
-	public void Test3() throws IOException{
+	public void Test3() throws IOException {
 		String className1 = "java.awt.Desktop";
 		ClassReader reader1 = new ClassReader(className1);
 		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(false,c.getDeclaration().isSingleton());
+		assertEquals(false, c.getDeclaration().isSingleton());
 	}
+
 	@Test
-	public void Test4() throws IOException{
+	public void Test4() throws IOException {
 		String className1 = "java.util.Calendar";
 		ClassReader reader1 = new ClassReader(className1);
 		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(false,c.getDeclaration().isSingleton());
+		assertEquals(false, c.getDeclaration().isSingleton());
 	}
+
 	@Test
-	public void Test5() throws IOException{
+	public void Test5() throws IOException {
 		String className1 = "java.io.FilterInputStream";
 		ClassReader reader1 = new ClassReader(className1);
 		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(false,c.getDeclaration().isSingleton());
+		assertEquals(false, c.getDeclaration().isSingleton());
 	}
 
 }

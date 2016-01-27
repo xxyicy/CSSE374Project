@@ -1,7 +1,6 @@
 package singletonCode;
 
-import problem.blueberrymuffin.MainVirtualThread;
-import problem.blueberrymuffin.VirtualThread;
+
 
 public class Client {
 

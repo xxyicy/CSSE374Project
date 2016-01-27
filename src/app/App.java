@@ -12,6 +12,9 @@ import java.util.List;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
+
+import pattern.IDetector;
+import pattern.SingletonDetector;
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
@@ -33,6 +36,9 @@ public class App {
 		if (args[0].equals("UML")){
 			createUmlDiagram(args[1]);
 		}
+		else if(args[0].equals("UMLWP")){
+			createUmlWithPattern(args[1]);
+		}
 		else if(args[0].equals("SD")){
 			String[] params = new String[2];
 			params[0] = args[1];
@@ -49,6 +55,70 @@ public class App {
 	
 	
 	
+	public static void createUmlWithPattern(String arg) throws IOException{
+		List<Class<?>> classes = ClassFinder.find(arg);		
+		List<String> cs = new ArrayList<>();
+		for (Class<?> clazz : classes) {
+			cs.add(clazz.getName());
+		}
+		
+		
+		
+		GraphVizOutputStream v = new GraphVizOutputStream();
+		IModel m = new Model();	
+		List<String> classRead = new ArrayList<>();
+		
+		
+		while (!cs.isEmpty()){
+			String clazz  = cs.get(0);
+			cs.remove(0);
+			
+			ClassReader reader = new ClassReader(clazz);
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m,cs);
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
+		
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			
+			if(!c.getName().contains("$") && !classRead.contains(clazz)){
+				m.addClass(c);
+				classRead.add(clazz);
+			}	
+			
+		}
+		
+		IDetector d = new SingletonDetector();
+		d.detect(m);
+		
+//		v.Start();
+//		
+//		m.accept(v);
+//		
+//		v.end();
+	
+		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
+		
+		PrintWriter writer = new PrintWriter("./output/output.txt");
+		writer.print(v.toString());
+		writer.close();
+		
+		System.out.println(v.toString());
+		System.out.println(m);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void createUmlDiagram(String arg) throws IOException{
 		List<Class<?>> classes = ClassFinder.find(arg);		
 		List<String> cs = new ArrayList<>();
@@ -59,7 +129,7 @@ public class App {
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
 		IModel m = new Model();	
-		v.Start();
+		
 		
 		
 		for (String clazz : cs){
@@ -81,6 +151,8 @@ public class App {
 				m.addClass(c);
 			}		
 		}
+		
+		v.Start();
 		
 		m.accept(v);
 		
