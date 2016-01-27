@@ -134,7 +134,8 @@ please use “.png” as the suffix of the output file.
 ## Milestone 3
 ### Design of the tool
 
-![UML Diagram](/UML/milestone3_manually.png "UML Diagram")
+
+![UML Diagram](/UML/milestone3_design.png "UML Diagram")
 
 We created one more data structure to maintain the information about Method calls, basically it's a set of one to many relation that means this method calls the other methods in its body.
 

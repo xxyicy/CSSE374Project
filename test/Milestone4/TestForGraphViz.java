@@ -66,15 +66,90 @@ public class TestForGraphViz {
 		
 		expectedResult.append("Singleton1 [\n");	
 		expectedResult.append("shape=\"record\",\n");	
-//		expectedResult.append("label = \"{Singleton1|- uniqueInstance : Singleton1\l|- init() : void\l+ getInstance() : Singleton1\l}\"];\n");	
-//			expectedResult.append("Singleton1 -> Singleton1 [arrowhead=\"vee\"]\n");	
+		expectedResult.append("color=\"blue\"\n");
+		expectedResult.append("label = \"{Singleton1\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton1\\l|- init() : void\\l+ getInstance() : Singleton1\\l}\"\n"
+				+ "];\n");	
+			expectedResult.append("Singleton1 -> Singleton1 [arrowhead=\"vee\"]\n");	
 		expectedResult.append("}\n");
+		
+		assertEquals(expectedResult.toString(),v.toString());
 		
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testSingleton2() throws IOException {
+		String className = "sample.Singleton2";
+		ClassReader reader = new ClassReader(className);
+		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
+		
+		v.Start();
+		m.addClass(c);
+		m.accept(v);
+		v.end();
+		
+		System.out.println(v.toString());
+		
+		StringBuffer expectedResult = new StringBuffer();
+		expectedResult.append("digraph G {\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("node [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("shape = \"record\"\n");	
+		expectedResult.append("]\n");	
+		expectedResult.append("edge [\n");	
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("]\n");
+		
+		expectedResult.append("Singleton2 [\n");	
+		expectedResult.append("shape=\"record\",\n");	
+		expectedResult.append("color=\"blue\"\n");
+		expectedResult.append("label = \"{Singleton2\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton2\\l|- init() : void\\l+ getInstance() : Singleton2\\l}\"\n"
+				+ "];\n");	
+			expectedResult.append("Singleton2 -> Singleton2 [arrowhead=\"vee\"]\n");	
+		expectedResult.append("}\n");
+		
+		assertEquals(expectedResult.toString(),v.toString());
+	}
+	
+	@Test
+	public void testSingleton3() throws IOException {
+		String className = "sample.Singleton3";
+		ClassReader reader = new ClassReader(className);
+		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
+		
+		v.Start();
+		m.addClass(c);
+		m.accept(v);
+		v.end();
+		
+		System.out.println(v.toString());
+		
+		StringBuffer expectedResult = new StringBuffer();
+		expectedResult.append("digraph G {\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("node [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("shape = \"record\"\n");	
+		expectedResult.append("]\n");	
+		expectedResult.append("edge [\n");	
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("]\n");
+		
+		expectedResult.append("Singleton3 [\n");	
+		expectedResult.append("shape=\"record\",\n");	
+		expectedResult.append("color=\"blue\"\n");
+		expectedResult.append("label = \"{Singleton3\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton3\\l|- init() : void\\l+ getInstance() : Singleton3\\l}\"\n"
+				+ "];\n");	
+			expectedResult.append("Singleton3 -> Singleton3 [arrowhead=\"vee\"]\n");	
+		expectedResult.append("}\n");
+		
+		assertEquals(expectedResult.toString(),v.toString());
 	}
 
 }

@@ -1,6 +1,9 @@
 package singletonCode;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 95b4217b1da29b4b4466e5d25ce35c94b592c081
 
 public class Client {
 
