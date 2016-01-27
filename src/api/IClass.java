@@ -15,5 +15,4 @@ public interface IClass extends ITraverser {
 	public String getName();
 	public Set<String> getTags();
 	public void addTag(String tag);
-
 }

@@ -172,6 +172,7 @@ public class TestForAsm {
 	}
 
 	@Test
+
 	public void TestSingleton4() throws IOException {
 		List<String> cs = new ArrayList<>();
 		cs.add("java/util/Calendar");
@@ -207,6 +208,10 @@ public class TestForAsm {
 		
 		  }
 	}
+
+	
+	
+
 
 	@Test
 	public void TestSingleton5() throws IOException {
