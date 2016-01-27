@@ -1,9 +1,6 @@
-<<<<<<< HEAD:test/SingletonTest/Milestone4Test.java
-package SingletonTest;
 
-=======
 package Milestone4;
->>>>>>> 95b4217b1da29b4b4466e5d25ce35c94b592c081:test/Milestone4/TestForAsm.java
+
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
@@ -31,12 +28,14 @@ import asm.SequenceMethodVisitor;
 import impl.Clazz;
 import impl.Method;
 import impl.Model;
+import pattern.DecoratorDetector;
+import pattern.IDetector;
+import pattern.SingletonDetector;
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
-<<<<<<< HEAD:test/SingletonTest/Milestone4Test.java
 
-public class Milestone4Test {
+public class TestForAsm {
 
 	private IModel m;
 	private IClass c;
@@ -54,63 +53,196 @@ public class Milestone4Test {
 		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
 		v = new GraphVizOutputStream();
 	}
-=======
-public class TestForAsm {
-	
-		private IModel m;
-		private IClass c;
-		private ClassVisitor visitor;
-		private GraphVizOutputStream v;
-		@Before
-		public void setUp() throws Exception {
-			m = new Model();
-			c = new Clazz();
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
-			visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-			v = new GraphVizOutputStream();
+
+	@Test
+	public void TestSingleton1() throws IOException {
+		List<String> cs = new ArrayList<>();
+		cs.add("java/lang/Runtime");
+
+		IModel m = new Model();	
+		
+		IDetector detect = new SingletonDetector(); 		
+		for (String clazz : cs){
+			ClassReader reader = new ClassReader(clazz);
+
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
+			
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
+			
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
+		
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			
+			if(!c.getName().contains("$")){
+				m.addClass(c);
+			}		
 		}
->>>>>>> 95b4217b1da29b4b4466e5d25ce35c94b592c081:test/Milestone4/TestForAsm.java
+	     detect.detect(m);
+		 
+		  for(IClass c: m.getClasses()){
+			  //System.out.println(c.getName());
+			  if(c.getName().equals("java/lang/Runtime")){
+				  assertEquals(true,c.getTags().contains("Singleton"));
+			  }
+		
+		  }
+		
+	}
+
+
 
 	@Test
-	public void TestSingleton() throws IOException {
-		String className = "sample.Singleton1";
-		ClassReader reader = new ClassReader(className);
-		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(true, c.getDeclaration().isSingleton());
+	public void TestSingleton2() throws IOException {
+		List<String> cs = new ArrayList<>();
+		cs.add("sample/Singleton1");
 
+		IModel m = new Model();	
+		
+		IDetector detect = new SingletonDetector(); 		
+		for (String clazz : cs){
+			ClassReader reader = new ClassReader(clazz);
+
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
+			
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
+			
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
+		
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			
+			if(!c.getName().contains("$")){
+				m.addClass(c);
+			}		
+		}
+	     detect.detect(m);
+		 
+		  for(IClass c: m.getClasses()){
+			 // System.out.println(c.getName());
+			  if(c.getName().equals("sample/Singleton1")){
+				  assertEquals(true,c.getTags().contains("Singleton"));
+			  }
+		
+		  }
 	}
 
 	@Test
-	public void Test2() throws IOException {
-		String className1 = "java.lang.Runtime";
-		ClassReader reader1 = new ClassReader(className1);
-		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(true, c.getDeclaration().isSingleton());
+	public void TestSingleton3() throws IOException {
+		List<String> cs = new ArrayList<>();
+		cs.add("java/awt/Desktop");
+
+		IModel m = new Model();	
+		
+		IDetector detect = new SingletonDetector(); 		
+		for (String clazz : cs){
+			ClassReader reader = new ClassReader(clazz);
+
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
+			
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
+			
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
+		
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			
+			if(!c.getName().contains("$")){
+				m.addClass(c);
+			}		
+		}
+	    detect.detect(m);
+		 
+		  for(IClass c: m.getClasses()){
+			  System.out.println(c.getName());
+			  if(c.getName().equals("java/awt/Desktop")){
+				  assertEquals(false,c.getTags().contains("Singleton"));
+			  }
+		
+		  }
 	}
 
 	@Test
-	public void Test3() throws IOException {
-		String className1 = "java.awt.Desktop";
-		ClassReader reader1 = new ClassReader(className1);
-		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(false, c.getDeclaration().isSingleton());
+	public void TestSingleton4() throws IOException {
+		List<String> cs = new ArrayList<>();
+		cs.add("java/util/Calendar");
+
+		IModel m = new Model();	
+		
+		IDetector detect = new SingletonDetector(); 		
+		for (String clazz : cs){
+			ClassReader reader = new ClassReader(clazz);
+
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
+			
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
+			
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
+		
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			
+			if(!c.getName().contains("$")){
+				m.addClass(c);
+			}		
+		}
+	     detect.detect(m);
+		 
+		  for(IClass c: m.getClasses()){
+			  if(c.getName().equals("java/util/Calendar")){
+				  assertEquals(false,c.getTags().contains("Singleton"));
+			  }
+		
+		  }
 	}
 
 	@Test
-	public void Test4() throws IOException {
-		String className1 = "java.util.Calendar";
-		ClassReader reader1 = new ClassReader(className1);
-		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(false, c.getDeclaration().isSingleton());
-	}
+	public void TestSingleton5() throws IOException {
+		List<String> cs = new ArrayList<>();
+		cs.add("java/io/FilterInputStream");
 
-	@Test
-	public void Test5() throws IOException {
-		String className1 = "java.io.FilterInputStream";
-		ClassReader reader1 = new ClassReader(className1);
-		reader1.accept(visitor, ClassReader.EXPAND_FRAMES);
-		assertEquals(false, c.getDeclaration().isSingleton());
+		IModel m = new Model();	
+		
+		IDetector detect = new SingletonDetector(); 		
+		for (String clazz : cs){
+			ClassReader reader = new ClassReader(clazz);
+
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
+			
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
+			
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);			
+		
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+			
+			if(!c.getName().contains("$")){
+				m.addClass(c);
+			}		
+		}
+	     detect.detect(m);
+		 
+		  for(IClass c: m.getClasses()){
+			  if(c.getName().equals("java/io/FilterInputStream")){
+				  assertEquals(false,c.getTags().contains("Singleton"));
+			  }
+		
+		  }
 	}
 
 }
