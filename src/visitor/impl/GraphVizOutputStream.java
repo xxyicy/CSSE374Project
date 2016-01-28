@@ -100,9 +100,9 @@ public class GraphVizOutputStream implements IVisitor {
 			this.append("\\<\\<" + d.getType() + "\\>\\>" + "\\n" + Utility.simplifyClassName(d.getName()));
 		} else {
 			this.append(Utility.simplifyClassName(d.getName()));
-			for (String s : d.getTags()) {
-				this.append("\\n\\<\\<" + s + "\\>\\>\\n");
-			}
+		}
+		for (String s : d.getTags()) {
+			this.append("\\n\\<\\<" + s + "\\>\\>\\n");
 		}
 	}
 

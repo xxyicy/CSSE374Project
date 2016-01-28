@@ -11,89 +11,72 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-IDecryption [
+Espresso [
 shape="record",
-label = "{\<\<interface\>\>\nIDecryption|+ decrypt(arg0:char) : char\l}"
+label = "{Espresso|+ init() : void\l+ cost() : double\l}"
 ];
-IEncryption [
+StarbuzzCoffee [
 shape="record",
-label = "{\<\<interface\>\>\nIEncryption|+ encrypt(arg0:char) : char\l}"
+label = "{StarbuzzCoffee|+ init() : void\l+ main(arg0:String[]) : void\l}"
 ];
-InputStream [
-shape="record",
-fillcolor="green",
-label = "{InputStream\n\<\<component\>\>\n|- MAX_SKIP_BUFFER_SIZE : int\l|+ init() : void\l+ read() : int throws IOException\l+ read(arg0:byte[]) : int throws IOException\l+ read(arg0:byte[],arg1:int,arg2:int) : int throws IOException\l+ skip(arg0:long) : long throws IOException\l+ available() : int throws IOException\l+ close() : void throws IOException\l+ mark(arg0:int) : void\l+ reset() : void throws IOException\l+ markSupported() : boolean\l}"
-];
-OutputStream [
+Whip [
 shape="record",
 fillcolor="green",
-label = "{OutputStream\n\<\<component\>\>\n|+ init() : void\l+ write(arg0:int) : void throws IOException\l+ write(arg0:byte[]) : void throws IOException\l+ write(arg0:byte[],arg1:int,arg2:int) : void throws IOException\l+ flush() : void throws IOException\l+ close() : void throws IOException\l}"
+label = "{Whip\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-AutoCloseable [
-shape="record",
-label = "{\<\<interface\>\>\nAutoCloseable|+ close() : void throws Exception\l}"
-];
-DecryptionInputStream [
+Beverage [
 shape="record",
 fillcolor="green",
-label = "{DecryptionInputStream\n\<\<decorator\>\>\n|- decryptor : IDecryption\l|+ init(arg0:InputStream,arg1:IDecryption) : void\l+ read() : int throws IOException\l+ read(arg0:byte[],arg1:int,arg2:int) : int throws IOException\l}"
+label = "{Beverage\n\<\<component\>\>\n| description : String\l|+ init() : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-EncryptionOutputStream [
+HouseBlend [
+shape="record",
+label = "{HouseBlend|+ init() : void\l+ cost() : double\l}"
+];
+Mocha [
 shape="record",
 fillcolor="green",
-label = "{EncryptionOutputStream\n\<\<decorator\>\>\n|- encryptor : IEncryption\l|+ init(arg0:OutputStream,arg1:IEncryption) : void\l+ write(arg0:int) : void throws IOException\l}"
+label = "{Mocha\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-Flushable [
+DarkRoast [
 shape="record",
-label = "{\<\<interface\>\>\nFlushable|+ flush() : void throws IOException\l}"
+label = "{DarkRoast|+ init() : void\l+ cost() : double\l}"
 ];
-FilterInputStream [
-shape="record",
-fillcolor="green",
-label = "{FilterInputStream\n\<\<decorator\>\>\n|# in : InputStream\l|# init(arg0:InputStream) : void\l+ read() : int throws IOException\l+ read(arg0:byte[]) : int throws IOException\l+ read(arg0:byte[],arg1:int,arg2:int) : int throws IOException\l+ skip(arg0:long) : long throws IOException\l+ available() : int throws IOException\l+ close() : void throws IOException\l+ mark(arg0:int) : void\l+ reset() : void throws IOException\l+ markSupported() : boolean\l}"
-];
-Closeable [
-shape="record",
-label = "{\<\<interface\>\>\nCloseable|+ close() : void throws IOException\l}"
-];
-TextEditorApp [
-shape="record",
-label = "{TextEditorApp|+ init() : void\l+ main(arg0:String[]) : void throws Exception\l}"
-];
-IDecryption [
-shape="record",
-label = "{\<\<interface\>\>\nIDecryption|+ decrypt(arg0:char) : char\l}"
-];
-FilterOutputStream [
+Soy [
 shape="record",
 fillcolor="green",
-label = "{FilterOutputStream\n\<\<decorator\>\>\n|# out : OutputStream\l|+ init(arg0:OutputStream) : void\l+ write(arg0:int) : void throws IOException\l+ write(arg0:byte[]) : void throws IOException\l+ write(arg0:byte[],arg1:int,arg2:int) : void throws IOException\l+ flush() : void throws IOException\l+ close() : void throws IOException\l}"
+label = "{Soy\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-IEncryption [
+Decaf [
 shape="record",
-label = "{\<\<interface\>\>\nIEncryption|+ encrypt(arg0:char) : char\l}"
+label = "{Decaf|+ init() : void\l+ cost() : double\l}"
 ];
-SubstitutionCipher [
+CondimentDecorator [
 shape="record",
-label = "{SubstitutionCipher|- encryptionKey : char[]\l- decryptionKey : char[]\l|+ init() : void\l+ encrypt(arg0:char) : char\l+ decrypt(arg0:char) : char\l}"
+label = "{CondimentDecorator|+ init() : void\l+ getDescription() : String\l}"
 ];
-EncryptionOutputStream -> IEncryption [arrowhead="vee"]
-EncryptionOutputStream -> FilterOutputStream [arrowhead="onormal"]
-InputStream -> Closeable [arrowhead="onormal",style="dashed"]
-TextEditorApp -> SubstitutionCipher [arrowhead="vee",style="dashed"]
-FilterOutputStream -> OutputStream [arrowhead="vee",label="decorates"]
-FilterInputStream -> InputStream [arrowhead="onormal"]
-TextEditorApp -> EncryptionOutputStream [arrowhead="vee",style="dashed"]
-SubstitutionCipher -> IDecryption [arrowhead="onormal",style="dashed"]
-FilterInputStream -> InputStream [arrowhead="vee",label="decorates"]
-TextEditorApp -> DecryptionInputStream [arrowhead="vee",style="dashed"]
-FilterOutputStream -> OutputStream [arrowhead="onormal"]
-DecryptionInputStream -> InputStream [arrowhead="vee",style="dashed"]
-DecryptionInputStream -> IDecryption [arrowhead="vee"]
-Closeable -> AutoCloseable [arrowhead="onormal",style="dashed"]
-DecryptionInputStream -> FilterInputStream [arrowhead="onormal"]
-OutputStream -> Flushable [arrowhead="onormal",style="dashed"]
-EncryptionOutputStream -> OutputStream [arrowhead="vee",style="dashed"]
-OutputStream -> Closeable [arrowhead="onormal",style="dashed"]
-SubstitutionCipher -> IEncryption [arrowhead="onormal",style="dashed"]
+Milk [
+shape="record",
+fillcolor="green",
+label = "{Milk\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+StarbuzzCoffee -> Espresso [arrowhead="vee",style="dashed"]
+Mocha -> Beverage [arrowhead="vee",label="decorates"]
+Soy -> CondimentDecorator [arrowhead="onormal"]
+StarbuzzCoffee -> Whip [arrowhead="vee",style="dashed"]
+Soy -> Beverage [arrowhead="vee",label="decorates"]
+Whip -> CondimentDecorator [arrowhead="onormal"]
+Whip -> Beverage [arrowhead="vee",label="decorates"]
+Milk -> Beverage [arrowhead="vee",label="decorates"]
+StarbuzzCoffee -> DarkRoast [arrowhead="vee",style="dashed"]
+StarbuzzCoffee -> HouseBlend [arrowhead="vee",style="dashed"]
+HouseBlend -> Beverage [arrowhead="onormal"]
+Milk -> CondimentDecorator [arrowhead="onormal"]
+StarbuzzCoffee -> Mocha [arrowhead="vee",style="dashed"]
+CondimentDecorator -> Beverage [arrowhead="onormal"]
+Decaf -> Beverage [arrowhead="onormal"]
+Mocha -> CondimentDecorator [arrowhead="onormal"]
+DarkRoast -> Beverage [arrowhead="onormal"]
+Espresso -> Beverage [arrowhead="onormal"]
+StarbuzzCoffee -> Soy [arrowhead="vee",style="dashed"]
 }

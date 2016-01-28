@@ -94,6 +94,7 @@ public class App {
 		
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			
+			clazz = clazz.replaceAll("/", ".");
 			if(!c.getName().contains("$") && !classRead.contains(clazz)){
 				m.addClass(c);
 				classRead.add(clazz);
