@@ -212,7 +212,7 @@ public class TestForAsm {
 
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals("java/util/Calendar")) {
-				assertEquals(true, c.getTags().contains("Singleton"));
+				assertEquals(false, c.getTags().contains("Singleton"));
 			}
 
 		}
@@ -293,7 +293,7 @@ public class TestForAsm {
 
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals("sample/Singleton2")) {
-				assertEquals(false, c.getTags().contains("Singleton"));
+				assertEquals(true, c.getTags().contains("Singleton"));
 			}
 
 		}

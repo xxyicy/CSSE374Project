@@ -171,6 +171,9 @@ public class AdapterDetector implements IDetector {
 
 	private List<String> intersection(List<String> a, List<String> b) {
 		List<String> r = new ArrayList<String>();
+		if(a==null || b ==null){
+			return r;
+		}
 		for (String s : a) {
 			if (b.contains(s)) {
 				r.add(s);

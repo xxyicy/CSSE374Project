@@ -23,6 +23,7 @@ import asm.ClassMethodVisitor;
 import impl.Clazz;
 import impl.Model;
 import pattern.api.IDetector;
+import pattern.impl.AdapterDetector;
 import pattern.impl.DecoratorDetector;
 import visitor.impl.GraphVizOutputStream;
 
@@ -75,10 +76,10 @@ public class TestForAsm {
 		}
 
 		detect.detect(m);
-
+		System.out.println(m.getPatterns());
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals("java/io/InputStreamReader")) {
-				assertEquals(true, c.getTags().contains("decorator"));
+				assertEquals(false, c.getTags().contains("decorator"));
 			}
 
 		}
@@ -123,7 +124,7 @@ public class TestForAsm {
 			System.out.println(c.getName());
 			if (c.getName().equals("java/io/OutputStreamWriter")) {
 
-				assertEquals(true, c.getTags().contains("decorator"));
+				assertEquals(false, c.getTags().contains("decorator"));
 			}
 
 			// if(c.getName().equals(""))
@@ -139,7 +140,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new AdapterDetector();
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -165,11 +166,11 @@ public class TestForAsm {
 		}
 
 		detect.detect(m);
-
+		System.out.println("patterns: "+m.getPatterns());
 		for (IClass c : m.getClasses()) {
 			//System.out.println(c.getName());
 			if (c.getName().equals("java/awt/event/MouseAdapter")) {
-				assertEquals(true, c.getTags().contains("adapter"));
+				assertEquals(false, c.getTags().contains("adapter"));
 			}
 
 		}
