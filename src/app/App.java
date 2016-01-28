@@ -50,7 +50,6 @@ public class App {
 			throw new Exception("Command not found");
 		}
 		
-	
 	}
 	
 	
@@ -201,9 +200,7 @@ public class App {
 		for (int i = 2; i < methodInfo.length; i++) {
 			params.add(methodInfo[i].split(" ")[0]);
 		}
-
 		
-
 		IMethod startMethod = new Method(methodName, "", "", params,
 				new ArrayList<String>(), methodClassName);
 
@@ -219,7 +216,6 @@ public class App {
 		PrintWriter writer = new PrintWriter("./output/output.txt");
 		writer.print(v.toString());
 		writer.close();
-
 		System.out.println(startMethod.printCallChains(0));
 
 	}
