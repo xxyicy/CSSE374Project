@@ -50,37 +50,9 @@ public class DecoratorDetector implements IDetector {
 				
 				
 				if(s.getName().equals(called.getName()) && fieldType.equals(calledClass) && 
-						!calledClass.equals("java/lang/Object")){
-					
-//						System.out.println("found"+c.getName()+" decorates "+called.getClassName());
-						
-						IClass component = this.getClassByName(m, calledClass);
-								
-						IPattern p = new Pattern("Decorator");	
-						c.addTag("decorator");
-						component.addTag("component");
-						
-						p.addClass(c);
-						p.addClass(component);
-//						System.out.println(c.getName());
-//						System.out.println(calledClass);
-						for(IRelation i : m.getRelations()){
-							if(i.getTo().equals(c.getName()) && i.getType().equals("extends")){
-								IClass from = this.getClassByName(m, i.getFrom());
-								if(from == null){
-									throw new Exception("This situation should not happen");
-								}
-								from.addTag("decorator");
-								p.addClass(from);
-							}
-							
-							if(i.getFrom().equals(c.getName()) && i.getTo().replaceAll("[.]", "/").equals(calledClass) && i.getType().equals("association")){
-								i.setDes("decorates");
-							}
-						}
-						
-						m.addPattern(p);
-						
+						!calledClass.equals("java/lang/Object")){			
+//										
+						this.updateModelWithPattern(c, m, calledClass);
 						found = true;
 						break;
 					
@@ -92,6 +64,36 @@ public class DecoratorDetector implements IDetector {
 		}
 	}
 
+	private void updateModelWithPattern(IClass c, IModel m, String calledClass) throws Exception{
+		System.out.println("found"+c.getName()+" decorates "+calledClass);
+		IClass component = this.getClassByName(m, calledClass);
+		
+		IPattern p = new Pattern("Decorator");	
+		c.addTag("decorator");
+		component.addTag("component");
+		
+		p.addClass(c);
+		p.addClass(component);
+//		System.out.println(c.getName());
+//		System.out.println(calledClass);
+		for(IRelation i : m.getRelations()){
+			if(i.getTo().equals(c.getName()) && i.getType().equals("extends")){
+				IClass from = this.getClassByName(m, i.getFrom());
+				if(from == null){
+					throw new Exception("This situation should not happen");
+				}
+				from.addTag("decorator");
+				p.addClass(from);
+			}
+			
+			if(i.getFrom().equals(c.getName()) && i.getTo().replaceAll("[.]", "/").equals(calledClass) && i.getType().equals("association")){
+				i.setDes("decorates");
+			}
+		}
+		
+		m.addPattern(p);
+	}
+	
 	private IField composeSuper(IClass c, IModel m) {
 		Set<IRelation> rs = m.getRelations();
 		Set<String> supers = this.getSuperClasses(c, rs);
