@@ -133,29 +133,18 @@ public class DecoratorDetector implements IDetector {
 		return null;
 	}
 
-	private Set<String> getInterfaces(IClass c, Set<IRelation> r) {
+	private Set<String> getInterfaces(IClass c, Set<IRelation> rs) {
 		Set<String> result = new HashSet<String>();
 		String name = c.getName();
-		while (true) {
-			String tmp = this.getInterface(name, r);
-			if (tmp != null) {
-				result.add(tmp);
-				name = tmp;
-			} else {
-				break;
+		for (IRelation r : rs) {
+			if (r.getFrom().equals(name) && r.getType().equals("implements")) {
+				result.add(r.getTo());
 			}
 		}
 		return result;
 	}
 
-	private String getInterface(String c, Set<IRelation> rs) {
-		for (IRelation r : rs) {
-			if (r.getFrom().equals(c) && r.getType().equals("implements")) {
-				return r.getTo();
-			}
-		}
-		return null;
-	}
+	
 
 	private Set<String> getSuperClasses(IClass c, Set<IRelation> r) {
 		Set<String> result = new HashSet<String>();

@@ -14,6 +14,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 import pattern.api.IDetector;
+import pattern.impl.AdapterDetector;
 import pattern.impl.DecoratorDetector;
 import pattern.impl.SingletonDetector;
 import visitor.api.ISDVisitor;
@@ -104,6 +105,9 @@ public class App {
 		
 		IDetector decorator = new DecoratorDetector();
 		decorator.detect(m);
+		
+		IDetector adapter = new AdapterDetector();
+		adapter.detect(m);
 		
 //		v.Start();
 //		
