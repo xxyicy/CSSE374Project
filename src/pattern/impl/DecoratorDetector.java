@@ -1,11 +1,11 @@
-package pattern.api;
+package pattern.impl;
 
 import impl.Pattern;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import pattern.impl.IDetector;
+import pattern.api.IDetector;
 import api.IClass;
 import api.IField;
 import api.IMethod;

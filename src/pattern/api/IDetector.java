@@ -1,4 +1,4 @@
-package pattern.impl;
+package pattern.api;
 
 import api.IModel;
 

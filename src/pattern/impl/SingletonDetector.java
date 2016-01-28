@@ -1,6 +1,6 @@
-package pattern.api;
+package pattern.impl;
 
-import pattern.impl.IDetector;
+import pattern.api.IDetector;
 import impl.Pattern;
 import api.IClass;
 import api.IModel;
