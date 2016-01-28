@@ -98,9 +98,13 @@ public class ClassMethodVisitor extends ClassVisitor {
 					if (hasSuper){
 						ClassMethodVisitor.this.m.addRelation(r);
 					}
-						
-				}	
-	
+				}
+				String className = owner;
+				String returnType = addReturnType(desc);
+				List<String> args = addArguments(desc);
+				IMethod called = new Method(name,returnType,"NN",args,new ArrayList<String>(),className);
+				called.setParent(method);
+				method.addCall(called);	
 			}
 		};
 

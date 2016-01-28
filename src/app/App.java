@@ -56,7 +56,7 @@ public class App {
 	
 	
 	
-	public static void createUmlWithPattern(String arg) throws IOException{
+	public static void createUmlWithPattern(String arg) throws Exception{
 		List<Class<?>> classes = ClassFinder.find(arg);		
 		List<String> cs = new ArrayList<>();
 		for (Class<?> clazz : classes) {
@@ -64,6 +64,7 @@ public class App {
 		}
 		
 		
+		cs.add("java.io.OutputStreamWriter");
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
 		

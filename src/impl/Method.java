@@ -192,10 +192,10 @@ public class Method implements IMethod {
 			result += "  ";
 		}
 		if(this.parent != null){
-			result += this.parent.getName()+": ";
+			result += this.parent.getName()+" : ";
 		}
 		result += "->";
-		result += this.className+this.name+"\n";
+		result += this.className+" "+this.name+"()\n";
 		for(IMethod m : this.calls){
 			result += m.printCallChains(depth +1);
 		}

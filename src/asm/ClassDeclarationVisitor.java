@@ -54,11 +54,15 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 			if(superName != null && !superName.equals("java/lang/Object")){
 				cs.add(superName);
 			}
+			
 		}
 		
 		
 		List<String> ins = interfaces == null ? new ArrayList<String>() : Arrays.asList(interfaces); 
 		for(String i : ins){
+			if(cs!=null){
+				cs.add(i);
+			}
 			this.m.addRelation(new Relation(name,i,"implements"));
 		};
 		

@@ -90,10 +90,13 @@ public class Relation implements IRelation {
 	public String getDes() {
 		return this.des;
 	}
-
+	
+	@Override
 	public void setDes(String des) {
 		this.des = des;
 	}
+
+
 	
 	
 }

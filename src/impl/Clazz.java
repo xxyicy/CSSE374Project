@@ -80,6 +80,7 @@ public class Clazz implements IClass {
 		result += "methods " + this.methods + "\n";
 		result += "fields " + this.fields + "\n";
 		result += "declaration " + this.declaration + "\n";
+		result += "tags "+ this.tags+"\n";
 		return result;
 
 	}
