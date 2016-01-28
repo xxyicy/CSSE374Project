@@ -15,7 +15,6 @@ public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
-	private Set<String> tags = new HashSet<String>();
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -80,7 +79,7 @@ public class Clazz implements IClass {
 		result += "methods " + this.methods + "\n";
 		result += "fields " + this.fields + "\n";
 		result += "declaration " + this.declaration + "\n";
-		result += "tags "+ this.tags+"\n";
+		result += "tags "+ this.getTags()+"\n";
 		return result;
 
 	}
@@ -91,11 +90,11 @@ public class Clazz implements IClass {
 	}
 
 	public Set<String> getTags() {
-		return tags;
+		return this.declaration.getTags();
 	}
 
 	public void addTag(String tag) {
-		this.tags.add(tag);
+		this.declaration.addTag(tag);
 	}
 
 
