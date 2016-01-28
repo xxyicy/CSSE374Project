@@ -13,9 +13,9 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import pattern.DecoratorDetector;
-import pattern.IDetector;
-import pattern.SingletonDetector;
+import pattern.api.DecoratorDetector;
+import pattern.api.SingletonDetector;
+import pattern.impl.IDetector;
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
