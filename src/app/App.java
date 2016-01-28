@@ -63,7 +63,7 @@ public class App {
 		}
 		
 		
-		cs.add("java.io.OutputStreamWriter");
+//		cs.add("java.io.OutputStreamWriter");
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
 		

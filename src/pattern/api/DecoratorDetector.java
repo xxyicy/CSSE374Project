@@ -76,6 +76,9 @@ public class DecoratorDetector implements IDetector {
 		System.out.println("found" + c.getName() + " decorates " + calledClass);
 		IClass component = this.getClassByName(m, calledClass);
 
+		if(component == null){
+			return;
+		}
 		IPattern p = new Pattern("Decorator");
 		c.addTag("decorator");
 		component.addTag("component");
