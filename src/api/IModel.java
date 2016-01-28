@@ -12,5 +12,6 @@ public interface IModel extends ITraverser {
 	boolean contains(IRelation other);
 	void addPattern(IPattern pattern);
 	Set<IPattern> getPatterns();
+	public void setRelation(Set<IRelation> r);
 //	public void detectAllPatterns();
 }

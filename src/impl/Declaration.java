@@ -1,5 +1,8 @@
 package impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import visitor.api.IVisitor;
 import api.IDeclaration;
 
@@ -7,13 +10,14 @@ public class Declaration implements IDeclaration{
 	private String type;
 	private String name;
 	private int patternCode;
-	
+	private Set<String> tags;
 	
 	
 	public Declaration(String type, String name){
 		this.type = type;
 		this.name = name;
 		this.patternCode = 0b1000;
+		this.tags = new HashSet<String>();
 	}
 	
 	@Override
@@ -64,6 +68,17 @@ public class Declaration implements IDeclaration{
 	@Override
 	public int getCode() {
 		return this.patternCode;
+	}
+
+	@Override
+	public Set<String> getTags() {
+		return this.tags;
+	}
+
+	@Override
+	public void addTag(String tag) {
+		this.tags.add(tag);
+		
 	}	
 
 }

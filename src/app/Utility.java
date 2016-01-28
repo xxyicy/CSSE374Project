@@ -16,6 +16,10 @@ import api.IRelation;
 import asm.SequenceMethodVisitor;
 
 public class Utility {
+	public final static String APP_UML = "UML";
+	public final static String APP_UMLWP = "UMLWP";
+	public final static String APP_SD = "SD";
+	public static String APP_TYPE = APP_UML;
 	public static String simplifyClassName(String name){
 		name = name.replaceAll("[.]", "/");
 		String[] nameArr = name.split("/");

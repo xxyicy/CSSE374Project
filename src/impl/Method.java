@@ -78,8 +78,10 @@ public class Method implements IMethod {
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
-		for (IMethod m: this.calls){
-			m.accept(v);
+		if (Utility.APP_TYPE == Utility.APP_SD){
+			for (IMethod m: this.calls){
+				m.accept(v);
+			}
 		}
 	}
 
@@ -185,17 +187,16 @@ public class Method implements IMethod {
 	}
 
 
-	@Override
 	public String printCallChains(int depth) {
 		String result = "";
 		for(int i =0;i<depth;i++){
 			result += "  ";
 		}
 		if(this.parent != null){
-			result += this.parent.getName()+": ";
+			result += this.parent.getName()+" : ";
 		}
 		result += "->";
-		result += this.className+this.name+"\n";
+		result += this.className+" "+this.name+"()\n";
 		for(IMethod m : this.calls){
 			result += m.printCallChains(depth +1);
 		}

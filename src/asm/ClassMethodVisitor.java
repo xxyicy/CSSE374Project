@@ -61,7 +61,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		String className = this.c.getName().replaceAll("/", ".");
 		
 		if(acc.equals("+") && type.equals(className) && (access & Opcodes.ACC_STATIC) != 0 ){
-			System.out.println("public static return self type");
+		
 			this.c.getDeclaration().orWithCode(0b0010);
 		}
 		
@@ -98,9 +98,13 @@ public class ClassMethodVisitor extends ClassVisitor {
 					if (hasSuper){
 						ClassMethodVisitor.this.m.addRelation(r);
 					}
-						
-				}	
-	
+				}
+				String className = owner;
+				String returnType = addReturnType(desc);
+				List<String> args = addArguments(desc);
+				IMethod called = new Method(name,returnType,"NN",args,new ArrayList<String>(),className);
+				called.setParent(method);
+				method.addCall(called);	
 			}
 		};
 

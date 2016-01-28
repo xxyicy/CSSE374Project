@@ -1,6 +1,10 @@
 
+<<<<<<< HEAD
 package Milestone4;
 
+=======
+package Milestone4;
+>>>>>>> branch 'master' of https://github.com/xxyicy/CSSE374Project.git
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
@@ -33,6 +37,7 @@ import pattern.IDetector;
 import pattern.SingletonDetector;
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
+
 import visitor.impl.SDEditOutputStream;
 
 public class TestForAsm {
@@ -93,6 +98,26 @@ public class TestForAsm {
 		
 	}
 
+
+=======
+import visitor.impl.SDEditOutputStream;
+
+public class TestForAsm {
+	
+		private IModel m;
+		private IClass c;
+		private ClassVisitor visitor;
+		private GraphVizOutputStream v;
+		
+		@Before
+		public void setUp() throws Exception {
+			m = new Model();
+			c = new Clazz();
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
+			visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+			v = new GraphVizOutputStream();
+		}
 
 
 	@Test

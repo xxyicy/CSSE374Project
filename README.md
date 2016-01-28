@@ -3,6 +3,7 @@
 2. [Milestone 2](#milestone-2)
 3. [Milestone 3](#milestone-3)
 4. [Milestone 4](#milestone-4)
+5. [Milestone 5](#milestone-5)
 
 
 
@@ -55,10 +56,7 @@ Open a terminal window and navigate to the directory of this project.
 
 #### Run java Code
 ```
-java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
-
 java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
-
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
@@ -114,14 +112,13 @@ Open a terminal window and navigate to the directory of this project.
 #### Run java Code
 ```
 java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
-dot -Tpng output/output.txt > <output-file-name>
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
 
 #### Generate UML diagram
 ```
-dot -T <output/output.txt > <output-file-name>
+dot -Tpng output/output.txt > <output-file-name>
 ```
 please use “.png” as the suffix of the output file.
 
@@ -188,6 +185,9 @@ The output will be written to output/SequenceDiagramOutput.txt
 
 ## Milestone 4
 ### Design of the tool
+
+![UML Diagram](/UML/milestone4_design.png "UML Diagram")
+
 We create one more int field called code in the Declaration class to represent different attributes of certain classes.
 Also, we created one more patternCode class to store the code to determine certain patterns. (i.e. the singleton pattern
 is 1111, see definitions for each digit in that class);
@@ -230,13 +230,71 @@ Open a terminal window and navigate to the directory of this project.
 
 #### Run java Code
 ```
-java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
-
 java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
-
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
 
 
 
+
+
+
+## Milestone 5
+### Design of the tool
+
+![UML Diagram](/UML/milestone5_design.png "UML Diagram")
+
+
+Interface IDetector is created  for all the concrete detectors. Every concrete detector class needs to implement a detect function which takes a Model as parameter. Through the process of detection, more information will be added to the Model like tags of class and description of relation between classes.
+
+Clazz, Model, Declaration have been updated to adapt all kinds of detectors.
+
+IPattern interface and Pattern class have been created to store the information about which classes are involved in some pattern.
+
+Three concrete detectors have been implemented for Singleton, Decorator and Adapter pattern. 
+
+
+
+
+
+### Who-Did-What
+
+| *Name*         	| *Who did what*                                                                                                        
+|-------------------|----------------------------------------------------------------------------------------
+| Xinyu Xiao     	| Updated the parse logic to draw the Singleton pattern
+|                                                                                           
+| 			     	| Wrote the parse logic to draw Decorator & Adapter Pattern
+|
+|					| Drew Design diagram for milestone 4 & 5
+|                                                                                                                                                                 
+| Tianjiao Mo    	| Created pattern and pattern Detector class
+|
+|				 	| Updated asm parsing code for Singleton pattern 
+|
+|				 	| Wrote code to detect Decorator & Adapter Pattern
+|
+| Ashok Vardhan Raja| updated the test cases for milestone 4.
+|
+|					| Created test cases for milestone 5
+|
+
+
+
+### How to use
+
+#### Before start
+Open a terminal window and navigate to the directory of this project.
+
+#### Run java Code
+```
+java -classPath ./bin:./lib/asm-all-5.0.4.jar app.App UMLWP <Path-to-package>
+```
+<Path-to-package> : the path to the directory being read and parsed.
+(this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
+
+#### Generate UML diagram
+```
+dot -Tpng output/output.txt > <output-file-name>
+```
+please use “.png” as the suffix of the output file.

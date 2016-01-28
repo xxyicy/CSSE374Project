@@ -13,9 +13,10 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import pattern.DecoratorDetector;
-import pattern.IDetector;
-import pattern.SingletonDetector;
+import pattern.api.IDetector;
+import pattern.impl.AdapterDetector;
+import pattern.impl.DecoratorDetector;
+import pattern.impl.SingletonDetector;
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
@@ -50,13 +51,13 @@ public class App {
 			throw new Exception("Command not found");
 		}
 		
-	
 	}
 	
 	
 	
 	
-	public static void createUmlWithPattern(String arg) throws IOException{
+	public static void createUmlWithPattern(String arg) throws Exception{
+		Utility.APP_TYPE = Utility.APP_UMLWP;
 		List<Class<?>> classes = ClassFinder.find(arg);		
 		List<String> cs = new ArrayList<>();
 		for (Class<?> clazz : classes) {
@@ -64,6 +65,7 @@ public class App {
 		}
 		
 		
+//		cs.add("java.io.OutputStreamWriter");
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
 		
@@ -92,12 +94,15 @@ public class App {
 		
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
 			
+			clazz = clazz.replaceAll("/", ".");
 			if(!c.getName().contains("$") && !classRead.contains(clazz)){
 				m.addClass(c);
 				classRead.add(clazz);
 			}	
 			
 		}
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+
 		
 		IDetector d = new SingletonDetector();
 		d.detect(m);
@@ -105,11 +110,15 @@ public class App {
 		IDetector decorator = new DecoratorDetector();
 		decorator.detect(m);
 		
-//		v.Start();
-//		
-//		m.accept(v);
-//		
-//		v.end();
+		IDetector adapter = new AdapterDetector();
+		adapter.detect(m);
+		
+
+		v.Start();
+		
+		m.accept(v);
+		
+		v.end();
 	
 		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
 		
@@ -131,6 +140,7 @@ public class App {
 	
 	
 	public static void createUmlDiagram(String arg) throws IOException{
+		Utility.APP_TYPE = Utility.APP_UML;
 		List<Class<?>> classes = ClassFinder.find(arg);		
 		List<String> cs = new ArrayList<>();
 		for (Class<?> clazz : classes) {
@@ -185,6 +195,7 @@ public class App {
 	
 	
 	public static void createSequenceDiagram(String[] args) throws Exception{
+		Utility.APP_TYPE = Utility.APP_SD;
 		if (args.length < 1) {
 			throw new Exception("No given method name");
 		}
@@ -200,9 +211,7 @@ public class App {
 		for (int i = 2; i < methodInfo.length; i++) {
 			params.add(methodInfo[i].split(" ")[0]);
 		}
-
 		
-
 		IMethod startMethod = new Method(methodName, "", "", params,
 				new ArrayList<String>(), methodClassName);
 
@@ -218,7 +227,6 @@ public class App {
 		PrintWriter writer = new PrintWriter("./output/output.txt");
 		writer.print(v.toString());
 		writer.close();
-
 		System.out.println(startMethod.printCallChains(0));
 
 	}

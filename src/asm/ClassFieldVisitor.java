@@ -52,7 +52,7 @@ public class ClassFieldVisitor extends ClassVisitor {
 		
 		
 		String className = this.c.getName().replaceAll("/", ".");
-		System.out.println(className + ":" + type);
+	
 		
 		if(  isStatic && acc.equals("-") && className.equals(type) ){
 			this.c.getDeclaration().orWithCode(4);
