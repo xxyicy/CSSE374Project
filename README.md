@@ -243,6 +243,9 @@ java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
 ## Milestone 5
 ### Design of the tool
 
+![UML Diagram](/UML/milestone5_design.png "UML Diagram")
+
+
 Interface IDetector is created  for all the concrete detectors. Every concrete detector class needs to implement a detect function which takes a Model as parameter. Through the process of detection, more information will be added to the Model like tags of class and description of relation between classes.
 
 Clazz, Model, Declaration have been updated to adapt all kinds of detectors.
@@ -259,23 +262,23 @@ Three concrete detectors have been implemented for Singleton, Decorator and Adap
 
 | *Name*         	| *Who did what*                                                                                                        
 |-------------------|----------------------------------------------------------------------------------------
-| Xinyu Xiao     	| Updated the parse logic to draw the sequence diagram & readme file
+| Xinyu Xiao     	| Updated the parse logic to draw the Singleton pattern
 |                                                                                           
-| 			     	| Write the parse logic to check if a class is Singleton.           
-|                                                                                            
-| 				 	| Create sample test classes
-|                                                                         
-| Tianjiao Mo    	| Create patternCode class and update content in the Declaration class.
+| 			     	| Wrote the parse logic to draw Decorator & Adapter Pattern
 |
-|				 	| Update logics in both ClassMethodVisitor and ClassFieldVisitor. 
+|					| Drew Design diagram for milestone 4 & 5
+|                                                                                                                                                                 
+| Tianjiao Mo    	| Created pattern and pattern Detector class
 |
-|				 	| Updated UML diagrams for milestone 3
+|				 	| Updated asm parsing code for Singleton pattern 
 |
-| Ashok Vardhan Raja| update the test cases for milestone 4.
+|				 	| Wrote code to detect Decorator & Adapter Pattern
 |
-|					| Create UML for singleton class manually
+| Ashok Vardhan Raja| updated the test cases for milestone 4.
 |
-|					| Updated test cases for Milestone 3
+|					| Created test cases for milestone 5
+|
+
 
 
 ### How to use
