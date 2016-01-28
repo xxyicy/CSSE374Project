@@ -243,6 +243,13 @@ java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
 ## Milestone 5
 ### Design of the tool
 
+Interface IDetector is created  for all the concrete detectors. Every concrete detector class needs to implement a detect function which takes a Model as parameter. Through the process of detection, more information will be added to the Model like tags of class and description of relation between classes.
+
+Clazz, Model, Declaration have been updated to adapt all kinds of detectors.
+
+IPattern interface and Pattern class have been created to store the information about which classes are involved in some pattern.
+
+Three concrete detectors have been implemented for Singleton, Decorator and Adapter pattern. 
 
 
 
