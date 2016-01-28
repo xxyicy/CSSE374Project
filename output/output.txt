@@ -11,72 +11,296 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-Espresso [
+ClassDeclarationVisitor [
 shape="record",
-label = "{Espresso|+ init() : void\l+ cost() : double\l}"
+label = "{ClassDeclarationVisitor|- c : IClass\l- m : IModel\l- cs : List\l|+ init(arg0:int,arg1:IClass,arg2:IModel) : void\l+ init(arg0:int,arg1:IClass,arg2:IModel,arg3:List) : void\l+ visit(arg0:int,arg1:int,arg2:String,arg3:String,arg4:String,arg5:String[]) : void\l}"
 ];
-StarbuzzCoffee [
+IPattern [
 shape="record",
-label = "{StarbuzzCoffee|+ init() : void\l+ main(arg0:String[]) : void\l}"
+label = "{\<\<interface\>\>\nIPattern|+ getName() : String\l+ getClasses() : Set\l+ addClass(arg0:IClass) : void\l}"
 ];
-Whip [
+ITraverser [
 shape="record",
-fillcolor="green",
-label = "{Whip\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+label = "{\<\<interface\>\>\nITraverser|+ accept(arg0:IVisitor) : void\l}"
 ];
-Beverage [
+ClassFieldVisitor [
 shape="record",
-fillcolor="green",
-label = "{Beverage\n\<\<component\>\>\n| description : String\l|+ init() : void\l+ getDescription() : String\l+ cost() : double\l}"
+label = "{ClassFieldVisitor|- c : IClass\l- m : IModel\l|+ init(arg0:int,arg1:IClass,arg2:IModel) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass,arg3:IModel) : void\l+ visitField(arg0:int,arg1:String,arg2:String,arg3:String,arg4:Object) : FieldVisitor\l}"
 ];
-HouseBlend [
+IField [
 shape="record",
-label = "{HouseBlend|+ init() : void\l+ cost() : double\l}"
+label = "{\<\<interface\>\>\nIField|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ isStatic() : boolean\l+ setStatic(arg0:boolean) : void\l}"
 ];
-Mocha [
+IModel [
 shape="record",
-fillcolor="green",
-label = "{Mocha\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+label = "{\<\<interface\>\>\nIModel|+ getClasses() : Set\l+ getRelations() : Set\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l+ contains(arg0:IRelation) : boolean\l+ addPattern(arg0:IPattern) : void\l+ getPatterns() : Set\l+ setRelation(arg0:Set) : void\l}"
 ];
-DarkRoast [
+Method [
 shape="record",
-label = "{DarkRoast|+ init() : void\l+ cost() : double\l}"
+label = "{Method|- name : String\l- type : String\l- access : String\l- params : List\l- exceptions : List\l- className : String\l- calls : List\l- parent : IMethod\l- isStatic : boolean\l|+ init(arg0:String,arg1:String,arg2:String,arg3:List,arg4:List,arg5:String) : void\l+ toString() : String\l+ getName() : String\l+ getReturnType() : String\l+ getAccess() : String\l+ getExceptions() : List\l+ getParamTypes() : List\l+ accept(arg0:IVisitor) : void\l+ getClassName() : String\l+ hashCode() : int\l+ equals(arg0:Object) : boolean\l+ getCalls() : List\l+ addCall(arg0:IMethod) : void\l+ setClassName(arg0:String) : void\l+ setReturnType(arg0:String) : void\l+ compareMethod(arg0:IMethod) : boolean\l+ printCallChains(arg0:int) : String\l+ setParent(arg0:IMethod) : void\l+ getParent() : IMethod\l+ isStatic() : boolean\l+ setStatic(arg0:boolean) : void\l}"
 ];
-Soy [
+Field [
 shape="record",
-fillcolor="green",
-label = "{Soy\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+label = "{Field|- isStatic : boolean\l- name : String\l- type : String\l- access : String\l|+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ accept(arg0:IVisitor) : void\l+ isStatic() : boolean\l+ setStatic(arg0:boolean) : void\l}"
 ];
-Decaf [
+Clazz [
 shape="record",
-label = "{Decaf|+ init() : void\l+ cost() : double\l}"
+label = "{Clazz|- methods : List\l- fields : List\l- declaration : IDeclaration\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ toString() : String\l+ getName() : String\l+ getTags() : Set\l+ addTag(arg0:String) : void\l}"
 ];
-CondimentDecorator [
+IPattern [
 shape="record",
-label = "{CondimentDecorator|+ init() : void\l+ getDescription() : String\l}"
+label = "{\<\<interface\>\>\nIPattern|+ getName() : String\l+ getClasses() : Set\l+ addClass(arg0:IClass) : void\l}"
 ];
-Milk [
+patternCode [
 shape="record",
-fillcolor="green",
-label = "{Milk\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+label = "{\<\<interface\>\>\npatternCode|+ Singleton : int\l}"
 ];
-StarbuzzCoffee -> Espresso [arrowhead="vee",style="dashed"]
-Mocha -> Beverage [arrowhead="vee",label="decorates"]
-Soy -> CondimentDecorator [arrowhead="onormal"]
-StarbuzzCoffee -> Whip [arrowhead="vee",style="dashed"]
-Soy -> Beverage [arrowhead="vee",label="decorates"]
-Whip -> CondimentDecorator [arrowhead="onormal"]
-Whip -> Beverage [arrowhead="vee",label="decorates"]
-Milk -> Beverage [arrowhead="vee",label="decorates"]
-StarbuzzCoffee -> DarkRoast [arrowhead="vee",style="dashed"]
-StarbuzzCoffee -> HouseBlend [arrowhead="vee",style="dashed"]
-HouseBlend -> Beverage [arrowhead="onormal"]
-Milk -> CondimentDecorator [arrowhead="onormal"]
-StarbuzzCoffee -> Mocha [arrowhead="vee",style="dashed"]
-CondimentDecorator -> Beverage [arrowhead="onormal"]
-Decaf -> Beverage [arrowhead="onormal"]
-Mocha -> CondimentDecorator [arrowhead="onormal"]
-DarkRoast -> Beverage [arrowhead="onormal"]
-Espresso -> Beverage [arrowhead="onormal"]
-StarbuzzCoffee -> Soy [arrowhead="vee",style="dashed"]
+ClassVisitor [
+shape="record",
+label = "{ClassVisitor|# api : int\l# cv : ClassVisitor\l|+ init(arg0:int) : void\l+ init(arg0:int,arg1:ClassVisitor) : void\l+ visit(arg0:int,arg1:int,arg2:String,arg3:String,arg4:String,arg5:String[]) : void\l+ visitSource(arg0:String,arg1:String) : void\l+ visitOuterClass(arg0:String,arg1:String,arg2:String) : void\l+ visitAnnotation(arg0:String,arg1:boolean) : AnnotationVisitor\l+ visitTypeAnnotation(arg0:int,arg1:TypePath,arg2:String,arg3:boolean) : AnnotationVisitor\l+ visitAttribute(arg0:Attribute) : void\l+ visitInnerClass(arg0:String,arg1:String,arg2:String,arg3:int) : void\l+ visitField(arg0:int,arg1:String,arg2:String,arg3:String,arg4:Object) : FieldVisitor\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l+ visitEnd() : void\l}"
+];
+Declaration [
+shape="record",
+label = "{Declaration|- type : String\l- name : String\l- patternCode : int\l- tags : Set\l|+ init(arg0:String,arg1:String) : void\l+ toString() : String\l+ getType() : String\l+ getName() : String\l+ accept(arg0:IVisitor) : void\l+ orWithCode(arg0:int) : void\l+ andWithCode(arg0:int) : void\l+ getCode() : int\l+ getTags() : Set\l+ addTag(arg0:String) : void\l}"
+];
+DecoratorDetector [
+shape="record",
+label = "{DecoratorDetector|+ init() : void\l+ detect(arg0:IModel) : void throws Exception\l- getClassByName(arg0:IModel,arg1:String) : IClass\l- detectPatternWithField(arg0:IField,arg1:IClass,arg2:IModel) : void throws Exception\l- updateModelWithPattern(arg0:IClass,arg1:IModel,arg2:String) : void throws Exception\l- composeSuper(arg0:IClass,arg1:IModel) : IField\l- composeInterface(arg0:IClass,arg1:IModel) : IField\l- getInterfaces(arg0:IClass,arg1:Set) : Set\l- getSuperClasses(arg0:IClass,arg1:Set) : Set\l- getSuper(arg0:String,arg1:Set) : String\l}"
+];
+Pattern [
+shape="record",
+label = "{Pattern|- name : String\l- classes : Set\l|+ init(arg0:String) : void\l+ getName() : String\l+ getClasses() : Set\l+ addClass(arg0:IClass) : void\l+ toString() : String\l}"
+];
+IRelation [
+shape="record",
+label = "{\<\<interface\>\>\nIRelation|+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l+ getDes() : String\l+ setDes(arg0:String) : void\l}"
+];
+IDeclaration [
+shape="record",
+label = "{\<\<interface\>\>\nIDeclaration|+ getType() : String\l+ getName() : String\l+ orWithCode(arg0:int) : void\l+ andWithCode(arg0:int) : void\l+ getCode() : int\l+ getTags() : Set\l+ addTag(arg0:String) : void\l}"
+];
+IMethod [
+shape="record",
+label = "{\<\<interface\>\>\nIMethod|+ getName() : String\l+ getReturnType() : String\l+ getAccess() : String\l+ getParamTypes() : List\l+ getExceptions() : List\l+ getClassName() : String\l+ getCalls() : List\l+ setParent(arg0:IMethod) : void\l+ addCall(arg0:IMethod) : void\l+ getParent() : IMethod\l+ setClassName(arg0:String) : void\l+ setReturnType(arg0:String) : void\l+ compareMethod(arg0:IMethod) : boolean\l+ printCallChains(arg0:int) : String\l+ isStatic() : boolean\l+ setStatic(arg0:boolean) : void\l}"
+];
+SingletonDetector [
+shape="record",
+label = "{SingletonDetector|+ init() : void\l+ detect(arg0:IModel) : void\l- isSingleton(arg0:IClass) : boolean\l}"
+];
+IDetector [
+shape="record",
+label = "{\<\<interface\>\>\nIDetector|+ detect(arg0:IModel) : void throws Exception\l}"
+];
+IField [
+shape="record",
+label = "{\<\<interface\>\>\nIField|+ getName() : String\l+ getType() : String\l+ getAccess() : String\l+ isStatic() : boolean\l+ setStatic(arg0:boolean) : void\l}"
+];
+IModel [
+shape="record",
+label = "{\<\<interface\>\>\nIModel|+ getClasses() : Set\l+ getRelations() : Set\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l+ contains(arg0:IRelation) : boolean\l+ addPattern(arg0:IPattern) : void\l+ getPatterns() : Set\l+ setRelation(arg0:Set) : void\l}"
+];
+IClass [
+shape="record",
+label = "{\<\<interface\>\>\nIClass|+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ getName() : String\l+ getTags() : Set\l+ addTag(arg0:String) : void\l}"
+];
+IMethod [
+shape="record",
+label = "{\<\<interface\>\>\nIMethod|+ getName() : String\l+ getReturnType() : String\l+ getAccess() : String\l+ getParamTypes() : List\l+ getExceptions() : List\l+ getClassName() : String\l+ getCalls() : List\l+ setParent(arg0:IMethod) : void\l+ addCall(arg0:IMethod) : void\l+ getParent() : IMethod\l+ setClassName(arg0:String) : void\l+ setReturnType(arg0:String) : void\l+ compareMethod(arg0:IMethod) : boolean\l+ printCallChains(arg0:int) : String\l+ isStatic() : boolean\l+ setStatic(arg0:boolean) : void\l}"
+];
+Model [
+shape="record",
+label = "{Model|- classes : Set\l- relations : Set\l- patterns : Set\l|+ init() : void\l+ accept(arg0:IVisitor) : void\l+ contains(arg0:IRelation) : boolean\l+ toString() : String\l+ getClasses() : Set\l+ getRelations() : Set\l+ setRelation(arg0:Set) : void\l+ addClass(arg0:IClass) : void\l+ addRelation(arg0:IRelation) : void\l- checkRelation(arg0:IRelation) : boolean\l+ getPatterns() : Set\l+ addPattern(arg0:IPattern) : void\l}"
+];
+AdapterDetector [
+shape="record",
+label = "{AdapterDetector|+ init() : void\l+ detect(arg0:IModel) : void throws Exception\l- constructPattern(arg0:String,arg1:IClass,arg2:IClass,arg3:IModel) : void throws IOException\l- intersection(arg0:List,arg1:List) : List\l- getClassByName(arg0:IModel,arg1:String) : IClass\l- getInterfaces(arg0:IClass,arg1:Set) : Set\l}"
+];
+App [
+shape="record",
+label = "{App|+ init() : void\l+ main(arg0:String[]) : void throws Exception\l+ createUmlWithPattern(arg0:String) : void throws Exception\l+ createUmlDiagram(arg0:String) : void throws IOException\l+ createSequenceDiagram(arg0:String[]) : void throws Exception\l}"
+];
+IVisitor [
+shape="record",
+label = "{\<\<interface\>\>\nIVisitor|+ visit(arg0:IClass) : void\l+ visit(arg0:IRelation) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
+];
+ISDVisitor [
+shape="record",
+label = "{ISDVisitor|+ init() : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IRelation) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
+];
+IVisitor [
+shape="record",
+label = "{\<\<interface\>\>\nIVisitor|+ visit(arg0:IClass) : void\l+ visit(arg0:IRelation) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
+];
+IRelation [
+shape="record",
+label = "{\<\<interface\>\>\nIRelation|+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l+ getDes() : String\l+ setDes(arg0:String) : void\l}"
+];
+Utility [
+shape="record",
+label = "{Utility|+ APP_UML : String\l+ APP_UMLWP : String\l+ APP_SD : String\l+ APP_TYPE : String\l| clinit() : void\l+ init() : void\l+ simplifyClassName(arg0:String) : String\l+ simplifyType(arg0:String) : String\l+ isNotBuiltIn(arg0:String) : boolean\l+ removeRelationNotInPackage(arg0:IModel) : Set\l+ parseMethodSignature(arg0:String) : String[]\l+ readClassAndMethods(arg0:IMethod,arg1:int,arg2:List) : void throws IOException\l}"
+];
+MethodVisitor [
+shape="record",
+label = "{MethodVisitor|# api : int\l# mv : MethodVisitor\l|+ init(arg0:int) : void\l+ init(arg0:int,arg1:MethodVisitor) : void\l+ visitParameter(arg0:String,arg1:int) : void\l+ visitAnnotationDefault() : AnnotationVisitor\l+ visitAnnotation(arg0:String,arg1:boolean) : AnnotationVisitor\l+ visitTypeAnnotation(arg0:int,arg1:TypePath,arg2:String,arg3:boolean) : AnnotationVisitor\l+ visitParameterAnnotation(arg0:int,arg1:String,arg2:boolean) : AnnotationVisitor\l+ visitAttribute(arg0:Attribute) : void\l+ visitCode() : void\l+ visitFrame(arg0:int,arg1:int,arg2:Object[],arg3:int,arg4:Object[]) : void\l+ visitInsn(arg0:int) : void\l+ visitIntInsn(arg0:int,arg1:int) : void\l+ visitVarInsn(arg0:int,arg1:int) : void\l+ visitTypeInsn(arg0:int,arg1:String) : void\l+ visitFieldInsn(arg0:int,arg1:String,arg2:String,arg3:String) : void\l+ visitMethodInsn(arg0:int,arg1:String,arg2:String,arg3:String) : void\l+ visitMethodInsn(arg0:int,arg1:String,arg2:String,arg3:String,arg4:boolean) : void\l+ visitInvokeDynamicInsn(arg0:String,arg1:String,arg2:Handle,arg3:Object[]) : void\l+ visitJumpInsn(arg0:int,arg1:Label) : void\l+ visitLabel(arg0:Label) : void\l+ visitLdcInsn(arg0:Object) : void\l+ visitIincInsn(arg0:int,arg1:int) : void\l+ visitTableSwitchInsn(arg0:int,arg1:int,arg2:Label,arg3:Label[]) : void\l+ visitLookupSwitchInsn(arg0:Label,arg1:int[],arg2:Label[]) : void\l+ visitMultiANewArrayInsn(arg0:String,arg1:int) : void\l+ visitInsnAnnotation(arg0:int,arg1:TypePath,arg2:String,arg3:boolean) : AnnotationVisitor\l+ visitTryCatchBlock(arg0:Label,arg1:Label,arg2:Label,arg3:String) : void\l+ visitTryCatchAnnotation(arg0:int,arg1:TypePath,arg2:String,arg3:boolean) : AnnotationVisitor\l+ visitLocalVariable(arg0:String,arg1:String,arg2:String,arg3:Label,arg4:Label,arg5:int) : void\l+ visitLocalVariableAnnotation(arg0:int,arg1:TypePath,arg2:Label[],arg3:Label[],arg4:int[],arg5:String,arg6:boolean) : AnnotationVisitor\l+ visitLineNumber(arg0:int,arg1:Label) : void\l+ visitMaxs(arg0:int,arg1:int) : void\l+ visitEnd() : void\l}"
+];
+Relation [
+shape="record",
+label = "{Relation|- from : String\l- to : String\l- type : String\l- des : String\l|+ accept(arg0:IVisitor) : void\l+ init(arg0:String,arg1:String,arg2:String) : void\l+ toString() : String\l+ getFrom() : String\l+ getTo() : String\l+ getType() : String\l+ hashCode() : int\l+ equals(arg0:Object) : boolean\l+ getDes() : String\l+ setDes(arg0:String) : void\l}"
+];
+ClassMethodVisitor [
+shape="record",
+label = "{ClassMethodVisitor|- c : IClass\l- m : IModel\l|+ init(arg0:int,arg1:IClass,arg2:IModel) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IClass,arg3:IModel) : void\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l addAccessLevel(arg0:int) : String\l addReturnType(arg0:String) : String\l addArguments(arg0:String) : List\l access$0(arg0:ClassMethodVisitor) : IModel\l}"
+];
+IDetector [
+shape="record",
+label = "{\<\<interface\>\>\nIDetector|+ detect(arg0:IModel) : void throws Exception\l}"
+];
+SDEditOutputStream [
+shape="record",
+label = "{SDEditOutputStream|- declaration : Map\l- existedClass : List\l- classes : StringBuffer\l- content : StringBuffer\l- count : int\l|+ init() : void\l+ toString() : String\l+ visit(arg0:IMethod) : void\l- addClassName(arg0:String,arg1:String) : void\l- addMessage(arg0:IMethod,arg1:IMethod) : void\l}"
+];
+IDeclaration [
+shape="record",
+label = "{\<\<interface\>\>\nIDeclaration|+ getType() : String\l+ getName() : String\l+ orWithCode(arg0:int) : void\l+ andWithCode(arg0:int) : void\l+ getCode() : int\l+ getTags() : Set\l+ addTag(arg0:String) : void\l}"
+];
+GraphVizOutputStream [
+shape="record",
+label = "{GraphVizOutputStream|- b : StringBuffer\l|+ init() : void\l+ toString() : String\l+ Start() : void\l+ end() : void\l- appendln(arg0:String) : void\l- append(arg0:String) : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IRelation) : void\l}"
+];
+ISDVisitor [
+shape="record",
+label = "{ISDVisitor|+ init() : void\l+ visit(arg0:IClass) : void\l+ visit(arg0:IRelation) : void\l+ visit(arg0:String) : void\l+ visit(arg0:IMethod) : void\l+ visit(arg0:IDeclaration) : void\l+ visit(arg0:IField) : void\l+ postVisit(arg0:IClass) : void\l}"
+];
+IClass [
+shape="record",
+label = "{\<\<interface\>\>\nIClass|+ addMethod(arg0:IMethod) : void\l+ addField(arg0:IField) : void\l+ addDeclaration(arg0:IDeclaration) : void\l+ getDeclaration() : IDeclaration\l+ getMethods() : List\l+ getFields() : List\l+ getName() : String\l+ getTags() : Set\l+ addTag(arg0:String) : void\l}"
+];
+SequenceMethodVisitor [
+shape="record",
+label = "{SequenceMethodVisitor|- m : IMethod\l- className : String\l|+ init(arg0:int,arg1:IMethod,arg2:String) : void\l+ init(arg0:int,arg1:ClassVisitor,arg2:IMethod,arg3:String) : void\l+ visitMethod(arg0:int,arg1:String,arg2:String,arg3:String,arg4:String[]) : MethodVisitor\l addAccessLevel(arg0:int) : String\l addReturnType(arg0:String) : String\l addArguments(arg0:String) : List\l access$0(arg0:SequenceMethodVisitor) : IMethod\l}"
+];
+ITraverser [
+shape="record",
+label = "{\<\<interface\>\>\nITraverser|+ accept(arg0:IVisitor) : void\l}"
+];
+ClassFinder [
+shape="record",
+label = "{ClassFinder|- DOT : char\l- SLASH : char\l- CLASS_SUFFIX : String\l- BAD_PACKAGE_ERROR : String\l|+ init() : void\l+ find(arg0:String) : List\l- find(arg0:File,arg1:String) : List\l}"
+];
+IModel -> IRelation [arrowhead="vee",style="dashed"]
+Utility -> IModel [arrowhead="vee",style="dashed"]
+SDEditOutputStream -> IMethod [arrowhead="vee",style="dashed"]
+GraphVizOutputStream -> IField [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> ClassVisitor [arrowhead="onormal"]
+ITraverser -> IVisitor [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> IClass [arrowhead="vee"]
+ClassFieldVisitor -> Relation [arrowhead="vee",style="dashed"]
+AdapterDetector -> ClassFieldVisitor [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> Relation [arrowhead="vee",style="dashed"]
+ISDVisitor -> IRelation [arrowhead="vee",style="dashed"]
+Clazz -> IDeclaration [arrowhead="vee"]
+Pattern -> IClass [arrowhead="vee"]
+DecoratorDetector -> IField [arrowhead="vee",style="dashed"]
+SDEditOutputStream -> ISDVisitor [arrowhead="onormal"]
+Method -> IVisitor [arrowhead="vee",style="dashed"]
+Clazz -> IVisitor [arrowhead="vee",style="dashed"]
+SingletonDetector -> IClass [arrowhead="vee",style="dashed"]
+IModel -> IPattern [arrowhead="vee",style="dashed"]
+IVisitor -> IClass [arrowhead="vee",style="dashed"]
+App -> Method [arrowhead="vee",style="dashed"]
+ClassFieldVisitor -> IClass [arrowhead="vee"]
+Utility -> IMethod [arrowhead="vee",style="dashed"]
+IClass -> ITraverser [arrowhead="onormal",style="dashed"]
+Field -> IField [arrowhead="onormal",style="dashed"]
+ISDVisitor -> IClass [arrowhead="vee",style="dashed"]
+Relation -> IVisitor [arrowhead="vee",style="dashed"]
+IClass -> IMethod [arrowhead="vee",style="dashed"]
+IVisitor -> IDeclaration [arrowhead="vee",style="dashed"]
+AdapterDetector -> ClassMethodVisitor [arrowhead="vee",style="dashed"]
+Model -> IPattern [arrowhead="vee"]
+Model -> IVisitor [arrowhead="vee",style="dashed"]
+IDeclaration -> ITraverser [arrowhead="onormal",style="dashed"]
+ClassDeclarationVisitor -> IModel [arrowhead="vee"]
+SequenceMethodVisitor -> ClassVisitor [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> ClassMethodVisitor [arrowhead="vee",style="dashed"]
+IModel -> ITraverser [arrowhead="onormal",style="dashed"]
+Field -> IVisitor [arrowhead="vee",style="dashed"]
+SingletonDetector -> IDetector [arrowhead="onormal",style="dashed"]
+App -> Clazz [arrowhead="vee",style="dashed"]
+App -> GraphVizOutputStream [arrowhead="vee",style="dashed"]
+ClassVisitor -> MethodVisitor [arrowhead="vee",style="dashed"]
+Model -> IModel [arrowhead="onormal",style="dashed"]
+App -> ClassMethodVisitor [arrowhead="vee",style="dashed"]
+ISDVisitor -> IVisitor [arrowhead="onormal",style="dashed"]
+App -> SDEditOutputStream [arrowhead="vee",style="dashed"]
+ISDVisitor -> IField [arrowhead="vee",style="dashed"]
+AdapterDetector -> Relation [arrowhead="vee",style="dashed"]
+DecoratorDetector -> IClass [arrowhead="vee",style="dashed"]
+Relation -> IRelation [arrowhead="onormal",style="dashed"]
+ClassMethodVisitor -> Method [arrowhead="vee",style="dashed"]
+ISDVisitor -> IMethod [arrowhead="vee",style="dashed"]
+Utility -> SequenceMethodVisitor [arrowhead="vee",style="dashed"]
+AdapterDetector -> Clazz [arrowhead="vee",style="dashed"]
+IField -> ITraverser [arrowhead="onormal",style="dashed"]
+IMethod -> ITraverser [arrowhead="onormal",style="dashed"]
+AdapterDetector -> ClassDeclarationVisitor [arrowhead="vee",style="dashed"]
+GraphVizOutputStream -> IDeclaration [arrowhead="vee",style="dashed"]
+SequenceMethodVisitor -> SequenceMethodVisitor [arrowhead="vee",style="dashed"]
+IRelation -> ITraverser [arrowhead="onormal",style="dashed"]
+AdapterDetector -> IClass [arrowhead="vee",style="dashed"]
+App -> SingletonDetector [arrowhead="vee",style="dashed"]
+IDetector -> IModel [arrowhead="vee",style="dashed"]
+SingletonDetector -> Pattern [arrowhead="vee",style="dashed"]
+Declaration -> IDeclaration [arrowhead="onormal",style="dashed"]
+Clazz -> IMethod [arrowhead="vee"]
+AdapterDetector -> IModel [arrowhead="vee",style="dashed"]
+ClassFieldVisitor -> ClassVisitor [arrowhead="vee",style="dashed"]
+Pattern -> IPattern [arrowhead="onormal",style="dashed"]
+GraphVizOutputStream -> IMethod [arrowhead="vee",style="dashed"]
+App -> ClassFieldVisitor [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> IClass [arrowhead="vee"]
+SequenceMethodVisitor -> IMethod [arrowhead="vee"]
+IPattern -> IClass [arrowhead="vee",style="dashed"]
+ISDVisitor -> IDeclaration [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> Declaration [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> MethodVisitor [arrowhead="vee",style="dashed"]
+IVisitor -> IMethod [arrowhead="vee",style="dashed"]
+App -> AdapterDetector [arrowhead="vee",style="dashed"]
+AdapterDetector -> IDetector [arrowhead="onormal",style="dashed"]
+MethodVisitor -> MethodVisitor [arrowhead="vee"]
+IClass -> IField [arrowhead="vee",style="dashed"]
+SingletonDetector -> IModel [arrowhead="vee",style="dashed"]
+IVisitor -> IRelation [arrowhead="vee",style="dashed"]
+SequenceMethodVisitor -> ClassVisitor [arrowhead="onormal"]
+ClassFieldVisitor -> ClassVisitor [arrowhead="onormal"]
+ClassMethodVisitor -> ClassVisitor [arrowhead="onormal"]
+DecoratorDetector -> IModel [arrowhead="vee",style="dashed"]
+App -> ClassDeclarationVisitor [arrowhead="vee",style="dashed"]
+ClassVisitor -> ClassVisitor [arrowhead="vee"]
+Method -> IMethod [arrowhead="onormal",style="dashed"]
+App -> Model [arrowhead="vee",style="dashed"]
+GraphVizOutputStream -> IClass [arrowhead="vee",style="dashed"]
+Method -> IMethod [arrowhead="vee"]
+AdapterDetector -> Pattern [arrowhead="vee",style="dashed"]
+Clazz -> IClass [arrowhead="onormal",style="dashed"]
+SequenceMethodVisitor -> MethodVisitor [arrowhead="vee",style="dashed"]
+IClass -> IDeclaration [arrowhead="vee",style="dashed"]
+IModel -> IClass [arrowhead="vee",style="dashed"]
+DecoratorDetector -> IDetector [arrowhead="onormal",style="dashed"]
+SequenceMethodVisitor -> Method [arrowhead="vee",style="dashed"]
+Model -> IClass [arrowhead="vee"]
+ClassFieldVisitor -> IModel [arrowhead="vee"]
+ClassFieldVisitor -> Field [arrowhead="vee",style="dashed"]
+ClassMethodVisitor -> IModel [arrowhead="vee"]
+ClassMethodVisitor -> ClassVisitor [arrowhead="vee",style="dashed"]
+Clazz -> IField [arrowhead="vee"]
+GraphVizOutputStream -> IRelation [arrowhead="vee",style="dashed"]
+DecoratorDetector -> Pattern [arrowhead="vee",style="dashed"]
+Model -> IRelation [arrowhead="vee"]
+IVisitor -> IField [arrowhead="vee",style="dashed"]
+Declaration -> IVisitor [arrowhead="vee",style="dashed"]
+ClassDeclarationVisitor -> Relation [arrowhead="vee",style="dashed"]
+App -> DecoratorDetector [arrowhead="vee",style="dashed"]
+GraphVizOutputStream -> IVisitor [arrowhead="onormal",style="dashed"]
+IMethod -> IMethod [arrowhead="vee",style="dashed"]
 }
