@@ -56,6 +56,7 @@ public class App {
 	
 	
 	public static void createUmlWithPattern(String arg) throws Exception{
+		Utility.APP_TYPE = Utility.APP_UMLWP;
 		List<Class<?>> classes = ClassFinder.find(arg);		
 		List<String> cs = new ArrayList<>();
 		for (Class<?> clazz : classes) {
@@ -98,6 +99,8 @@ public class App {
 			}	
 			
 		}
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+
 		
 		IDetector d = new SingletonDetector();
 		d.detect(m);
@@ -105,11 +108,11 @@ public class App {
 		IDetector decorator = new DecoratorDetector();
 		decorator.detect(m);
 		
-//		v.Start();
-//		
-//		m.accept(v);
-//		
-//		v.end();
+		v.Start();
+		
+		m.accept(v);
+		
+		v.end();
 	
 		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit the class
 		
@@ -131,6 +134,7 @@ public class App {
 	
 	
 	public static void createUmlDiagram(String arg) throws IOException{
+		Utility.APP_TYPE = Utility.APP_UML;
 		List<Class<?>> classes = ClassFinder.find(arg);		
 		List<String> cs = new ArrayList<>();
 		for (Class<?> clazz : classes) {
@@ -185,6 +189,7 @@ public class App {
 	
 	
 	public static void createSequenceDiagram(String[] args) throws Exception{
+		Utility.APP_TYPE = Utility.APP_SD;
 		if (args.length < 1) {
 			throw new Exception("No given method name");
 		}

@@ -15,7 +15,6 @@ public class GraphVizOutputStream implements IVisitor {
 		this.b = new StringBuffer();
 	}
 
-
 	@Override
 	public String toString() {
 		return this.b.toString();
@@ -25,13 +24,14 @@ public class GraphVizOutputStream implements IVisitor {
 		this.appendln("digraph G {");
 		this.appendln("fontname = \"Avenir Book\"");
 		this.appendln("fontsize = 10");
-		
+
 		this.appendln("node [");
 		this.appendln("fontname = \"Avenir Book\"");
 		this.appendln("fontsize = 10");
 		this.appendln("shape = \"record\"");
+		this.appendln("style=\"filled\"");
 		this.appendln("]");
-		
+
 		this.appendln("edge [");
 		this.appendln("fontname = \"Avenir Book\"");
 		this.appendln("fontsize = 10");
@@ -56,8 +56,14 @@ public class GraphVizOutputStream implements IVisitor {
 	public void visit(IClass c) {
 		this.appendln(Utility.simplifyClassName(c.getName()) + " [");
 		this.appendln("shape=\"record\",");
-		if (c.getDeclaration().isSingleton()){
-			this.appendln("color=\"blue\"");
+		if (c.getTags().contains("Singleton")) {
+			this.appendln("color=\"blue\",");
+		}
+		if (c.getTags().contains("decorator") || c.getTags().contains("component")) {
+			this.appendln("fillcolor=\"green\",");
+		}
+		if (c.getTags().contains("adapter") || c.getTags().contains("adaptee") || c.getTags().contains("target")) {
+			this.append("fillcolor=\"red\",");
 		}
 		this.append("label = \"{");
 	}
@@ -92,15 +98,13 @@ public class GraphVizOutputStream implements IVisitor {
 	public void visit(IDeclaration d) {
 		if (d.getType() == "interface") {
 			this.append("\\<\\<" + d.getType() + "\\>\\>" + "\\n" + Utility.simplifyClassName(d.getName()));
-		}else{
+		} else {
 			this.append(Utility.simplifyClassName(d.getName()));
-			if (d.isSingleton()){
-				this.append("\\n\\<\\<Singleton\\>\\>\\n");
+			for (String s : d.getTags()) {
+				this.append("\\n\\<\\<" + s + "\\>\\>\\n");
 			}
 		}
 	}
-	
-	
 
 	@Override
 	public void visit(IField f) {
@@ -121,24 +125,29 @@ public class GraphVizOutputStream implements IVisitor {
 	@Override
 	public void visit(IRelation r) {
 		String structure = "";
-		switch (r.getType()){
+		switch (r.getType()) {
 		case "extends":
-			structure = " [arrowhead=\"onormal\"]";
+			structure = " [arrowhead=\"onormal\"";
 			break;
 		case "implements":
-			structure = " [arrowhead=\"onormal\",style=\"dashed\"]";
+			structure = " [arrowhead=\"onormal\",style=\"dashed\"";
 			break;
 		case "use":
-			structure = " [arrowhead=\"vee\",style=\"dashed\"]";
+			structure = " [arrowhead=\"vee\",style=\"dashed\"";
 			break;
 		case "association":
-			structure = " [arrowhead=\"vee\"]";
+			structure = " [arrowhead=\"vee\"";
 			break;
 		}
-		if (Utility.isNotBuiltIn(r.getTo())){
-			this.appendln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure);
+		String label= "]";
+		if (r.getDes()!=null){
+			label = ",label=\"" + r.getDes() + "\"]";
 		}
+		
+//		if (Utility.isNotBuiltIn(r.getTo())) {
+			this.appendln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo())
+					+ structure + label);
+//		}
 	}
-
 
 }

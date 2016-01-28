@@ -3,6 +3,7 @@
 2. [Milestone 2](#milestone-2)
 3. [Milestone 3](#milestone-3)
 4. [Milestone 4](#milestone-4)
+5. [Milestone 5](#milestone-5)
 
 
 
@@ -55,10 +56,7 @@ Open a terminal window and navigate to the directory of this project.
 
 #### Run java Code
 ```
-java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
-
 java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
-
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
@@ -114,14 +112,13 @@ Open a terminal window and navigate to the directory of this project.
 #### Run java Code
 ```
 java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
-dot -Tpng output/output.txt > <output-file-name>
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
 
 #### Generate UML diagram
 ```
-dot -T <output/output.txt > <output-file-name>
+dot -Tpng output/output.txt > <output-file-name>
 ```
 please use “.png” as the suffix of the output file.
 
@@ -188,6 +185,9 @@ The output will be written to output/SequenceDiagramOutput.txt
 
 ## Milestone 4
 ### Design of the tool
+
+![UML Diagram](/UML/milestone4_design.png "UML Diagram")
+
 We create one more int field called code in the Declaration class to represent different attributes of certain classes.
 Also, we created one more patternCode class to store the code to determine certain patterns. (i.e. the singleton pattern
 is 1111, see definitions for each digit in that class);
@@ -230,13 +230,61 @@ Open a terminal window and navigate to the directory of this project.
 
 #### Run java Code
 ```
-java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App <Path-to-package>
-
 java -classpath ./bin:./lib/asm-all-5.0.4.jar app.App UML <Path-to-package>
-
 ```
 <Path-to-package> : the path to the directory being read and parsed.
 (this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
 
 
 
+
+
+
+## Milestone 5
+### Design of the tool
+
+
+
+
+
+
+### Who-Did-What
+
+| *Name*         	| *Who did what*                                                                                                        
+|-------------------|----------------------------------------------------------------------------------------
+| Xinyu Xiao     	| Updated the parse logic to draw the sequence diagram & readme file
+|                                                                                           
+| 			     	| Write the parse logic to check if a class is Singleton.           
+|                                                                                            
+| 				 	| Create sample test classes
+|                                                                         
+| Tianjiao Mo    	| Create patternCode class and update content in the Declaration class.
+|
+|				 	| Update logics in both ClassMethodVisitor and ClassFieldVisitor. 
+|
+|				 	| Updated UML diagrams for milestone 3
+|
+| Ashok Vardhan Raja| update the test cases for milestone 4.
+|
+|					| Create UML for singleton class manually
+|
+|					| Updated test cases for Milestone 3
+
+
+### How to use
+
+#### Before start
+Open a terminal window and navigate to the directory of this project.
+
+#### Run java Code
+```
+java -classPath ./bin:./lib/asm-all-5.0.4.jar app.App UMLWP <Path-to-package>
+```
+<Path-to-package> : the path to the directory being read and parsed.
+(this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
+
+#### Generate UML diagram
+```
+dot -Tpng output/output.txt > <output-file-name>
+```
+please use “.png” as the suffix of the output file.

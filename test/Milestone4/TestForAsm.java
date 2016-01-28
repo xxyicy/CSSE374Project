@@ -1,9 +1,5 @@
-<<<<<<< HEAD:test/SingletonTest/Milestone4Test.java
-package SingletonTest;
 
-=======
 package Milestone4;
->>>>>>> 95b4217b1da29b4b4466e5d25ce35c94b592c081:test/Milestone4/TestForAsm.java
 import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
@@ -34,33 +30,14 @@ import impl.Model;
 import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.SDEditOutputStream;
-<<<<<<< HEAD:test/SingletonTest/Milestone4Test.java
 
-public class Milestone4Test {
-
-	private IModel m;
-	private IClass c;
-	private ClassVisitor visitor;
-	private GraphVizOutputStream v;
-
-	@Before
-	public void setUp() throws Exception {
-		m = new Model();
-		c = new Clazz();
-		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c,
-				m);
-		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5,
-				decVisitor, c, m);
-		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-		v = new GraphVizOutputStream();
-	}
-=======
 public class TestForAsm {
 	
 		private IModel m;
 		private IClass c;
 		private ClassVisitor visitor;
 		private GraphVizOutputStream v;
+		
 		@Before
 		public void setUp() throws Exception {
 			m = new Model();
@@ -70,7 +47,6 @@ public class TestForAsm {
 			visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
 			v = new GraphVizOutputStream();
 		}
->>>>>>> 95b4217b1da29b4b4466e5d25ce35c94b592c081:test/Milestone4/TestForAsm.java
 
 	@Test
 	public void TestSingleton() throws IOException {

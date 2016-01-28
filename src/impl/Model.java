@@ -65,8 +65,11 @@ public class Model implements IModel {
 
 	@Override
 	public Set<IRelation> getRelations() {
-//		this.relations = Utility.removeRelationNotInPackage(this);
 		return this.relations;
+	}
+	
+	public void setRelation(Set<IRelation> r){
+		this.relations = r;
 	}
 
 	@Override
