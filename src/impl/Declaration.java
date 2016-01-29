@@ -9,14 +9,14 @@ import api.IDeclaration;
 public class Declaration implements IDeclaration{
 	private String type;
 	private String name;
-	private int patternCode;
+//	private int patternCode;
 	private Set<String> tags;
 	
 	
 	public Declaration(String type, String name){
 		this.type = type;
 		this.name = name;
-		this.patternCode = 0b1000;
+//		this.patternCode = 0b1000;
 		this.tags = new HashSet<String>();
 	}
 	
@@ -25,7 +25,7 @@ public class Declaration implements IDeclaration{
 		String result = "";
 		result += "type " + this.type + "  ";
 		result += "name " + this.name + "  ";
-		result += "code " + this.patternCode + "  ";
+//		result += "code " + this.patternCode + "  ";
 		return result;
 	}
 	
@@ -53,22 +53,22 @@ public class Declaration implements IDeclaration{
 	
 	
 	
-	@Override
-	public void orWithCode(int code){
-		this.patternCode = this.patternCode | code;
-	}
+//	@Override
+//	public void orWithCode(int code){
+//		this.patternCode = this.patternCode | code;
+//	}
 	
 
-	@Override
-	public void andWithCode(int code) {
-		this.patternCode = this.patternCode & code;
-		
-	}
+//	@Override
+//	public void andWithCode(int code) {
+//		this.patternCode = this.patternCode & code;
+//		
+//	}
 
-	@Override
-	public int getCode() {
-		return this.patternCode;
-	}
+//	@Override
+//	public int getCode() {
+//		return this.patternCode;
+//	}
 
 	@Override
 	public Set<String> getTags() {
