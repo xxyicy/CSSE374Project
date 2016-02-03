@@ -109,7 +109,7 @@ public class AdapterDetector implements IDetector {
 
 	private void constructPattern(String adaptee, IClass adapter,
 			IClass ITarget, IModel m) throws IOException {
-	
+		
 		if (adaptee != null && adapter != null && ITarget != null) {
 			System.out.print(adapter.getName() + ":" + ITarget.getName() + ":"
 					+ adaptee);

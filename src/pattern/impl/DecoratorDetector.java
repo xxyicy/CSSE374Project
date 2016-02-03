@@ -22,7 +22,6 @@ public class DecoratorDetector implements IDetector {
 			Set<String> paramsInConst = this.getParamInConst(c);
 			IField f = this.composeSuper(c, m);
 			if (f != null && paramsInConst.contains(f.getType())) {
-				
 				this.detectPatternWithField(f, c, m);
 			} else {
 				IField d = this.composeInterface(c, m);

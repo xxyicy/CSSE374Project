@@ -30,12 +30,13 @@ import asm.ClassMethodVisitor;
 public class App {
 	
 	public static void main(String[] args) throws Exception {
+		IModel m = new Model();	
+		NewbeeFramework nf;
 		
 		if (args.length < 2) {
 			throw new Exception("Not Enough Parameters");
 		}
-		
-		if (args[0].equals("UML")){
+		if (args[0].equals("UML")){		
 			createUmlDiagram(args[1]);
 		}
 		else if(args[0].equals("UMLWP")){
@@ -146,7 +147,7 @@ public class App {
 		for (Class<?> clazz : classes) {
 			cs.add(clazz.getName());
 		}
-
+		
 		
 		GraphVizOutputStream v = new GraphVizOutputStream();
 		IModel m = new Model();	
