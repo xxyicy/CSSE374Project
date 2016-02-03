@@ -26,7 +26,6 @@ public class SingletonDetector implements IDetector {
 	
 	
 	private boolean isSingleton(IClass c){
-//		return (patternCode.Singleton & c.getDeclaration().getCode()) == patternCode.Singleton;
 		String className = c.getName().replaceAll("/", ".");
 		boolean staticField = false;
 		for (IField f: c.getFields()){

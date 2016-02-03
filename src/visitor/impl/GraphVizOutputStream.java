@@ -104,6 +104,11 @@ public class GraphVizOutputStream extends FilterOutputStream {
 					writeln("style=\"filled\"");
 					writeln("fillcolor=\"red\"");
 				}
+				if (c.getTags().contains("Component") || c.getTags().contains("Composite")
+						|| c.getTags().contains("Leaf")) {
+					writeln("style=\"filled\"");
+					writeln("fillcolor=\"yellow\"");
+				}
 				write("label = \"{");
 			}
 		};
