@@ -1,153 +1,240 @@
 package visitor.impl;
 
-import visitor.api.IVisitor;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+
 import api.IClass;
 import api.IDeclaration;
 import api.IField;
 import api.IMethod;
+import api.IModel;
 import api.IRelation;
 import app.Utility;
+import visitor.api.Visitor;
+import visitor.api.ITraverser;
+import visitor.api.IVisitMethod;
+import visitor.api.IVisitor;
+import visitor.api.VisitType;
 
-public class GraphVizOutputStream implements IVisitor {
-	private StringBuffer b;
+public class GraphVizOutputStream extends FilterOutputStream {
+	private final IVisitor visitor;
+	private StringBuffer result;
 
-	public GraphVizOutputStream() {
-		this.b = new StringBuffer();
+	public GraphVizOutputStream(OutputStream out) throws IOException {
+		super(out);
+		this.visitor = new Visitor();
+		this.result = new StringBuffer();
+		this.setupPreVisitClass();
+		this.setupVisitClass();
+		this.setupPostVisitClass();
+		this.setupVisitMethod();
+		this.setupVisitField();
+		this.setupVisitDeclaration();
+		this.setupVisitRelation();
 	}
 
-	@Override
+	private void write(String m) {
+		try {
+			super.write(m.getBytes());
+			result.append(m);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void writeln(String m) {
+		try {
+			super.write(m.getBytes());
+			super.write('\n');
+			result.append(m + "\n");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void write(IModel m) {
+		ITraverser t = (ITraverser) m;
+		t.accept(this.visitor);
+	}
+
 	public String toString() {
-		return this.b.toString();
+		return this.result.toString();
 	}
 
-	public void Start() {
-		this.appendln("digraph G {");
-		this.appendln("fontname = \"Avenir Book\"");
-		this.appendln("fontsize = 10");
+	public void start() {
+		this.writeln("digraph G {");
+		this.writeln("fontname = \"Avenir Book\"");
+		this.writeln("fontsize = 10");
 
-		this.appendln("node [");
-		this.appendln("fontname = \"Avenir Book\"");
-		this.appendln("fontsize = 10");
-		this.appendln("shape = \"record\"");
-		this.appendln("style=\"filled\"");
-		this.appendln("]");
+		this.writeln("node [");
+		this.writeln("fontname = \"Avenir Book\"");
+		this.writeln("fontsize = 10");
+		this.writeln("shape = \"record\"");
+		this.writeln("]");
 
-		this.appendln("edge [");
-		this.appendln("fontname = \"Avenir Book\"");
-		this.appendln("fontsize = 10");
-		this.appendln("]");
+		this.writeln("edge [");
+		this.writeln("fontname = \"Avenir Book\"");
+		this.writeln("fontsize = 10");
+		this.writeln("]");
 	}
 
 	public void end() {
-		this.appendln("}");
-
+		this.writeln("}");
 	}
 
-	private void appendln(String s) {
-		this.b.append(s);
-		this.b.append("\n");
-	}
+	private void setupPreVisitClass() {
+		IVisitMethod command = new IVisitMethod() {
+			@Override
+			public void execute(ITraverser t) {
+				IClass c = (IClass) t;
 
-	private void append(String s) {
-		this.b.append(s);
-	}
-
-	@Override
-	public void visit(IClass c) {
-		this.appendln(Utility.simplifyClassName(c.getName()) + " [");
-		this.appendln("shape=\"record\",");
-		if (c.getTags().contains("Singleton")) {
-			this.appendln("color=\"blue\",");
-		}
-		if (c.getTags().contains("decorator") || c.getTags().contains("component")) {
-			this.appendln("fillcolor=\"green\",");
-		}
-		if (c.getTags().contains("adapter") || c.getTags().contains("adaptee") || c.getTags().contains("target")) {
-			this.append("fillcolor=\"red\",");
-		}
-		this.append("label = \"{");
-	}
-
-	@Override
-	public void visit(IMethod m) {
-		this.append(m.getAccess() + " " + m.getName() + "(");
-
-		if (!m.getParamTypes().isEmpty()) {
-			int count = 0;
-
-			for (String s : m.getParamTypes()) {
-				String tmp = "arg" + count;
-				count++;
-				this.append(tmp + ":" + Utility.simplifyType(s) + ",");
+				writeln(Utility.simplifyClassName(c.getName()) + " [");
+				writeln("shape=\"record\",");
+				if (c.getTags().contains("Singleton")) {
+					writeln("color=\"blue\"");
+				}
+				if (c.getTags().contains("decorator") || c.getTags().contains("component")) {
+					writeln("style=\"filled\"");
+					writeln("fillcolor=\"green\"");
+				}
+				if (c.getTags().contains("adapter") || c.getTags().contains("adaptee")
+						|| c.getTags().contains("target")) {
+					writeln("style=\"filled\"");
+					writeln("fillcolor=\"red\"");
+				}
+				write("label = \"{");
 			}
-			this.b.deleteCharAt(this.b.length() - 1);
-		}
+		};
+		this.visitor.addVisit(VisitType.PreVisit, IClass.class, command);
+	}
 
-		this.append(")" + " : " + Utility.simplifyType(m.getReturnType()));
-		if (!m.getExceptions().isEmpty()) {
-			this.append(" throws ");
-			for (String s : m.getExceptions()) {
-				this.append(Utility.simplifyClassName(s) + ",");
+	private void setupVisitClass() {
+		IVisitMethod command = new IVisitMethod() {
+
+			@Override
+			public void execute(ITraverser t) {
+				write("|");
 			}
-			this.b.deleteCharAt(this.b.length() - 1);
-		}
-		this.append("\\l");
+		};
+		this.visitor.addVisit(VisitType.Visit, IClass.class, command);
 	}
 
-	@Override
-	public void visit(IDeclaration d) {
-		if (d.getType() == "interface") {
-			this.append("\\<\\<" + d.getType() + "\\>\\>" + "\\n" + Utility.simplifyClassName(d.getName()));
-		} else {
-			this.append(Utility.simplifyClassName(d.getName()));
-		}
-		for (String s : d.getTags()) {
-			this.append("\\n\\<\\<" + s + "\\>\\>\\n");
-		}
+	private void setupPostVisitClass() {
+		IVisitMethod command = new IVisitMethod() {
+
+			@Override
+			public void execute(ITraverser t) {
+				writeln("}\"");
+				writeln("];");
+			}
+		};
+		this.visitor.addVisit(VisitType.PostVisit, IClass.class, command);
 	}
 
-	@Override
-	public void visit(IField f) {
-		this.append(f.getAccess() + " " + f.getName() + " : " + Utility.simplifyType(f.getType()) + "\\l");
+	private void setupVisitDeclaration() {
+		IVisitMethod command = new IVisitMethod() {
+
+			@Override
+			public void execute(ITraverser t) {
+				IDeclaration d = (IDeclaration) t;
+				if (d.getType() == "interface") {
+					write("\\<\\<" + d.getType() + "\\>\\>" + "\\n" + Utility.simplifyClassName(d.getName()));
+				} else {
+					write(Utility.simplifyClassName(d.getName()));
+				}
+				for (String s : d.getTags()) {
+					write("\\n\\<\\<" + s + "\\>\\>\\n");
+				}
+			}
+		};
+		this.visitor.addVisit(VisitType.Visit, IDeclaration.class, command);
 	}
 
-	@Override
-	public void postVisit(IClass c) {
-		this.appendln("}\"");
-		this.appendln("];");
+	public void setupVisitMethod() {
+		IVisitMethod command = new IVisitMethod() {
+			@Override
+			public void execute(ITraverser t) {
+				IMethod m = (IMethod) t;
+				write(m.getAccess() + " " + m.getName() + "(");
+
+				if (!m.getParamTypes().isEmpty()) {
+					int count = 0;
+
+					List<String> types = m.getParamTypes();
+					for (int i = 0; i < types.size() - 1; i++) {
+						String s = types.get(i);
+						String tmp = "arg" + count;
+						count++;
+						write(tmp + ":" + Utility.simplifyType(s) + ",");
+					}
+					write("arg" + count + ":" + Utility.simplifyType(types.get(types.size() - 1)));
+				}
+
+				write(")" + " : " + Utility.simplifyType(m.getReturnType()));
+				if (!m.getExceptions().isEmpty()) {
+					write(" throws ");
+					List<String> exceps = m.getExceptions();
+					for (int i = 0; i < exceps.size() - 1; i++) {
+						String s = exceps.get(i);
+						write(Utility.simplifyClassName(s) + ",");
+					}
+					write(Utility.simplifyClassName(exceps.get(exceps.size() - 1)));
+				}
+				write("\\l");
+			}
+		};
+		this.visitor.addVisit(VisitType.Visit, IMethod.class, command);
 	}
 
-	@Override
-	public void visit(String s) {
-		this.append(s);
+	private void setupVisitField() {
+		IVisitMethod command = new IVisitMethod() {
+
+			@Override
+			public void execute(ITraverser t) {
+				IField f = (IField) t;
+				String line = String.format("%s %s : %s\\l", f.getAccess(), f.getName(),
+						Utility.simplifyType(f.getType()));
+				write(line);
+			}
+
+		};
+		this.visitor.addVisit(VisitType.Visit, IField.class, command);
 	}
 
-	@Override
-	public void visit(IRelation r) {
-		String structure = "";
-		switch (r.getType()) {
-		case "extends":
-			structure = " [arrowhead=\"onormal\"";
-			break;
-		case "implements":
-			structure = " [arrowhead=\"onormal\",style=\"dashed\"";
-			break;
-		case "use":
-			structure = " [arrowhead=\"vee\",style=\"dashed\"";
-			break;
-		case "association":
-			structure = " [arrowhead=\"vee\"";
-			break;
-		}
-		String label= "]";
-		if (r.getDes()!=null){
-			label = ",label=\"" + r.getDes() + "\"]";
-		}
-		
-//		if (Utility.isNotBuiltIn(r.getTo())) {
-			this.appendln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo())
-					+ structure + label);
-//		}
+	public void setupVisitRelation() {
+		IVisitMethod command = new IVisitMethod() {
+
+			@Override
+			public void execute(ITraverser t) {
+				IRelation r = (IRelation) t;
+				String structure = "";
+				switch (r.getType()) {
+				case "extends":
+					structure = " [arrowhead=\"onormal\"";
+					break;
+				case "implements":
+					structure = " [arrowhead=\"onormal\",style=\"dashed\"";
+					break;
+				case "use":
+					structure = " [arrowhead=\"vee\",style=\"dashed\"";
+					break;
+				case "association":
+					structure = " [arrowhead=\"vee\"";
+					break;
+				}
+				String label = "]";
+				if (r.getDes() != null) {
+					label = ",label=\"" + r.getDes() + "\"]";
+				}
+
+				writeln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure
+						+ label);
+			}
+
+		};
+		this.visitor.addVisit(VisitType.Visit, IRelation.class, command);
 	}
 
 }

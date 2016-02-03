@@ -2,8 +2,8 @@ package Milestone4;
 
 import static org.junit.Assert.*;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +13,7 @@ import org.objectweb.asm.Opcodes;
 
 import api.IClass;
 import api.IModel;
+import app.Utility;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
@@ -37,7 +38,7 @@ public class TestForGraphViz {
 		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
 		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
 		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-		v = new GraphVizOutputStream();
+		v = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		d = new SingletonDetector();
 	}
 
@@ -46,39 +47,41 @@ public class TestForGraphViz {
 		String className = "sample.Singleton1";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		
+
 		m.addClass(c);
 		d.detect(m);
-		v.Start();
-		m.accept(v);
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+		v.start();
+		v.write(m);
 		v.end();
-		
+
 		System.out.println(v.toString());
-		
+
 		StringBuffer expectedResult = new StringBuffer();
 		expectedResult.append("digraph G {\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
 		expectedResult.append("fontsize = 10\n");
 		expectedResult.append("node [\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
-		expectedResult.append("shape = \"record\"\n");	
-		expectedResult.append("]\n");	
-		expectedResult.append("edge [\n");	
-		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("shape = \"record\"\n");
 		expectedResult.append("]\n");
-		
-		expectedResult.append("Singleton1 [\n");	
-		expectedResult.append("shape=\"record\",\n");	
+		expectedResult.append("edge [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("]\n");
+
+		expectedResult.append("Singleton1 [\n");
+		expectedResult.append("shape=\"record\",\n");
 		expectedResult.append("color=\"blue\"\n");
-		expectedResult.append("label = \"{Singleton1\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton1\\l|- init() : void\\l+ getInstance() : Singleton1\\l}\"\n"
-				+ "];\n");	
-			expectedResult.append("Singleton1 -> Singleton1 [arrowhead=\"vee\"]\n");	
+		expectedResult
+				.append("label = \"{Singleton1\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton1\\l|- init() : void\\l+ getInstance() : Singleton1\\l}\"\n"
+						+ "];\n");
+		expectedResult.append("Singleton1 -> Singleton1 [arrowhead=\"vee\"]\n");
 		expectedResult.append("}\n");
-		
-		assertEquals(expectedResult.toString(),v.toString());
-		
+
+		assertEquals(expectedResult.toString(), v.toString());
+
 	}
 
 	@Test
@@ -86,75 +89,79 @@ public class TestForGraphViz {
 		String className = "sample.Singleton2";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		
+
 		m.addClass(c);
 		d.detect(m);
-		v.Start();
-		m.accept(v);
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+		v.start();
+		v.write(m);
 		v.end();
-		
+
 		System.out.println(v.toString());
-		
+
 		StringBuffer expectedResult = new StringBuffer();
 		expectedResult.append("digraph G {\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
 		expectedResult.append("fontsize = 10\n");
 		expectedResult.append("node [\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
-		expectedResult.append("shape = \"record\"\n");	
-		expectedResult.append("]\n");	
-		expectedResult.append("edge [\n");	
-		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("shape = \"record\"\n");
 		expectedResult.append("]\n");
-		
-		expectedResult.append("Singleton2 [\n");	
-		expectedResult.append("shape=\"record\",\n");	
+		expectedResult.append("edge [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("]\n");
+
+		expectedResult.append("Singleton2 [\n");
+		expectedResult.append("shape=\"record\",\n");
 		expectedResult.append("color=\"blue\"\n");
-		expectedResult.append("label = \"{Singleton2\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton2\\l|- init() : void\\l+ getInstance() : Singleton2\\l}\"\n"
-				+ "];\n");	
-			expectedResult.append("Singleton2 -> Singleton2 [arrowhead=\"vee\"]\n");	
+		expectedResult
+				.append("label = \"{Singleton2\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton2\\l|- init() : void\\l+ getInstance() : Singleton2\\l}\"\n"
+						+ "];\n");
+		expectedResult.append("Singleton2 -> Singleton2 [arrowhead=\"vee\"]\n");
 		expectedResult.append("}\n");
-		
-		assertEquals(expectedResult.toString(),v.toString());
+
+		assertEquals(expectedResult.toString(), v.toString());
 	}
-	
+
 	@Test
 	public void testSingleton3() throws Exception {
 		String className = "sample.Singleton3";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		
+
 		m.addClass(c);
 		d.detect(m);
-		v.Start();
-		m.accept(v);
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+		v.start();
+		v.write(m);
 		v.end();
-		
+
 		StringBuffer expectedResult = new StringBuffer();
 		expectedResult.append("digraph G {\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
 		expectedResult.append("fontsize = 10\n");
 		expectedResult.append("node [\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
-		expectedResult.append("shape = \"record\"\n");	
-		expectedResult.append("]\n");	
-		expectedResult.append("edge [\n");	
-		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("shape = \"record\"\n");
 		expectedResult.append("]\n");
-		
-		expectedResult.append("Singleton3 [\n");	
-		expectedResult.append("shape=\"record\",\n");	
+		expectedResult.append("edge [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("]\n");
+
+		expectedResult.append("Singleton3 [\n");
+		expectedResult.append("shape=\"record\",\n");
 		expectedResult.append("color=\"blue\"\n");
-		expectedResult.append("label = \"{Singleton3\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton3\\l|- init() : void\\l+ getInstance() : Singleton3\\l}\"\n"
-				+ "];\n");	
-		expectedResult.append("Singleton3 -> Singleton3 [arrowhead=\"vee\"]\n");	
+		expectedResult
+				.append("label = \"{Singleton3\\n\\<\\<Singleton\\>\\>\\n|- uniqueInstance : Singleton3\\l|- init() : void\\l+ getInstance() : Singleton3\\l}\"\n"
+						+ "];\n");
+		expectedResult.append("Singleton3 -> Singleton3 [arrowhead=\"vee\"]\n");
 		expectedResult.append("}\n");
-		
-		assertEquals(expectedResult.toString(),v.toString());
+
+		assertEquals(expectedResult.toString(), v.toString());
 	}
 
 	@Test
@@ -162,32 +169,32 @@ public class TestForGraphViz {
 		String className = "java.lang.Runtime";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		
+
 		m.addClass(c);
 		d.detect(m);
-		v.Start();
-		m.accept(v);
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+		v.start();
+		v.write(m);
 		v.end();
-	
+
 		StringBuffer expectedResult = new StringBuffer();
 		expectedResult.append("digraph G {\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
 		expectedResult.append("fontsize = 10\n");
 		expectedResult.append("node [\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
-		expectedResult.append("shape = \"record\"\n");	
-		expectedResult.append("]\n");	
-		expectedResult.append("edge [\n");	
-		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("shape = \"record\"\n");
 		expectedResult.append("]\n");
-		
-		expectedResult.append("Runtime [\n");	
-		expectedResult.append("shape=\"record\",\n");	
+		expectedResult.append("edge [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("]\n");
+
+		expectedResult.append("Runtime [\n");
+		expectedResult.append("shape=\"record\",\n");
 		expectedResult.append("color=\"blue\"\n");
-		expectedResult.append("label = \"{Runtime\\n\\<\\<Singleton\\>\\>\\n|- "
-				+ "currentRuntime : Runtime\\l|+ "
+		expectedResult.append("label = \"{Runtime\\n\\<\\<Singleton\\>\\>\\n|- " + "currentRuntime : Runtime\\l|+ "
 				+ "getRuntime() : Runtime\\l- init() : void\\l+ exit(arg0:int) : void\\l+ "
 				+ "addShutdownHook(arg0:Thread) : void\\l+ removeShutdownHook(arg0:Thread) : boolean\\l+ "
 				+ "halt(arg0:int) : void\\l+ runFinalizersOnExit(arg0:boolean) : void\\l+ "
@@ -202,41 +209,41 @@ public class TestForGraphViz {
 				+ "load(arg0:String) : void\\l load0(arg0:Class,arg1:String) : void\\l+ loadLibrary(arg0:String) : void\\l "
 				+ "loadLibrary0(arg0:Class,arg1:String) : void\\l+ "
 				+ "getLocalizedInputStream(arg0:InputStream) : InputStream\\l+ "
-				+ "getLocalizedOutputStream(arg0:OutputStream) : OutputStream\\l clinit() : void\\l}\"\n"
-				+ "];\n");	
-		expectedResult.append("Runtime -> long [arrowhead=\"vee\",style=\"dashed\"]\n");	
+				+ "getLocalizedOutputStream(arg0:OutputStream) : OutputStream\\l clinit() : void\\l}\"\n" + "];\n");
+		expectedResult.append("Runtime -> Runtime [arrowhead=\"vee\"]\n");
 		expectedResult.append("}\n");
-		
-		assertEquals(expectedResult.toString(),v.toString());
+
+		assertEquals(expectedResult.toString(), v.toString());
 	}
-	
+
 	@Test
 	public void testSingleton5() throws Exception {
 		String className = "java.awt.Desktop";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		
+
 		m.addClass(c);
 		d.detect(m);
-		v.Start();
-		m.accept(v);
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+		v.start();
+		v.write(m);
 		v.end();
-		
+
 		StringBuffer expectedResult = new StringBuffer();
 		expectedResult.append("digraph G {\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
 		expectedResult.append("fontsize = 10\n");
 		expectedResult.append("node [\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
-		expectedResult.append("shape = \"record\"\n");	
-		expectedResult.append("]\n");	
-		expectedResult.append("edge [\n");	
-		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("shape = \"record\"\n");
 		expectedResult.append("]\n");
-		
-		expectedResult.append("Desktop [\n");	
+		expectedResult.append("edge [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("]\n");
+
+		expectedResult.append("Desktop [\n");
 		expectedResult.append("shape=\"record\",\n");
 		expectedResult.append("label = \"{Desktop|- peer : DesktopPeer\\l|- "
 				+ "init() : void\\l+ getDesktop() : Desktop\\l+ isDesktopSupported() : boolean\\l+ "
@@ -245,54 +252,54 @@ public class TestForGraphViz {
 				+ "open(arg0:File) : void throws IOException\\l+ edit(arg0:File) : void throws IOException\\l+ "
 				+ "print(arg0:File) : void throws IOException\\l+ browse(arg0:URI) : void throws IOException\\l+ "
 				+ "mail() : void throws IOException\\l+ mail(arg0:URI) : void throws IOException\\l- "
-				+ "checkExec() : void throws SecurityException\\l}\"\n"
-				+ "];\n");	
+				+ "checkExec() : void throws SecurityException\\l}\"\n" + "];\n");
+		expectedResult.append("Desktop -> Desktop [arrowhead=\"vee\",style=\"dashed\"]\n");
 		expectedResult.append("}\n");
-		
-		assertEquals(expectedResult.toString(),v.toString());
+
+		assertEquals(expectedResult.toString(), v.toString());
 	}
-	
+
 	@Test
 	public void testSingleton6() throws Exception {
 		String className = "java.io.FilterInputStream";
 		ClassReader reader = new ClassReader(className);
 		reader.accept(visitor, ClassReader.EXPAND_FRAMES);
-		
+
 		m.addClass(c);
 		d.detect(m);
-		v.Start();
-		m.accept(v);
+		m.setRelation(Utility.removeRelationNotInPackage(m));
+		v.start();
+		v.write(m);
 		v.end();
-		
+
 		System.out.println(v.toString());
-		
+
 		StringBuffer expectedResult = new StringBuffer();
 		expectedResult.append("digraph G {\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
 		expectedResult.append("fontsize = 10\n");
 		expectedResult.append("node [\n");
 		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
-		expectedResult.append("shape = \"record\"\n");	
-		expectedResult.append("]\n");	
-		expectedResult.append("edge [\n");	
-		expectedResult.append("fontname = \"Avenir Book\"\n");
-		expectedResult.append("fontsize = 10\n");	
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("shape = \"record\"\n");
 		expectedResult.append("]\n");
-		
-		expectedResult.append("FilterInputStream [\n");	
+		expectedResult.append("edge [\n");
+		expectedResult.append("fontname = \"Avenir Book\"\n");
+		expectedResult.append("fontsize = 10\n");
+		expectedResult.append("]\n");
+
+		expectedResult.append("FilterInputStream [\n");
 		expectedResult.append("shape=\"record\",\n");
-		expectedResult.append("label = \"{FilterInputStream|# in : "
-				+ "InputStream\\l|# init(arg0:InputStream) : void\\l+ "
-				+ "read() : int throws IOException\\l+ read(arg0:byte[]) : int throws IOException\\l+ "
-				+ "read(arg0:byte[],arg1:int,arg2:int) : int throws IOException\\l+ skip(arg0:long) : long throws IOException\\l+ "
-				+ "available() : int throws IOException\\l+ close() : void throws IOException\\l+ mark(arg0:int) : void\\l+ "
-				+ "reset() : void throws IOException\\l+ markSupported() : boolean\\l}\"\n"
-				+ "];\n");	
-		expectedResult.append("FilterInputStream -> long [arrowhead=\"vee\",style=\"dashed\"]\n");
-		expectedResult.append("FilterInputStream -> byte[] [arrowhead=\"vee\",style=\"dashed\"]\n");
+		expectedResult
+				.append("label = \"{FilterInputStream|# in : " + "InputStream\\l|# init(arg0:InputStream) : void\\l+ "
+						+ "read() : int throws IOException\\l+ read(arg0:byte[]) : int throws IOException\\l+ "
+						+ "read(arg0:byte[],arg1:int,arg2:int) : int throws IOException\\l+ skip(arg0:long) : long throws IOException\\l+ "
+						+ "available() : int throws IOException\\l+ close() : void throws IOException\\l+ mark(arg0:int) : void\\l+ "
+						+ "reset() : void throws IOException\\l+ markSupported() : boolean\\l}\"\n" + "];\n");
+//		expectedResult.append("FilterInputStream -> long [arrowhead=\"vee\",style=\"dashed\"]\n");
+//		expectedResult.append("FilterInputStream -> byte[] [arrowhead=\"vee\",style=\"dashed\"]\n");
 		expectedResult.append("}\n");
-		assertEquals(expectedResult.toString(),v.toString());
+		assertEquals(expectedResult.toString(), v.toString());
 	}
 
 }

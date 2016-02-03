@@ -95,7 +95,7 @@ public class ClassMethodVisitorTest {
 		Set<String> useNames = new HashSet<String>();
 		for (IRelation r: relations){
 			if (r.getType().equals("use")){
-				System.out.println(r.getTo());
+//				System.out.println(r.getTo());
 				useNames.add(r.getTo());
 			}
 		}
@@ -113,13 +113,14 @@ public class ClassMethodVisitorTest {
 		Set<String> useNames = new HashSet<String>();
 		for (IRelation r: relations){
 			if (r.getType().equals("use")){
-//				System.out.println(r.getTo());
+				System.out.println(r.getTo());
 				useNames.add(r.getTo());
 			}
 		}
-		assertTrue(useNames.contains("sample.AbstractComponent"));
-		assertTrue(useNames.contains("sample/Button"));
-		assertTrue(useNames.contains("int"));
+		assertTrue(useNames.contains("java.util.List"));
+		assertTrue(useNames.contains("java.awt.Graphics2D"));
+		assertTrue(useNames.contains("boolean"));
+		assertTrue(useNames.contains("sample/AbstractComponent"));
 
 	}
 }

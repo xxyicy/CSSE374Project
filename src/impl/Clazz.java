@@ -1,7 +1,6 @@
 package impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -18,18 +17,18 @@ public class Clazz implements IClass {
 	
 	@Override
 	public void accept(IVisitor v) {
-		v.visit(this);
+		v.preVisit(this);
 		this.declaration.accept(v);
 		
 		if(!this.fields.isEmpty()){
-			v.visit("|");
+			v.visit(this);
 			for(IField f : this.fields){
 				f.accept(v);
 			}
 		}
 		
 		if(!this.methods.isEmpty()){
-			v.visit("|");
+			v.visit(this);
 			for(IMethod m : this.methods){
 				m.accept(v);
 			}

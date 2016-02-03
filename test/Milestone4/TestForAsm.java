@@ -2,13 +2,10 @@ package Milestone4;
 
 import static org.junit.Assert.*;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
+
+import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,22 +14,15 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 import api.IClass;
-import api.IMethod;
 import api.IModel;
-import app.ClassFinder;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
-import asm.SequenceMethodVisitor;
 import impl.Clazz;
-import impl.Method;
 import impl.Model;
 import pattern.api.IDetector;
 import pattern.impl.SingletonDetector;
-import visitor.api.ISDVisitor;
 import visitor.impl.GraphVizOutputStream;
-
-import visitor.impl.SDEditOutputStream;
 
 public class TestForAsm {
 
@@ -48,7 +38,7 @@ public class TestForAsm {
 		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
 		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
 		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-		v = new GraphVizOutputStream();
+		v = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 	}
 
 	@Test
