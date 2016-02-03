@@ -2,6 +2,7 @@ package Milestone5;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class TestForAsm {
 		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
 		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
 		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-		v = new GraphVizOutputStream();
+		v = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 	}
 
 	@Test

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 digraph G {
 fontname = "Avenir Book"
 fontsize = 10
@@ -89,3 +90,5 @@ EncryptionOutputStream -> OutputStream [arrowhead="vee",style="dashed"]
 OutputStream -> Closeable [arrowhead="onormal",style="dashed"]
 SubstitutionCipher -> IEncryption [arrowhead="onormal",style="dashed"]
 }
+=======
+>>>>>>> 20a766af84d2bc610c914c2fe94f62cf36de1a90

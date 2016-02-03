@@ -51,12 +51,12 @@ public class ClassFieldVisitor extends ClassVisitor {
 		boolean isStatic = (access & Opcodes.ACC_STATIC) != 0;
 		
 		
-		String className = this.c.getName().replaceAll("/", ".");
+//		String className = this.c.getName().replaceAll("/", ".");
 	
 		
-		if(  isStatic && acc.equals("-") && className.equals(type) ){
-			this.c.getDeclaration().orWithCode(4);
-		}
+//		if(  isStatic && acc.equals("-") && className.equals(type) ){
+//			this.c.getDeclaration().orWithCode(4);
+//		}
 		
 		IField f = new Field(name, type, acc);
 		f.setStatic(isStatic);

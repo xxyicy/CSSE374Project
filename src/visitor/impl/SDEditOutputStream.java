@@ -1,5 +1,8 @@
 package visitor.impl;
 
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,36 +10,74 @@ import java.util.Map;
 
 import api.IMethod;
 import app.Utility;
-import visitor.api.ISDVisitor;
+import visitor.api.ITraverser;
+import visitor.api.IVisitMethod;
+import visitor.api.IVisitor;
+import visitor.api.VisitType;
+import visitor.api.Visitor;
 
-public class SDEditOutputStream extends ISDVisitor {
+public class SDEditOutputStream extends FilterOutputStream {
+	private final IVisitor visitor;
 	private Map<String, String> declaration;
 	private List<String> existedClass;
 	private StringBuffer classes;
 	private StringBuffer content;
 	private int count = 0;
 
-	public SDEditOutputStream() {
+	public SDEditOutputStream(OutputStream out) throws IOException {
+		super(out);
+		this.visitor = new Visitor();
 		this.declaration = new HashMap<String, String>();
 		this.existedClass = new ArrayList<String>();
 		this.content = new StringBuffer();
 		this.classes = new StringBuffer();
+		this.setupVisitMethod();
 	}
 
-	@Override
-	public String toString() {
-		return this.classes.toString() + "\n" + this.content.toString();
-		
-	}
-
-	@Override
-	public void visit(IMethod m) {
-		addClassName(m.getClassName(), m.getName());
-
-		if (m.getParent() != null) {
-			addMessage(m.getParent(), m);
+	private void write(String m) {
+		try {
+			super.write(m.getBytes());
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
+	}
 
+	private void writeln(String m) {
+		try {
+			super.write(m.getBytes());
+			super.write('\n');
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void write(IMethod m) {
+		ITraverser t = (ITraverser) m;
+		t.accept(this.visitor);
+		write(classes.toString());
+		writeln("");
+		write(content.toString());
+	}
+
+	private void setupVisitMethod() {
+		IVisitMethod command = new IVisitMethod() {
+
+			@Override
+			public void execute(ITraverser t) {
+				IMethod m = (IMethod) t;
+				addClassName(m.getClassName(), m.getName());
+
+				if (m.getParent() != null) {
+					addMessage(m.getParent(), m);
+				}
+			}
+
+		};
+		this.visitor.addVisit(VisitType.Visit, IMethod.class, command);
+	}
+
+	public String toString() {
+		return classes.toString() + "\n" + content.toString();
 	}
 
 	private void addClassName(String className, String methodName) {
@@ -45,7 +86,7 @@ public class SDEditOutputStream extends ISDVisitor {
 
 			if (methodName.equals("init")) {
 				classes.append("/");
-			}else{
+			} else {
 				existedClass.add(simplifiedClassName);
 			}
 			String newName = "arg" + count;
@@ -58,7 +99,7 @@ public class SDEditOutputStream extends ISDVisitor {
 	private void addMessage(IMethod caller, IMethod callee) {
 		String simplifiedCallerClassName = Utility.simplifyClassName(caller.getClassName());
 		String simplifiedCalleeClassName = Utility.simplifyClassName(callee.getClassName());
-		
+
 		if (callee.getName().equals("init")) {
 			String message = this.declaration.get(simplifiedCalleeClassName) + "." + "new\n";
 			if (!this.content.toString().contains(message) && !this.existedClass.contains(simplifiedCalleeClassName)) {

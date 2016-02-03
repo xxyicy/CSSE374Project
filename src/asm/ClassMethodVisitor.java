@@ -48,21 +48,23 @@ public class ClassMethodVisitor extends ClassVisitor {
 		
 		
 		
-		if(name.equals("<init>") && acc.equals("-")){
-			
-			this.c.getDeclaration().orWithCode(0b0001);
-		}
+//		if(name.equals("<init>") && acc.equals("-")){
+//			
+//			this.c.getDeclaration().orWithCode(0b0001);
+//		}
+//		
+//		if(name.equals("<init>") && acc.equals("+")){
+//			
+//			this.c.getDeclaration().andWithCode(0b0111);
+//		}
 		
-		if(name.equals("<init>") && acc.equals("+")){
-			
-			this.c.getDeclaration().andWithCode(0b0111);
-		}
+//		String className = this.c.getName().replaceAll("/", ".");
 		
-		String className = this.c.getName().replaceAll("/", ".");
-		
-		if(acc.equals("+") && type.equals(className) && (access & Opcodes.ACC_STATIC) != 0 ){
-			this.c.getDeclaration().orWithCode(0b0010);
-		}
+
+//		if(acc.equals("+") && type.equals(className) && (access & Opcodes.ACC_STATIC) != 0 ){
+//		
+//			this.c.getDeclaration().orWithCode(0b0010);
+//		}
 		
 		
 		IRelation typeUse = new Relation(this.c.getName(), type, "use");
@@ -80,6 +82,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		
 		String self = this.c.getName();
 		IMethod method = new Method(name, type, acc, args, exps,this.c.getName());
+		method.setStatic((access & Opcodes.ACC_STATIC) != 0);
 		this.c.addMethod(method);
 		
 		MethodVisitor instMv = new MethodVisitor(Opcodes.ASM5, toDecorate) {

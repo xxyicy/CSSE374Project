@@ -1,20 +1,11 @@
 package forTest;
 
-import api.IClass;
-import api.IDeclaration;
-import api.IField;
-import api.IMethod;
-import api.IRelation;
-
 public interface IVisitor {
-	void visit(IClass c);
-	void visit(IRelation r);
+	public void preVisit(ITraverser t);
+	public void visit(ITraverser t);
+	public void postVisit(ITraverser t);
 	
-	void visit(String s);
+	public void addVisit(VisitType visitType, Class<?> clazz, IVisitMethod m);
+	public void removeVisit(VisitType visitType, Class<?> clazz);
 	
-	
-	void visit(IMethod m);
-	void visit(IDeclaration d);
-	void visit(IField f);
-	void postVisit(IClass c);
 }

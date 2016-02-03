@@ -2,13 +2,10 @@ package Milestone3;
 
 import static org.junit.Assert.*;
 
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +17,6 @@ import api.IMethod;
 import app.Utility;
 import asm.SequenceMethodVisitor;
 import impl.Method;
-import visitor.api.ISDVisitor;
 import visitor.impl.SDEditOutputStream;
 
 public class Milestone3TestASMPARSE {
@@ -31,7 +27,8 @@ public class Milestone3TestASMPARSE {
 	public void AppTTest() {
 		args = new String[100];
 		args1 = new String[100];
-		// args[1]="SD" ;
+		Utility.APP_TYPE = Utility.APP_SD;
+//		args[1] = "SD";
 		args[0] = "app.App.main(String[] args)";
 		args[1] = "4";
 		args1[0] = "sample.TestClass2.testMethod1(AbstractComponent c)";
@@ -107,9 +104,10 @@ public class Milestone3TestASMPARSE {
 
 		readClassAndMethods(startMethod, depth, classesRead);
 
-		ISDVisitor v = new SDEditOutputStream();
-		startMethod.accept(v);
+		SDEditOutputStream v = new SDEditOutputStream(new FileOutputStream("./output/output.txt"));
+		v.write(startMethod);
 		System.out.println(v.toString());
+		System.out.println(startMethod.printCallChains(0));
 		StringBuffer result = new StringBuffer();
 		result.append("arg0:TestClass2\n");
 		result.append("/arg1:ArrayList\n");
@@ -122,7 +120,7 @@ public class Milestone3TestASMPARSE {
 		result.append("arg0:arg2.new\n");
 		result.append("arg0:arg3.new\n");
 
-		assertEquals(result.toString(),v.toString());
+		assertEquals(result.toString(), v.toString());
 
 	}
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public class TestClass2 extends TestClass1{
-//	private TestClass1 testField;
+	private TestClass1 testField;
 	public static int count;
 	private List<Button> buttons;
 	

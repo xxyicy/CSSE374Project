@@ -6,10 +6,8 @@ import app.Utility;
 import visitor.api.IVisitor;
 import api.IMethod;
 
-
-
 public class Method implements IMethod {
-	
+
 	private String name;
 	private String type;
 	private String access;
@@ -19,10 +17,9 @@ public class Method implements IMethod {
 	private List<IMethod> calls;
 	private IMethod parent;
 	private boolean isStatic;
-	
-	
-	
-	public Method(String name,String type,String access,List<String> params, List<String> exceptions,String className){
+
+	public Method(String name, String type, String access, List<String> params, List<String> exceptions,
+			String className) {
 		this.name = name;
 		this.type = type;
 		this.access = access;
@@ -31,26 +28,24 @@ public class Method implements IMethod {
 		this.className = className;
 		this.calls = new ArrayList<IMethod>();
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		String result = "";
 		result += "type:" + this.type + "  ";
 		result += "name:" + this.name + "  ";
-		result += "access:" + this.access + "  "; 
+		result += "access:" + this.access + "  ";
 		result += "params:" + this.params + "  ";
 		result += "exceps:" + this.exceptions;
 		return result;
 	}
-	
-	
+
 	@Override
 	public String getName() {
 		String s = this.name;
 		s = s.replaceAll("<", "");
 		s = s.replaceAll(">", "");
-		
+
 		return s;
 	}
 
@@ -67,7 +62,7 @@ public class Method implements IMethod {
 	@Override
 	public List<String> getExceptions() {
 		return exceptions;
-		
+
 	}
 
 	@Override
@@ -78,19 +73,18 @@ public class Method implements IMethod {
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
-		if (Utility.APP_TYPE == Utility.APP_SD){
-			for (IMethod m: this.calls){
+		if (Utility.APP_TYPE == Utility.APP_SD) {
+			// v.postVisit(this);
+			for (IMethod m : this.calls) {
 				m.accept(v);
 			}
 		}
 	}
 
-
 	@Override
 	public String getClassName() {
 		return this.className;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -102,7 +96,6 @@ public class Method implements IMethod {
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -127,8 +120,8 @@ public class Method implements IMethod {
 			if (other.params != null)
 				return false;
 		}
-		for (int i=0;i<params.size();i++){
-			if (!params.get(i).equals(other.params)){
+		for (int i = 0; i < params.size(); i++) {
+			if (!params.get(i).equals(other.params)) {
 				return false;
 			}
 		}
@@ -140,44 +133,35 @@ public class Method implements IMethod {
 		return true;
 	}
 
-
 	@Override
 	public List<IMethod> getCalls() {
 		return this.calls;
 	}
 
-
-
-	// add next methods called by this method 
+	// add next methods called by this method
 	@Override
 	public void addCall(IMethod call) {
 		this.calls.add(call);
 	}
-
-
-
-
 
 	@Override
 	public void setClassName(String c) {
 		this.className = c;
 	}
 
-
 	@Override
 	public void setReturnType(String c) {
 		this.type = c;
 	}
 
-
 	@Override
 	public boolean compareMethod(IMethod m) {
-		if(this.className.equals(m.getClassName()) && this.name.equals(m.getName()) && this.params.size() ==
-				m.getParamTypes().size()){
-			for (int i =0; i< this.params.size(); i++){
+		if (this.className.equals(m.getClassName()) && this.name.equals(m.getName())
+				&& this.params.size() == m.getParamTypes().size()) {
+			for (int i = 0; i < this.params.size(); i++) {
 				String thisParam = Utility.simplifyClassName(this.params.get(i));
 				String mParam = Utility.simplifyClassName(m.getParamTypes().get(i));
-				if(!thisParam.equals(mParam)){
+				if (!thisParam.equals(mParam)) {
 					return false;
 				}
 			}
@@ -186,42 +170,37 @@ public class Method implements IMethod {
 		return false;
 	}
 
-
 	public String printCallChains(int depth) {
 		String result = "";
-//		for(int i =0;i<depth;i++){
-//			result += "  ";
-//		}
-//		if(this.parent != null){
-//			result += this.parent.getName()+" : ";
-//		}
-//		result += "->";
-//		result += this.className+" "+this.name+"()\n";
-//		for(IMethod m : this.calls){
-//			result += m.printCallChains(depth +1);
-//		}
+		// for(int i =0;i<depth;i++){
+		// result += " ";
+		// }
+		// if(this.parent != null){
+		// result += this.parent.getName()+" : ";
+		// }
+		// result += "->";
+		// result += this.className+" "+this.name+"()\n";
+		// for(IMethod m : this.calls){
+		// result += m.printCallChains(depth +1);
+		// }
 		return result;
 	}
-
 
 	@Override
 	public void setParent(IMethod parent) {
 		this.parent = parent;
-		
-	}
 
+	}
 
 	@Override
 	public IMethod getParent() {
 		return this.parent;
 	}
 
-
 	@Override
 	public boolean isStatic() {
 		return this.isStatic;
 	}
-
 
 	@Override
 	public void setStatic(boolean s) {

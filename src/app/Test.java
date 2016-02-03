@@ -3,6 +3,7 @@ package app;
 import impl.Clazz;
 import impl.Model;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,57 +19,50 @@ import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
 
 public class Test {
+	private static GraphVizOutputStream v;
+
 	public static void main(String[] args) throws Exception {
-		
+
 		if (args.length == 0) {
 			throw new Exception("No given path");
 		}
 
-		List<Class<?>> classes = ClassFinder.find(args[0]);		
+		List<Class<?>> classes = ClassFinder.find(args[0]);
 		List<String> cs = new ArrayList<>();
 		for (Class<?> clazz : classes) {
 			cs.add(clazz.getName());
 		}
-		
-		
-		GraphVizOutputStream v = new GraphVizOutputStream();
+
+		v = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		IModel m = new Model();
-		
-		
-		v.Start();
-		
-		
-		for (String clazz : cs){
-			ClassReader reader=new ClassReader(clazz);
-			
+
+		v.start();
+
+		for (String clazz : cs) {
+			ClassReader reader = new ClassReader(clazz);
+
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,c,m);
-			
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
+
 			// DECORATE declaration visitor with field visitor
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor,c,m);
-			
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
+
 			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor,c,m);
-			
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+
 			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-			
-			
-			
+
 			m.addClass(c);
-			
+
 		}
-		
+
 		Utility.removeRelationNotInPackage(m);
-		m.accept(v);
-		
+		v.write(m);
+
 		v.end();
-		
-		
-		
+
 		System.out.println(m);
 
-		
-		
 	}
 }
