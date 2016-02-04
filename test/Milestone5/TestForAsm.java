@@ -331,7 +331,7 @@ public class TestForAsm {
 	@Test
 	public void TestAdapter2() throws Exception {
 		List<String> cs = new ArrayList<>();
-		cs.add("problem/client/Adapter");
+		cs.add("problem/client/IteratorToEnumerationAdapter");
 
 		IModel m = new Model();
 
@@ -364,12 +364,19 @@ public class TestForAsm {
 		System.out.println("patterns: " + m.getPatterns());
 		for (IClass c : m.getClasses()) {
 			 System.out.println(c.getName() +"  -->ad");
-			if (c.getName().equals("problem/client/Adapter")) {
+			if (c.getName().equals("problem/client/IteratorToEnumerationAdapter")) {
 				assertEquals(true, c.getTags().contains("adapter"));
 			}
+			if (c.getName().equals("java/util/Enumeration")) {
+				assertEquals(false, c.getTags().contains("adapter"));
+			}
+			if (c.getName().equals("java/util/Iterator")) {
+				assertEquals(true, c.getTags().contains("adaptee"));
+			}
+			
 
 		}
 
 	}
-
+	
 }
