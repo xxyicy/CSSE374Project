@@ -7,6 +7,7 @@ import java.util.List;
 
 public class CompositeSprite extends AbstractSprite {
 	List<ISprite> children;
+	
 
 	public CompositeSprite(double x, double y, double width, double height) {
 		super(x, y, width, height);
@@ -22,6 +23,7 @@ public class CompositeSprite extends AbstractSprite {
 	public void add(ISprite s) {
 		children.add(s);
 	}
+	
 
 	@Override
 	public void remove(ISprite s) {

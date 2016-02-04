@@ -60,12 +60,12 @@ public class App {
 
 		
 		//Adding detectors to the framework
-		IDetector d = new SingletonDetector();
-		nf.addDetector(d);
-		IDetector decorator = new DecoratorDetector();
-		nf.addDetector(decorator);
-		IDetector adapter = new AdapterDetector();
-		nf.addDetector(adapter);
+//		IDetector d = new SingletonDetector();
+//		nf.addDetector(d);
+//		IDetector decorator = new DecoratorDetector();
+//		nf.addDetector(decorator);
+//		IDetector adapter = new AdapterDetector();
+//		nf.addDetector(adapter);
 		
 		IDetector composite = new CompositeDetector();
 		nf.addDetector(composite);
