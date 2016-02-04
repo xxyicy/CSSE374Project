@@ -136,7 +136,7 @@ public class TestForAsm {
 	}
 
 	@Test
-	public void TestDecorator3() throws Exception {
+	public void TestAdapter() throws Exception {
 		List<String> cs = new ArrayList<>();
 		cs.add("java.awt.event.MouseAdapter");
 
@@ -190,7 +190,7 @@ public class TestForAsm {
 	}
 
 	@Test
-	public void TestDecorator4() throws Exception {
+	public void TestDecorator3() throws Exception {
 		List<String> cs = new ArrayList<>();
 		cs.add("headfirst/decorator/starbuzz/Soy");
 
@@ -235,4 +235,148 @@ public class TestForAsm {
 
 	}
 
+	@Test
+	public void TestDecorator4() throws Exception {
+		List<String> cs = new ArrayList<>();
+		cs.add("headfirst/decorator/starbuzz/Milk");
+
+		IModel m = new Model();
+
+		IDetector detect = new DecoratorDetector();
+		List<String> classRead = new ArrayList<>();
+
+		while (!cs.isEmpty()) {
+			String clazz = cs.get(0);
+			cs.remove(0);
+
+			ClassReader reader = new ClassReader(clazz);
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m, cs);
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+
+			if (!c.getName().contains("$") && !classRead.contains(clazz)) {
+				m.addClass(c);
+				classRead.add(clazz);
+			}
+
+		}
+
+		detect.detect(m);
+		System.out.println("patterns: " + m.getPatterns());
+		for (IClass c : m.getClasses()) {
+			System.out.println(c.getName() + "  ->cc");
+			if (c.getName().equals("headfirst/decorator/starbuzz/Milk")) {
+				assertEquals(true, c.getTags().contains("decorator"));
+			}
+			if (c.getName().equals("headfirst/decorator/starbuzz/Beverage")) {
+				assertEquals(true, c.getTags().contains("component"));
+			}
+		}
+
+	}
+
+	@Test
+	public void TestDecorator5() throws Exception {
+		List<String> cs = new ArrayList<>();
+		cs.add("problem/DecryptInput");
+
+		IModel m = new Model();
+
+		IDetector detect = new DecoratorDetector();
+		List<String> classRead = new ArrayList<>();
+
+		while (!cs.isEmpty()) {
+			String clazz = cs.get(0);
+			cs.remove(0);
+
+			ClassReader reader = new ClassReader(clazz);
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m, cs);
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+
+			if (!c.getName().contains("$") && !classRead.contains(clazz)) {
+				m.addClass(c);
+				classRead.add(clazz);
+			}
+
+		}
+
+		detect.detect(m);
+		System.out.println("patterns: " + m.getPatterns());
+		for (IClass c : m.getClasses()) {
+			System.out.println(c.getName() + "  ->cc");
+			if (c.getName().equals("problem/DecryptInput")) {
+				assertEquals(true, c.getTags().contains("decorator"));
+			}
+			if (c.getName().equals("java/io/InputStream")) {
+				assertEquals(true, c.getTags().contains("component"));
+			}
+
+		}
+
+	}
+
+	@Test
+	public void TestAdapter2() throws Exception {
+		List<String> cs = new ArrayList<>();
+		cs.add("problem/client/IteratorToEnumerationAdapter");
+
+		IModel m = new Model();
+
+		IDetector detect = new AdapterDetector();
+		List<String> classRead = new ArrayList<>();
+
+		while (!cs.isEmpty()) {
+			String clazz = cs.get(0);
+			cs.remove(0);
+
+			ClassReader reader = new ClassReader(clazz);
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m, cs);
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+
+			if (!c.getName().contains("$") && !classRead.contains(clazz)) {
+				m.addClass(c);
+				classRead.add(clazz);
+			}
+
+		}
+
+		detect.detect(m);
+		System.out.println("patterns: " + m.getPatterns());
+		for (IClass c : m.getClasses()) {
+			 System.out.println(c.getName() +"  -->ad");
+			if (c.getName().equals("problem/client/IteratorToEnumerationAdapter")) {
+				assertEquals(true, c.getTags().contains("adapter"));
+			}
+			if (c.getName().equals("java/util/Enumeration")) {
+				assertEquals(false, c.getTags().contains("adapter"));
+			}
+			if (c.getName().equals("java/util/Iterator")) {
+				assertEquals(true, c.getTags().contains("adaptee"));
+			}
+			
+
+		}
+
+	}
+	
 }

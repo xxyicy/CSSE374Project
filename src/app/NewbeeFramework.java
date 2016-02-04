@@ -185,7 +185,9 @@ public class NewbeeFramework {
 		}
 		else{
 			System.out.println(model);
+			this.out.start();
 			this.out.write(model);
+			this.out.end();
 		}
 	}
 	

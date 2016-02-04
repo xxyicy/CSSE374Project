@@ -67,20 +67,9 @@ public class App {
 //		IDetector adapter = new AdapterDetector();
 //		nf.addDetector(adapter);
 		
-		IDetector composite = new CompositeDetector();
-		nf.addDetector(composite);
+//		IDetector composite = new CompositeDetector();
+//		nf.addDetector(composite);
 		nf.process();
-		
-//		graphOut.start();
-//
-//		graphOut.write(m);
-//
-//		graphOut.end();
-//
-//		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit
-//		// the class
-//
-//		graphOut.close();
 
 	}
 

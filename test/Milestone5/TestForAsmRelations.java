@@ -43,7 +43,7 @@ public class TestForAsmRelations {
 	@Test
 	public void TestAdapter1() throws Exception  {
 		List<String> cs = new ArrayList<>();
-		cs.add("java.awt.event.MouseAdapter");
+		cs.add("problem/client/IteratorToEnumerationAdapter");
 
 		IModel m = new Model();
 
@@ -75,7 +75,9 @@ public class TestForAsmRelations {
 		detect.detect(m);
 
 		for (IRelation r : m.getRelations()) {
-			//System.out.println(r.getFrom());
+			System.out.println(r.getFrom()+" -->cc");
+			System.out.println(r.getTo()+" -->ad");
+			System.out.println(r.getType()+" -->wa");
 			// if(r.getFrom().equals(anObject) && r.getTo() &&
 			// r.getType().equals("association")){
 			// r.getDes()
