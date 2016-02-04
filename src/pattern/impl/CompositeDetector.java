@@ -71,16 +71,22 @@ public class CompositeDetector implements IDetector {
 		pattern.addClass(composite);
 		
 		for(String component : components){
+			if(component.equals("java/lang/Object")){
+				continue;
+			}
 			IClass c = this.getClassByName(m, component);
 			if(c==null){
-				throw new Exception("Unexpected class not found while updating components");
+				throw new Exception("Unexpected class not found while updating components " + component);
 			}
 			c.addTag("Component");
 			pattern.addClass(c);
 			for(String sub: this.getAllDescendents(m, component)){
+				if(sub.equals("java/lang/Object")){
+					continue;
+				}
 				IClass subClass = this.getClassByName(m, sub);
 				if(subClass == null){
-					throw new Exception("Unexpected class not found while tracing subclasses");
+					throw new Exception("Unexpected class not found while tracing subclasses " + sub);
 				}
 				if(subClass != composite){
 					subClass.addTag("Leaf");
@@ -114,10 +120,12 @@ public class CompositeDetector implements IDetector {
 	private boolean checkComponent(String component, IModel model)
 			throws Exception {
 		System.out.println("checking " + component);
+		System.out.println(model.getClasses());
 		IClass c = this.getClassByName(model, component);
 		if (c == null) {
-			throw new Exception("Unexpected class not found exception");
+			throw new Exception("Unexpected class not found exception " + component);
 		}
+		
 		String className = component.replaceAll("/", ".");
 		for (IMethod m : c.getMethods()) {
 			
@@ -183,11 +191,14 @@ public class CompositeDetector implements IDetector {
 			throws Exception {
 		Set<IClass> result = new HashSet<IClass>();
 		for (String s : cs) {
+			if(s.equals("java/lang/Object")){
+				continue;
+			}
 			IClass c = this.getClassByName(m, s);
 			if (c != null) {
 				result.add(c);
 			} else {
-				throw new Exception("Class not found, should not happen");
+				throw new Exception("Class not found, should not happen "+s);
 			}
 
 		}

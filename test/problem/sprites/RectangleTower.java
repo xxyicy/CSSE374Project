@@ -1,8 +1,6 @@
 package problem.sprites;
 
-import sprites.CompositeSprite;
-import sprites.RectangleSprite;
-import sprites.SpriteFactory;
+
 
 public class RectangleTower extends CompositeSprite {
 

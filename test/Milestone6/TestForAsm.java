@@ -2,6 +2,7 @@ package Milestone6;
 
 import static org.junit.Assert.assertEquals;
 
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,7 +49,7 @@ public class TestForAsm {
 	@Test
 	public void TestDecorator1() throws Exception {
 		List<String> cs = new ArrayList<>();
-		cs.add("problem/spirites/RectangleTower");
+		cs.add("problem/sprites/AbstractSprite");
 
 		IModel m = new Model();
 
@@ -78,11 +79,12 @@ public class TestForAsm {
 		}
 
 		detect.detect(m);
-		System.out.println(m.getPatterns());
+		System.out.println(m);
 		for (IClass c : m.getClasses()) {
-			System.out.println(c.getName() + "blah");
-			if (c.getName().equals("problem/spirites/RectangleTower")) {
-				assertEquals(false, c.getTags().contains("composite"));
+		
+			if (c.getName().equals("problem/sprites/AbstarctSprite")) {
+				System.out.println(c.getName() + "blah");
+				assertEquals(true, c.getTags().contains("composite"));
 			}
 
 		}
