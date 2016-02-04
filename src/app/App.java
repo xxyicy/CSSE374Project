@@ -1,7 +1,6 @@
 package app;
 
 
-import impl.Model;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -16,14 +15,13 @@ import pattern.impl.SingletonDetector;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.IOutputStream;
 import visitor.impl.SDEditOutputStream;
-import api.IModel;
+
 
 
 public class App {
 
 	public static void main(String[] args) throws Exception {
 
-		
 		
 		if (args.length < 2) {
 			throw new Exception("Not Enough Parameters");
@@ -67,8 +65,8 @@ public class App {
 		IDetector adapter = new AdapterDetector();
 		nf.addDetector(adapter);
 		
-//		IDetector composite = new CompositeDetector();
-//		nf.addDetector(composite);
+		IDetector composite = new CompositeDetector();
+		nf.addDetector(composite);
 		nf.process();
 
 	}
@@ -83,21 +81,12 @@ public class App {
 
 
 		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
-		IModel m = new Model();
-
-		NewbeeFramework nf = new NewbeeFramework("UML",cs,graphOut);
+		
+		NewbeeFramework nf = new NewbeeFramework("UML", cs, graphOut);
+		
 		nf.process();
 
-//		graphOut.start();
-//
-//		graphOut.write(m);
-//
-//		graphOut.end();
-//
-//		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit
-//		// the class
-//
-//		graphOut.close();
+
 	}
 
 	public static void createSequenceDiagram(String[] args) throws Exception {

@@ -1,7 +1,6 @@
 package forTest;
 
-import visitor.api.IVisitor;
-import api.IField;
+
 
 public class Field implements IField {
 	private boolean isStatic;
@@ -23,6 +22,9 @@ public class Field implements IField {
 		result += "type:" + this.type + " ";
 		result += "name:" + this.name + " ";
 		result += "accss:" + this.access; 
+		if(this.innerType != null){
+			result += " "+"innerType: "+this.innerType;
+		}
 		return result;
 	}
 	

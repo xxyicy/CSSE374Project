@@ -4,11 +4,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Type;
 import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
-import api.IClass;
-import api.IField;
-import api.IModel;
-import impl.Field;
-import impl.Relation;
+
 
 public class ClassFieldVisitor extends ClassVisitor {
 	private IClass c;
@@ -65,10 +61,10 @@ public class ClassFieldVisitor extends ClassVisitor {
 		if (signature != null && signature.contains("<")
 				&& signature.contains(">")) {
 
-			String result = signature.substring(signature.lastIndexOf('<') + 2,
+			String result = signature.substring(signature.indexOf('<') + 2,
 					signature.indexOf('>') - 1);
 			// this.c.addAssociation(result);
-			
+			f.setInnerType(result);
 		
 			this.m.addRelation(new Relation(this.c.getName(), result,
 					"association"));

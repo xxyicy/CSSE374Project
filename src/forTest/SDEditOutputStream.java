@@ -1,6 +1,5 @@
 package forTest;
 
-import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -8,15 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import api.IMethod;
-import app.Utility;
-import visitor.api.ITraverser;
-import visitor.api.IVisitMethod;
-import visitor.api.IVisitor;
-import visitor.api.VisitType;
-import visitor.api.Visitor;
 
-public class SDEditOutputStream extends FilterOutputStream {
+public class SDEditOutputStream extends IOutputStream {
 	private final IVisitor visitor;
 	private Map<String, String> declaration;
 	private List<String> existedClass;
@@ -32,8 +24,9 @@ public class SDEditOutputStream extends FilterOutputStream {
 		this.content = new StringBuffer();
 		this.classes = new StringBuffer();
 		this.setupVisitMethod();
-		// this.setupPostVisitMethod();
 	}
+
+	
 
 	private void write(String m) {
 		try {
@@ -52,6 +45,7 @@ public class SDEditOutputStream extends FilterOutputStream {
 		}
 	}
 
+	@Override
 	public void write(IMethod m) {
 		ITraverser t = (ITraverser) m;
 		t.accept(this.visitor);

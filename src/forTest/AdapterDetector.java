@@ -1,9 +1,5 @@
 package forTest;
 
-import impl.Clazz;
-import impl.Pattern;
-import impl.Relation;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -14,16 +10,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import pattern.api.IDetector;
-import api.IClass;
-import api.IField;
-import api.IMethod;
-import api.IModel;
-import api.IPattern;
-import api.IRelation;
-import asm.ClassDeclarationVisitor;
-import asm.ClassFieldVisitor;
-import asm.ClassMethodVisitor;
+
 
 public class AdapterDetector implements IDetector {
 
@@ -43,7 +30,6 @@ public class AdapterDetector implements IDetector {
 				if (target == null) {
 					throw new Exception("unexpected situation");
 				}
-
 				// collect information about methods in the target interface
 				List<String> targetMethods = new ArrayList<String>();
 				for (IMethod method : target.getMethods()) {
@@ -109,15 +95,14 @@ public class AdapterDetector implements IDetector {
 
 	private void constructPattern(String adaptee, IClass adapter,
 			IClass ITarget, IModel m) throws IOException {
-	
+
 		if (adaptee != null && adapter != null && ITarget != null) {
 			System.out.print(adapter.getName() + ":" + ITarget.getName() + ":"
 					+ adaptee);
-			
+
 			IClass adapteeClass = this.getClassByName(m, adaptee);
-			
-			
-			//possible if adaptee class is not read yet
+
+			// possible if adaptee class is not read yet
 			if (adapteeClass == null) {
 
 				ClassReader reader = new ClassReader(adaptee);
@@ -145,22 +130,23 @@ public class AdapterDetector implements IDetector {
 			adapteeClass.addTag("adaptee");
 			adapter.addTag("adapter");
 			ITarget.addTag("target");
-			
-			
+
 			boolean suc = false;
 			for (IRelation r : m.getRelations()) {
 				if (r.getFrom().equals(adapter.getName())
-				&& r.getTo().replaceAll("[.]", "/").equals(adaptee) && r.getType().equals("association")) {
-						r.setDes("adapts");
-						suc = true;
+						&& r.getTo().replaceAll("[.]", "/").equals(adaptee)
+						&& r.getType().equals("association")) {
+					r.setDes("adapts");
+					suc = true;
 				}
 			}
-			if(!suc){
-				IRelation ir = new Relation(adapter.getName(),adaptee,"association");
+			if (!suc) {
+				IRelation ir = new Relation(adapter.getName(), adaptee,
+						"association");
 				ir.setDes("adapts");
 				m.addRelation(ir);
 			}
-			
+
 			IPattern p = new Pattern("adapter");
 			p.addClass(adapteeClass);
 			p.addClass(adapter);
@@ -171,7 +157,7 @@ public class AdapterDetector implements IDetector {
 
 	private List<String> intersection(List<String> a, List<String> b) {
 		List<String> r = new ArrayList<String>();
-		if(a==null || b ==null){
+		if (a == null || b == null) {
 			return r;
 		}
 		for (String s : a) {

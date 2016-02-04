@@ -2,7 +2,7 @@ package forTest;
 
 import java.util.Set;
 
-import visitor.api.ITraverser;
+
 
 public interface IDeclaration extends ITraverser {
 	public String getType();

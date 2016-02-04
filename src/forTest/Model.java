@@ -3,12 +3,7 @@ package forTest;
 import java.util.HashSet;
 import java.util.Set;
 
-import visitor.api.IVisitor;
-import api.IClass;
-import api.IModel;
-import api.IPattern;
-import api.IRelation;
-import app.Utility;
+
 
 public class Model implements IModel {
 	private Set<IClass> classes = new HashSet<IClass>();

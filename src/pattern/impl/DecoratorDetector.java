@@ -96,23 +96,16 @@ public class DecoratorDetector implements IDetector {
 			return;
 		}
 		IPattern p = new Pattern("Decorator");
-		c.addTag("decorator");
+		
 		component.addTag("component");
 
-		p.addClass(c);
+		
 		p.addClass(component);
-		// System.out.println(c.getName());
-		// System.out.println(calledClass);
+		
+		
+		this.addTagAndUpdatePattern(p, c, m);
+		
 		for (IRelation i : m.getRelations()) {
-			if (i.getTo().equals(c.getName()) && i.getType().equals("extends")) {
-				IClass from = this.getClassByName(m, i.getFrom());
-				if (from == null) {
-					throw new Exception("This situation should not happen");
-				}
-				from.addTag("decorator");
-				p.addClass(from);
-			}
-
 			if (i.getFrom().equals(c.getName())
 					&& i.getTo().replaceAll("[.]", "/").equals(calledClass)
 					&& i.getType().equals("association")) {
@@ -123,6 +116,24 @@ public class DecoratorDetector implements IDetector {
 		m.addPattern(p);
 	}
 
+	
+	private void addTagAndUpdatePattern(IPattern p,IClass c, IModel m) throws Exception{
+		p.addClass(c);
+		c.addTag("decorator");
+		for (IRelation i: m.getRelations()){
+			if (i.getTo().equals(c.getName()) && i.getType().equals("extends")) {
+				IClass from = this.getClassByName(m, i.getFrom());
+				if (from == null) {
+					throw new Exception("This situation should not happen");
+				}
+				this.addTagAndUpdatePattern(p, from, m);
+			}
+		}
+	}
+	
+	
+	
+	
 	private IField composeSuper(IClass c, IModel m) {
 		Set<IRelation> rs = m.getRelations();
 		Set<String> supers = this.getSuperClasses(c, rs);
