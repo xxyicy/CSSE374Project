@@ -4,6 +4,7 @@
 3. [Milestone 3](#milestone-3)
 4. [Milestone 4](#milestone-4)
 5. [Milestone 5](#milestone-5)
+6. [Milestone 6](#milestone-6)
 
 
 
@@ -253,6 +254,64 @@ Clazz, Model, Declaration have been updated to adapt all kinds of detectors.
 IPattern interface and Pattern class have been created to store the information about which classes are involved in some pattern.
 
 Three concrete detectors have been implemented for Singleton, Decorator and Adapter pattern. 
+
+
+
+
+
+### Who-Did-What
+
+| *Name*         	| *Who did what*                                                                                                        
+|-------------------|----------------------------------------------------------------------------------------
+| Xinyu Xiao     	| Updated the parse logic to draw the Singleton pattern
+|                                                                                           
+| 			     	| Wrote the parse logic to draw Decorator & Adapter Pattern
+|
+|					| Drew Design diagram for milestone 4 & 5
+|                                                                                                                                                                 
+| Tianjiao Mo    	| Created pattern and pattern Detector class
+|
+|				 	| Updated asm parsing code for Singleton pattern 
+|
+|				 	| Wrote code to detect Decorator & Adapter Pattern
+|
+| Ashok Vardhan Raja| updated the test cases for milestone 4.
+|
+|					| Created test cases for milestone 5
+|
+
+
+
+### How to use
+
+#### Before start
+Open a terminal window and navigate to the directory of this project.
+
+#### Run java Code
+```
+java -classPath ./bin:./lib/asm-all-5.0.4.jar app.App UMLWP <Path-to-package>
+```
+<Path-to-package> : the path to the directory being read and parsed.
+(this step will print out the parsed GV texture representation and also write it to output/output.txt under the project directory)
+
+#### Generate UML diagram
+```
+dot -Tpng output/output.txt > <output-file-name>
+```
+please use “.png” as the suffix of the output file.
+
+
+
+
+
+
+## Milestone 6
+### Design of the tool
+
+![UML Diagram](/UML/milestone6_design.png "UML Diagram")
+
+
+
 
 
 

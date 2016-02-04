@@ -73,6 +73,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		}
 		
 		args = addArguments(desc);
+		
 		for (String arg : args) {
 			IRelation argUse = new Relation(this.c.getName(), arg, "use");
 			if (!this.m.contains(argUse)) {

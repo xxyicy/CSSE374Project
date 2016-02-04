@@ -2,7 +2,7 @@ package forTest;
 
 import java.util.List;
 
-import visitor.api.ITraverser;
+
 
 public interface IMethod extends ITraverser {
 	public String getName();

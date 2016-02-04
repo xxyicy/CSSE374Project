@@ -1,29 +1,19 @@
 package forTest;
 
-import java.io.FilterOutputStream;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-import api.IClass;
-import api.IDeclaration;
-import api.IField;
-import api.IMethod;
-import api.IModel;
-import api.IRelation;
-import app.Utility;
-import visitor.api.Visitor;
-import visitor.api.ITraverser;
-import visitor.api.IVisitMethod;
-import visitor.api.IVisitor;
-import visitor.api.VisitType;
 
-public class GraphVizOutputStream extends FilterOutputStream {
+public class GraphVizOutputStream extends IOutputStream {
 	private final IVisitor visitor;
+	private StringBuffer result;
 
 	public GraphVizOutputStream(OutputStream out) throws IOException {
 		super(out);
 		this.visitor = new Visitor();
+		this.result = new StringBuffer();
 		this.setupPreVisitClass();
 		this.setupVisitClass();
 		this.setupPostVisitClass();
@@ -36,6 +26,7 @@ public class GraphVizOutputStream extends FilterOutputStream {
 	private void write(String m) {
 		try {
 			super.write(m.getBytes());
+			result.append(m);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -45,16 +36,25 @@ public class GraphVizOutputStream extends FilterOutputStream {
 		try {
 			super.write(m.getBytes());
 			super.write('\n');
+			result.append(m + "\n");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	@Override
 	public void write(IModel m) {
 		ITraverser t = (ITraverser) m;
 		t.accept(this.visitor);
 	}
 
+	
+	
+	public String toString() {
+		return this.result.toString();
+	}
+
+	@Override
 	public void start() {
 		this.writeln("digraph G {");
 		this.writeln("fontname = \"Avenir Book\"");
@@ -71,7 +71,8 @@ public class GraphVizOutputStream extends FilterOutputStream {
 		this.writeln("fontsize = 10");
 		this.writeln("]");
 	}
-
+	
+	@Override
 	public void end() {
 		this.writeln("}");
 	}
@@ -81,32 +82,37 @@ public class GraphVizOutputStream extends FilterOutputStream {
 			@Override
 			public void execute(ITraverser t) {
 				IClass c = (IClass) t;
-				
+
 				writeln(Utility.simplifyClassName(c.getName()) + " [");
 				writeln("shape=\"record\",");
 				if (c.getTags().contains("Singleton")) {
-					writeln("color=\"blue\",");
+					writeln("color=\"blue\"");
 				}
 				if (c.getTags().contains("decorator") || c.getTags().contains("component")) {
 					writeln("style=\"filled\"");
-					writeln("fillcolor=\"green\",");
+					writeln("fillcolor=\"green\"");
 				}
 				if (c.getTags().contains("adapter") || c.getTags().contains("adaptee")
 						|| c.getTags().contains("target")) {
 					writeln("style=\"filled\"");
-					writeln("fillcolor=\"red\",");
+					writeln("fillcolor=\"red\"");
+				}
+				if (c.getTags().contains("Component") || c.getTags().contains("Composite")
+						|| c.getTags().contains("Leaf")) {
+					writeln("style=\"filled\"");
+					writeln("fillcolor=\"yellow\"");
 				}
 				write("label = \"{");
 			}
 		};
 		this.visitor.addVisit(VisitType.PreVisit, IClass.class, command);
 	}
-	
+
 	private void setupVisitClass() {
 		IVisitMethod command = new IVisitMethod() {
-			
+
 			@Override
-			public void execute(ITraverser t){
+			public void execute(ITraverser t) {
 				write("|");
 			}
 		};
@@ -186,9 +192,7 @@ public class GraphVizOutputStream extends FilterOutputStream {
 			@Override
 			public void execute(ITraverser t) {
 				IField f = (IField) t;
-				String line = String.format("%s %s : %s\\l", 
-						f.getAccess(),
-						f.getName(),
+				String line = String.format("%s %s : %s\\l", f.getAccess(), f.getName(),
 						Utility.simplifyType(f.getType()));
 				write(line);
 			}
@@ -223,18 +227,12 @@ public class GraphVizOutputStream extends FilterOutputStream {
 					label = ",label=\"" + r.getDes() + "\"]";
 				}
 
-				write(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure
+				writeln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure
 						+ label);
 			}
 
 		};
 		this.visitor.addVisit(VisitType.Visit, IRelation.class, command);
 	}
-
-	//
-	// @Override
-	// public void visit(String s) {
-	// this.append(s);
-	// }
 
 }

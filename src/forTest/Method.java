@@ -2,9 +2,7 @@ package forTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import app.Utility;
-import visitor.api.IVisitor;
-import api.IMethod;
+
 
 public class Method implements IMethod {
 
@@ -74,7 +72,6 @@ public class Method implements IMethod {
 	public void accept(IVisitor v) {
 		v.visit(this);
 		if (Utility.APP_TYPE == Utility.APP_SD) {
-			// v.postVisit(this);
 			for (IMethod m : this.calls) {
 				m.accept(v);
 			}
@@ -172,17 +169,17 @@ public class Method implements IMethod {
 
 	public String printCallChains(int depth) {
 		String result = "";
-		// for(int i =0;i<depth;i++){
-		// result += " ";
-		// }
-		// if(this.parent != null){
-		// result += this.parent.getName()+" : ";
-		// }
-		// result += "->";
-		// result += this.className+" "+this.name+"()\n";
-		// for(IMethod m : this.calls){
-		// result += m.printCallChains(depth +1);
-		// }
+		for (int i = 0; i < depth; i++) {
+			result += " ";
+		}
+		if (this.parent != null) {
+			result += this.parent.getName() + " : ";
+		}
+		result += "->";
+		result += this.className + " " + this.name + "()\n";
+		for (IMethod m : this.calls) {
+			result += m.printCallChains(depth + 1);
+		}
 		return result;
 	}
 
@@ -206,5 +203,7 @@ public class Method implements IMethod {
 	public void setStatic(boolean s) {
 		this.isStatic = s;
 	}
+
+
 
 }

@@ -1,8 +1,7 @@
 package forTest;
 
-import visitor.api.IVisitor;
-import api.IRelation;
-import app.Utility;
+
+
 
 public class Relation implements IRelation {
 	private String from;
@@ -95,6 +94,8 @@ public class Relation implements IRelation {
 	public void setDes(String des) {
 		this.des = des;
 	}
+
+
 
 
 	

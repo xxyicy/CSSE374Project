@@ -28,6 +28,7 @@ public class SequenceMethodVisitor extends ClassVisitor {
 		this.m = m;
 		this.className = className;
 	}
+	
 
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
@@ -44,7 +45,7 @@ public class SequenceMethodVisitor extends ClassVisitor {
 		
 		Method method = new Method(name, type, acc, args, exps,className);
 		
-//		
+	
 //		System.out.println(method);
 //		System.out.println("passed in: "+this.m);
 //		System.out.println("found method");
@@ -96,19 +97,19 @@ public class SequenceMethodVisitor extends ClassVisitor {
 			level = "";
 		}
 		return level;
-
 	}
 
+	
 	String addReturnType(String desc) {
 		return Type.getReturnType(desc).getClassName();
 	}
 
+	
 	List<String> addArguments(String desc) {
 		List<String> result = new ArrayList<String>();
 		Type[] args = Type.getArgumentTypes(desc);
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i].getClassName();
-
 			result.add(arg);
 		}
 		return result;

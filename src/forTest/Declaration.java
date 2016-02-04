@@ -3,8 +3,7 @@ package forTest;
 import java.util.HashSet;
 import java.util.Set;
 
-import visitor.api.IVisitor;
-import api.IDeclaration;
+
 
 public class Declaration implements IDeclaration{
 	private String type;

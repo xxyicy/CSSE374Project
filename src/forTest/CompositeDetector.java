@@ -1,19 +1,13 @@
-package pattern.impl;
+package forTest;
 
-import impl.Pattern;
+
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import api.IClass;
-import api.IField;
-import api.IMethod;
-import api.IModel;
-import api.IPattern;
-import api.IRelation;
-import pattern.api.IDetector;
+
 
 public class CompositeDetector implements IDetector {
 	
@@ -33,6 +27,7 @@ public class CompositeDetector implements IDetector {
 				
 				String component = f.getInnerType();
 				if(this.checkComponent(component, m)){
+					System.out.println("found in super");
 					String end = component;
 					String start = c.getName();
 					Set<String> componentList = new HashSet<String>();
@@ -47,13 +42,14 @@ public class CompositeDetector implements IDetector {
 			if (f != null) {
 				
 				String component = f.getInnerType();
+				
 				if(this.checkComponent(component, m)){
 					IClass superClass = inters.get(component);
 					String end = superClass.getName();
 					String start = c.getName();
 					Set<String> componentList = new HashSet<String>();
 					this.addComponents(start, end, m, componentList);
-					componentList.add(component);
+					
 					this.updatePatternInformationWithSuper(c, componentList, m);
 				}
 				

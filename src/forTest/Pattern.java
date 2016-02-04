@@ -4,8 +4,7 @@ package forTest;
 import java.util.HashSet;
 import java.util.Set;
 
-import api.IClass;
-import api.IPattern;
+
 
 
 public class Pattern implements IPattern{
