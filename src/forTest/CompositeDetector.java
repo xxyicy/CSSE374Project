@@ -1,4 +1,4 @@
-package pattern.impl;
+package forTest;
 
 import impl.Pattern;
 
@@ -33,6 +33,7 @@ public class CompositeDetector implements IDetector {
 				
 				String component = f.getInnerType();
 				if(this.checkComponent(component, m)){
+					System.out.println("found in super");
 					String end = component;
 					String start = c.getName();
 					Set<String> componentList = new HashSet<String>();
@@ -47,13 +48,14 @@ public class CompositeDetector implements IDetector {
 			if (f != null) {
 				
 				String component = f.getInnerType();
+				
 				if(this.checkComponent(component, m)){
 					IClass superClass = inters.get(component);
 					String end = superClass.getName();
 					String start = c.getName();
 					Set<String> componentList = new HashSet<String>();
 					this.addComponents(start, end, m, componentList);
-					componentList.add(component);
+					
 					this.updatePatternInformationWithSuper(c, componentList, m);
 				}
 				

@@ -60,6 +60,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		
 //		String className = this.c.getName().replaceAll("/", ".");
 		
+
 //		if(acc.equals("+") && type.equals(className) && (access & Opcodes.ACC_STATIC) != 0 ){
 //		
 //			this.c.getDeclaration().orWithCode(0b0010);
@@ -72,6 +73,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		}
 		
 		args = addArguments(desc);
+		
 		for (String arg : args) {
 			IRelation argUse = new Relation(this.c.getName(), arg, "use");
 			if (!this.m.contains(argUse)) {

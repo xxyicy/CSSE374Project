@@ -29,12 +29,10 @@ public class ClassFieldVisitor extends ClassVisitor {
 	@Override
 	public FieldVisitor visitField(int access, String name, String desc,
 			String signature, Object value) {
-//		System.out.println("Class :"+this.c.getName()+" Start visiting fields");
+		// System.out.println("Class :"+this.c.getName()+" Start visiting fields");
 		FieldVisitor toDecorate = super.visitField(access, name, desc,
 				signature, value);
 
-		
-		
 		String type = Type.getType(desc).getClassName();
 		String acc;
 
@@ -47,38 +45,43 @@ public class ClassFieldVisitor extends ClassVisitor {
 		} else {
 			acc = "";
 		}
-		
+
 		boolean isStatic = (access & Opcodes.ACC_STATIC) != 0;
-		
-		
-//		String className = this.c.getName().replaceAll("/", ".");
-	
-		
-//		if(  isStatic && acc.equals("-") && className.equals(type) ){
-//			this.c.getDeclaration().orWithCode(4);
-//		}
-		
+
+		// String className = this.c.getName().replaceAll("/", ".");
+
+		// if( isStatic && acc.equals("-") && className.equals(type) ){
+		// this.c.getDeclaration().orWithCode(4);
+		// }
+
 		IField f = new Field(name, type, acc);
 		f.setStatic(isStatic);
-		
+
 		this.c.addField(f);
 		if (signature != null && signature.contains("<")
 				&& signature.contains(">")) {
 
-			String result = signature.substring(signature.indexOf('<') + 2,
-					signature.indexOf('>') - 1);
+			String result;
+			if (signature.contains("java/util")) {
+				result = signature.substring(signature.indexOf('<') + 2,
+						signature.lastIndexOf('>') - 1);
+			}
+			else{
+				result = signature.substring(signature.indexOf('<') + 1, signature.lastIndexOf('>') );
+			}
 			// this.c.addAssociation(result);
 			f.setInnerType(result);
+
 		
 			this.m.addRelation(new Relation(this.c.getName(), result,
 					"association"));
 		} else {
 			// this.c.addAssociation(type);
-			
+
 			this.m.addRelation(new Relation(this.c.getName(), type,
 					"association"));
 		}
-		
+
 		return toDecorate;
 	};
 }

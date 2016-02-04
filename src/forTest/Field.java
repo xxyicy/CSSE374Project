@@ -23,6 +23,9 @@ public class Field implements IField {
 		result += "type:" + this.type + " ";
 		result += "name:" + this.name + " ";
 		result += "accss:" + this.access; 
+		if(this.innerType != null){
+			result += " "+"innerType: "+this.innerType;
+		}
 		return result;
 	}
 	

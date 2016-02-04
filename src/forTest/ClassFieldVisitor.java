@@ -65,10 +65,10 @@ public class ClassFieldVisitor extends ClassVisitor {
 		if (signature != null && signature.contains("<")
 				&& signature.contains(">")) {
 
-			String result = signature.substring(signature.lastIndexOf('<') + 2,
+			String result = signature.substring(signature.indexOf('<') + 2,
 					signature.indexOf('>') - 1);
 			// this.c.addAssociation(result);
-			
+			f.setInnerType(result);
 		
 			this.m.addRelation(new Relation(this.c.getName(), result,
 					"association"));

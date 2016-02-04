@@ -41,17 +41,18 @@ public class AdapterDetector implements IDetector {
 				System.out.println(first);
 				// find the target interface
 				IClass target = this.getClassByName(m, first);
+				
 				if (target == null) {
 					throw new Exception("unexpected situation");
 				}
 				// collect information about methods in the target interface
 				List<String> targetMethods = new ArrayList<String>();
+				
 				for (IMethod method : target.getMethods()) {
 					targetMethods.add(method.getName());
 				}
 
-				System.out.println(targetMethods);
-
+				
 				List<String> fieldTypes = new ArrayList<String>();
 				for (IField f : c.getFields()) {
 					String fieldType = f.getType();
@@ -59,7 +60,7 @@ public class AdapterDetector implements IDetector {
 					fieldTypes.add(fieldType);
 				}
 
-				System.out.println(fieldTypes);
+				
 
 				// used to store all the ClassName of methods invoked in those
 				// methods that also exist in super interface
@@ -84,7 +85,7 @@ public class AdapterDetector implements IDetector {
 
 				List<String> adaptees = this.intersection(calledClasses,
 						fieldTypes);
-				System.out.println("adaptees: " + adaptees);
+				
 
 				if (adaptees.isEmpty()) {
 					continue;
@@ -95,7 +96,16 @@ public class AdapterDetector implements IDetector {
 				}
 
 				adaptee = adaptees.get(0);
+				System.out.println("adaptee found is " + adaptee);
+				
+				if(!this.checkConstructor(adaptee, c)){
+					adaptee = null;
+					break;
+				}
+				
+				
 				adapter = c;
+				
 				ITarget = target;
 
 				break;
@@ -107,6 +117,20 @@ public class AdapterDetector implements IDetector {
 
 	}
 
+	
+	private boolean checkConstructor(String adaptee, IClass adapter){
+		boolean result = false;
+		
+		for(IMethod m : adapter.getMethods()){
+			if(m.getName().equals("init")){
+				if(m.getParamTypes().contains(adaptee)){
+					result = true;
+				}
+			}
+		}
+		return result;
+	}
+	
 	private void constructPattern(String adaptee, IClass adapter,
 			IClass ITarget, IModel m) throws IOException {
 		
