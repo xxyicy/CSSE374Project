@@ -22,6 +22,7 @@ import visitor.impl.SDEditOutputStream;
 public class Milestone3TestASMPARSE {
 	String[] args;
 	String[] args1;
+	private SDEditOutputStream v;
 
 	@Before
 	public void AppTTest() {
@@ -104,7 +105,7 @@ public class Milestone3TestASMPARSE {
 
 		readClassAndMethods(startMethod, depth, classesRead);
 
-		SDEditOutputStream v = new SDEditOutputStream(new FileOutputStream("./output/output.txt"));
+		v = new SDEditOutputStream(new FileOutputStream("./output/output.txt"));
 		v.write(startMethod);
 		System.out.println(v.toString());
 		System.out.println(startMethod.printCallChains(0));

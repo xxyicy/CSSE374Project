@@ -26,7 +26,6 @@ public class ClassMethodVisitorTest {
 
 	private final String PRIVATE = "-";
 	private final String PUBLIC = "+";
-	private final String PROTECTED = "#";
 	private final String DEFAULT = "";
 	private IModel m;
 	private IClass c;
