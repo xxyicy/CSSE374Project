@@ -310,12 +310,15 @@ please use “.png” as the suffix of the output file.
 
 ![UML Diagram](/UML/milestone6_design.png "UML Diagram")
 
+We have changed all our visitors(except for asm visitors) to command visitors.
 
+We have changed our SingletonDetector to a visitor.
 
+We created a framework class to handle different phases of our project.
 
+We have added a new detector to detect composite pattern.
 
-
-
+We have created an super abstract classes for our OutputStream classes.
 
 ### Who-Did-What
 
