@@ -97,6 +97,7 @@ public class TestForAsmRelations {
 		IModel m = new Model();
 
 		IDetector detect = new DecoratorDetector();
+		
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -122,7 +123,9 @@ public class TestForAsmRelations {
 		}
 
 		detect.detect(m);
-
+		
+		System.out.println(m);
+		
 		for (IRelation r : m.getRelations()) {
 //			System.out.println(r.getFrom() + " -->cc");
 //			System.out.println(r.getTo() + " -->ad");

@@ -5,17 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.objectweb.asm.ClassVisitor;
-
-import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
-
-
-
-
-import api.IClass;
-import api.IDeclaration;
-import api.IModel;
-import impl.Declaration;
-import impl.Relation;
+import org.objectweb.asm.Opcodes;
 
 public class ClassDeclarationVisitor extends ClassVisitor {
 	private IClass c;

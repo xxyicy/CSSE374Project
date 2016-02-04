@@ -310,32 +310,35 @@ please use “.png” as the suffix of the output file.
 
 ![UML Diagram](/UML/milestone6_design.png "UML Diagram")
 
+We have changed all our visitors(except for asm visitors) to command visitors.
 
+We have changed our SingletonDetector to a visitor.
 
+We created a framework class to handle different phases of our project.
 
+We have added a new detector to detect composite pattern.
 
-
-
+We have created an super abstract classes for our OutputStream classes.
 
 ### Who-Did-What
 
 | *Name*         	| *Who did what*                                                                                                        
 |-------------------|----------------------------------------------------------------------------------------
-| Xinyu Xiao     	| Updated the parse logic to draw the Singleton pattern
+| Xinyu Xiao     	| Updated Singleton Detector
 |                                                                                           
-| 			     	| Wrote the parse logic to draw Decorator & Adapter Pattern
+| 			     	| Changed original visitor pattern to commmand visitor pattern
 |
-|					| Drew Design diagram for milestone 4 & 5
+|					| Drew Design diagram for milestone 5 & 6
 |                                                                                                                                                                 
-| Tianjiao Mo    	| Created pattern and pattern Detector class
+| Tianjiao Mo    	| Created framework to control the working flow in app  
 |
-|				 	| Updated asm parsing code for Singleton pattern 
+|				 	| Wrote code to detect Composite Pattern
 |
-|				 	| Wrote code to detect Decorator & Adapter Pattern
+|					| Auto-generated the picture for project and java.awt 
 |
-| Ashok Vardhan Raja| updated the test cases for milestone 4.
+| Ashok Vardhan Raja| updated the test cases for milestone 5.
 |
-|					| Created test cases for milestone 5
+|					| Created test cases for milestone 6
 |
 
 

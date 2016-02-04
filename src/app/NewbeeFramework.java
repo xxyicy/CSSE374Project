@@ -46,6 +46,7 @@ public class NewbeeFramework {
 		this.detectors.add(d);
 	}
 	
+	
 	public void process() throws Exception{
 		this.loadClass();
 		this.detectPattern();
