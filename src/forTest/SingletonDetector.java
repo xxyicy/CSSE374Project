@@ -7,7 +7,6 @@ import api.IField;
 import api.IMethod;
 import api.IModel;
 import api.IPattern;
-import api.patternCode;
 public class SingletonDetector implements IDetector {
 
 	@Override
