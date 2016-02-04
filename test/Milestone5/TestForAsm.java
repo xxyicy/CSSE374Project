@@ -363,7 +363,7 @@ public class TestForAsm {
 		System.out.println("patterns: " + m.getPatterns());
 		for (IClass c : m.getClasses()) {
 		
-			 System.out.println(c);
+			
 			if (c.getName().equals("problem/client/IteratorToEnumerationAdapter")) {
 				
 				assertEquals(true, c.getTags().contains("adapter"));

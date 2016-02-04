@@ -22,6 +22,7 @@ import asm.ClassMethodVisitor;
 import impl.Clazz;
 import impl.Model;
 import pattern.api.IDetector;
+import pattern.impl.AdapterDetector;
 import pattern.impl.DecoratorDetector;
 import visitor.impl.GraphVizOutputStream;
 
@@ -30,6 +31,7 @@ public class TestForAsmRelations {
 	private IClass c;
 	private ClassVisitor visitor;
 	private GraphVizOutputStream v;
+
 	@Before
 	public void setUp() throws Exception {
 		m = new Model();
@@ -41,9 +43,56 @@ public class TestForAsmRelations {
 	}
 
 	@Test
-	public void TestAdapter1() throws Exception  {
+	public void TestAdapterRelation() throws Exception {
 		List<String> cs = new ArrayList<>();
 		cs.add("problem/client/IteratorToEnumerationAdapter");
+
+		IModel m = new Model();
+
+		IDetector detect = new AdapterDetector();
+		List<String> classRead = new ArrayList<>();
+
+		while (!cs.isEmpty()) {
+			String clazz = cs.get(0);
+			cs.remove(0);
+
+			ClassReader reader = new ClassReader(clazz);
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m, cs);
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+
+			if (!c.getName().contains("$") && !classRead.contains(clazz)) {
+				m.addClass(c);
+				classRead.add(clazz);
+			}
+
+		}
+
+		detect.detect(m);
+
+		for (IRelation r : m.getRelations()) {
+			// System.out.println(r.getFrom()+" -->cc");
+			// System.out.println(r.getTo()+" -->ad");
+			// System.out.println(r.getType()+" -->wa");
+			// System.out.println(r.getDes()+" -->ws");
+			if (r.getFrom().equals("problem/client/IteratorToEnumerationAdapter")
+					&& r.getTo().equals("java/util/Iterator") && r.getType().equals("association")) {
+				assertEquals(true, r.getDes().equals("adapts"));
+			}
+		}
+
+	}
+
+	@Test
+	public void TestDecoratorRelation() throws Exception {
+		List<String> cs = new ArrayList<>();
+		cs.add("headfirst/decorator/starbuzz/Soy");
 
 		IModel m = new Model();
 
@@ -75,13 +124,15 @@ public class TestForAsmRelations {
 		detect.detect(m);
 
 		for (IRelation r : m.getRelations()) {
-			System.out.println(r.getFrom()+" -->cc");
-			System.out.println(r.getTo()+" -->ad");
-			System.out.println(r.getType()+" -->wa");
-			// if(r.getFrom().equals(anObject) && r.getTo() &&
-			// r.getType().equals("association")){
-			// r.getDes()
-			// }
+			System.out.println(r.getFrom() + " -->cc");
+			System.out.println(r.getTo() + " -->ad");
+			System.out.println(r.getType() + " -->wa");
+			System.out.println(r.getDes() + " -->Relations");
+//			if (r.getFrom().equals("problem/client/IteratorToEnumerationAdapter")
+//					&& r.getTo().equals("java/util/Iterator") && r.getType().equals("association")) {
+//				assertEquals(true, r.getDes().equals("adapts"));
+//			}
+
 		}
 
 	}
