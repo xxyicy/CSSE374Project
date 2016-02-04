@@ -79,6 +79,7 @@ public class TestForAsm {
 		detect.detect(m);
 		System.out.println(m.getPatterns());
 		for (IClass c : m.getClasses()) {
+			System.out.println(c.getName() + "blah");
 			if (c.getName().equals("java/io/InputStreamReader")) {
 				assertEquals(false, c.getTags().contains("decorator"));
 			}
@@ -167,9 +168,9 @@ public class TestForAsm {
 		}
 
 		detect.detect(m);
-		System.out.println("patterns: "+m.getPatterns());
+		System.out.println("patterns: " + m.getPatterns());
 		for (IClass c : m.getClasses()) {
-			//System.out.println(c.getName());
+			// System.out.println(c.getName());
 			if (c.getName().equals("java/awt/event/MouseAdapter")) {
 				assertEquals(false, c.getTags().contains("adapter"));
 			}
@@ -187,4 +188,51 @@ public class TestForAsm {
 		}
 
 	}
+
+	@Test
+	public void TestDecorator4() throws Exception {
+		List<String> cs = new ArrayList<>();
+		cs.add("headfirst/decorator/starbuzz/Soy");
+
+		IModel m = new Model();
+
+		IDetector detect = new DecoratorDetector();
+		List<String> classRead = new ArrayList<>();
+
+		while (!cs.isEmpty()) {
+			String clazz = cs.get(0);
+			cs.remove(0);
+
+			ClassReader reader = new ClassReader(clazz);
+			IClass c = new Clazz();
+			// make class declaration visitor to get superclass and interfaces
+			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m, cs);
+			// DECORATE declaration visitor with field visitor
+			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
+			// DECORATE field visitor with method visitor
+			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+
+			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
+
+			if (!c.getName().contains("$") && !classRead.contains(clazz)) {
+				m.addClass(c);
+				classRead.add(clazz);
+			}
+
+		}
+
+		detect.detect(m);
+		System.out.println("patterns: " + m.getPatterns());
+		for (IClass c : m.getClasses()) {
+			System.out.println(c.getName() + "  ->cc");
+			if (c.getName().equals("headfirst/decorator/starbuzz/Soy")) {
+				assertEquals(true, c.getTags().contains("decorator"));
+			}
+			if (c.getName().equals("headfirst/decorator/starbuzz/Beverage")) {
+				assertEquals(true, c.getTags().contains("component"));
+			}
+		}
+
+	}
+
 }
