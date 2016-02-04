@@ -3,7 +3,7 @@ package forTest;
 import java.util.List;
 import java.util.Set;
 
-import visitor.api.ITraverser;
+
 
 public interface IClass extends ITraverser {
 	public void addMethod(IMethod m);

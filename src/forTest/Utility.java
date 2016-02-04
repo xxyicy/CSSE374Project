@@ -1,19 +1,9 @@
 package forTest;
 
-import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Opcodes;
 
-import api.IClass;
-import api.IMethod;
-import api.IModel;
-import api.IRelation;
-import asm.SequenceMethodVisitor;
 
 public class Utility {
 	public final static String APP_UML = "UML";

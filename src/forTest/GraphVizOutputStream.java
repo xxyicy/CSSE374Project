@@ -5,18 +5,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
-import api.IClass;
-import api.IDeclaration;
-import api.IField;
-import api.IMethod;
-import api.IModel;
-import api.IRelation;
-import app.Utility;
-import visitor.api.Visitor;
-import visitor.api.ITraverser;
-import visitor.api.IVisitMethod;
-import visitor.api.IVisitor;
-import visitor.api.VisitType;
 
 public class GraphVizOutputStream extends IOutputStream {
 	private final IVisitor visitor;

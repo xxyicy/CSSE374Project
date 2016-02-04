@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import visitor.api.IVisitor;
-import api.IClass;
-import api.IDeclaration;
-import api.IField;
-import api.IMethod;
 
 public class Clazz implements IClass {
 	private List<IMethod> methods = new ArrayList<IMethod>();

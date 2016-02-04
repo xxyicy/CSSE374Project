@@ -1,19 +1,13 @@
 package forTest;
 
-import impl.Pattern;
+
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import api.IClass;
-import api.IField;
-import api.IMethod;
-import api.IModel;
-import api.IPattern;
-import api.IRelation;
-import pattern.api.IDetector;
+
 
 public class CompositeDetector implements IDetector {
 	

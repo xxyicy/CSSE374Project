@@ -123,7 +123,9 @@ public class AdapterDetector implements IDetector {
 		
 		for(IMethod m : adapter.getMethods()){
 			if(m.getName().equals("init")){
-				if(m.getParamTypes().contains(adaptee)){
+				
+				String toFound = adaptee.replaceAll("/", ".");
+				if(m.getParamTypes().contains(toFound)){
 					result = true;
 				}
 			}

@@ -3,8 +3,7 @@ package forTest;
 import java.io.FilterOutputStream;
 import java.io.OutputStream;
 
-import api.IMethod;
-import api.IModel;
+
 
 public abstract class IOutputStream extends FilterOutputStream {
 	public IOutputStream(OutputStream out) {
@@ -23,4 +22,6 @@ public abstract class IOutputStream extends FilterOutputStream {
 	public void end(){
 		throw new UnsupportedOperationException();
 	}
+
+
 }

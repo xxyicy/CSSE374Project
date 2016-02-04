@@ -1,17 +1,5 @@
 package forTest;
 
-import pattern.api.IDetector;
-import visitor.api.ITraverser;
-import visitor.api.IVisitMethod;
-import visitor.api.IVisitor;
-import visitor.api.VisitType;
-import visitor.api.Visitor;
-import impl.Pattern;
-import api.IClass;
-import api.IField;
-import api.IMethod;
-import api.IModel;
-import api.IPattern;
 
 public class SingletonDetector implements IDetector {
 	private final IVisitor visitor;

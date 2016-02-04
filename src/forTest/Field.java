@@ -1,7 +1,6 @@
 package forTest;
 
-import visitor.api.IVisitor;
-import api.IField;
+
 
 public class Field implements IField {
 	private boolean isStatic;

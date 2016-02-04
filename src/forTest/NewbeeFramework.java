@@ -1,10 +1,6 @@
 package forTest;
 
-import pattern.api.IDetector;
-import visitor.impl.IOutputStream;
-import impl.Clazz;
-import impl.Method;
-import impl.Model;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,13 +12,6 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
-import api.IClass;
-import api.IMethod;
-import api.IModel;
-import asm.ClassDeclarationVisitor;
-import asm.ClassFieldVisitor;
-import asm.ClassMethodVisitor;
-import asm.SequenceMethodVisitor;
 
 public class NewbeeFramework {
 	private IModel model;
@@ -84,6 +73,7 @@ public class NewbeeFramework {
 
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
+			
 			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,
 					c, model);
 

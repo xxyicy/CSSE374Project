@@ -1,22 +1,13 @@
 package forTest;
 
 
-import impl.Model;
+
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pattern.api.IDetector;
-import pattern.impl.AdapterDetector;
-import pattern.impl.CompositeDetector;
-import pattern.impl.DecoratorDetector;
-import pattern.impl.SingletonDetector;
-import visitor.impl.GraphVizOutputStream;
-import visitor.impl.IOutputStream;
-import visitor.impl.SDEditOutputStream;
-import api.IModel;
 
 
 public class App {

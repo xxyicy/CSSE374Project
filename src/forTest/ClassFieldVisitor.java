@@ -4,11 +4,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Type;
 import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
-import api.IClass;
-import api.IField;
-import api.IModel;
-import impl.Field;
-import impl.Relation;
+
 
 public class ClassFieldVisitor extends ClassVisitor {
 	private IClass c;

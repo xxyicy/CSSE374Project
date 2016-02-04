@@ -1,17 +1,11 @@
 package forTest;
 
-import impl.Pattern;
+
 
 import java.util.HashSet;
 import java.util.Set;
 
-import pattern.api.IDetector;
-import api.IClass;
-import api.IField;
-import api.IMethod;
-import api.IModel;
-import api.IPattern;
-import api.IRelation;
+
 
 public class DecoratorDetector implements IDetector {
 

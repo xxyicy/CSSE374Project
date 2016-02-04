@@ -7,13 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import api.IMethod;
-import app.Utility;
-import visitor.api.ITraverser;
-import visitor.api.IVisitMethod;
-import visitor.api.IVisitor;
-import visitor.api.VisitType;
-import visitor.api.Visitor;
 
 public class SDEditOutputStream extends IOutputStream {
 	private final IVisitor visitor;

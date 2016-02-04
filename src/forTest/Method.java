@@ -2,9 +2,7 @@ package forTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import app.Utility;
-import visitor.api.IVisitor;
-import api.IMethod;
+
 
 public class Method implements IMethod {
 
@@ -205,5 +203,7 @@ public class Method implements IMethod {
 	public void setStatic(boolean s) {
 		this.isStatic = s;
 	}
+
+
 
 }
