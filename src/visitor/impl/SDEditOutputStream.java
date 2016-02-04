@@ -1,6 +1,5 @@
 package visitor.impl;
 
-import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import visitor.api.IVisitor;
 import visitor.api.VisitType;
 import visitor.api.Visitor;
 
-public class SDEditOutputStream extends FilterOutputStream {
+public class SDEditOutputStream extends IOutputStream {
 	private final IVisitor visitor;
 	private Map<String, String> declaration;
 	private List<String> existedClass;
@@ -33,6 +32,8 @@ public class SDEditOutputStream extends FilterOutputStream {
 		this.classes = new StringBuffer();
 		this.setupVisitMethod();
 	}
+
+	
 
 	private void write(String m) {
 		try {
@@ -51,6 +52,7 @@ public class SDEditOutputStream extends FilterOutputStream {
 		}
 	}
 
+	@Override
 	public void write(IMethod m) {
 		ITraverser t = (ITraverser) m;
 		t.accept(this.visitor);

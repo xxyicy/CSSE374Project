@@ -60,6 +60,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		
 //		String className = this.c.getName().replaceAll("/", ".");
 		
+
 //		if(acc.equals("+") && type.equals(className) && (access & Opcodes.ACC_STATIC) != 0 ){
 //		
 //			this.c.getDeclaration().orWithCode(0b0010);

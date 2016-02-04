@@ -33,6 +33,7 @@ public class AdapterDetector implements IDetector {
 		IClass adapter = null;
 		IClass ITarget = null;
 
+		
 		for (IClass c : m.getClasses()) {
 			Set<String> result = this.getInterfaces(c, m.getRelations());
 			if (result.size() == 1) {
@@ -43,7 +44,6 @@ public class AdapterDetector implements IDetector {
 				if (target == null) {
 					throw new Exception("unexpected situation");
 				}
-
 				// collect information about methods in the target interface
 				List<String> targetMethods = new ArrayList<String>();
 				for (IMethod method : target.getMethods()) {
@@ -109,7 +109,7 @@ public class AdapterDetector implements IDetector {
 
 	private void constructPattern(String adaptee, IClass adapter,
 			IClass ITarget, IModel m) throws IOException {
-	
+		
 		if (adaptee != null && adapter != null && ITarget != null) {
 			System.out.print(adapter.getName() + ":" + ITarget.getName() + ":"
 					+ adaptee);
