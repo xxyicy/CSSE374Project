@@ -52,6 +52,9 @@ public class NewbeeFramework {
 		this.writeOutput();
 	}
 	
+	
+	
+	
 	private void detectPattern() throws Exception{
 		for(IDetector d : this.detectors){
 			d.detect(model);

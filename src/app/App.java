@@ -10,6 +10,7 @@ import java.util.List;
 
 import pattern.api.IDetector;
 import pattern.impl.AdapterDetector;
+import pattern.impl.CompositeDetector;
 import pattern.impl.DecoratorDetector;
 import pattern.impl.SingletonDetector;
 import visitor.impl.GraphVizOutputStream;
@@ -66,7 +67,8 @@ public class App {
 		IDetector adapter = new AdapterDetector();
 		nf.addDetector(adapter);
 		
-		
+		IDetector composite = new CompositeDetector();
+		nf.addDetector(composite);
 		nf.process();
 		
 //		graphOut.start();

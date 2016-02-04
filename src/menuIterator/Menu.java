@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Menu extends MenuComponent {
  
-	ArrayList<MenuComponent> menuComponents = new ArrayList<MenuComponent>();
+	ArrayList menuComponents = new ArrayList();
 	String name;
 	String description;
   

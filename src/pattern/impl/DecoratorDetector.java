@@ -17,7 +17,7 @@ public class DecoratorDetector implements IDetector {
 
 	@Override
 	public void detect(IModel m) throws Exception {
-		
+
 		for (IClass c : m.getClasses()) {
 			Set<String> paramsInConst = this.getParamInConst(c);
 			IField f = this.composeSuper(c, m);
@@ -25,25 +25,28 @@ public class DecoratorDetector implements IDetector {
 				this.detectPatternWithField(f, c, m);
 			} else {
 				IField d = this.composeInterface(c, m);
-				if (d != null && paramsInConst.contains(d.getType().replaceAll("[.]", "/"))) {
+				if (d != null
+						&& paramsInConst.contains(d.getType().replaceAll("[.]",
+								"/"))) {
 					this.detectPatternWithField(d, c, m);
 				}
 			}
 		}
+
 	}
 
-	private Set<String> getParamInConst(IClass c){
+	private Set<String> getParamInConst(IClass c) {
 		Set<String> result = new HashSet<String>();
-		for (IMethod m: c.getMethods()){
-			if(m.getName().equals("init")){
-				for(String s : m.getParamTypes()){
+		for (IMethod m : c.getMethods()) {
+			if (m.getName().equals("init")) {
+				for (String s : m.getParamTypes()) {
 					result.add(s);
 				}
 			}
 		}
 		return result;
 	}
-	
+
 	private IClass getClassByName(IModel m, String name) {
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals(name)) {
@@ -89,7 +92,7 @@ public class DecoratorDetector implements IDetector {
 		System.out.println("found" + c.getName() + " decorates " + calledClass);
 		IClass component = this.getClassByName(m, calledClass);
 
-		if(component == null){
+		if (component == null) {
 			return;
 		}
 		IPattern p = new Pattern("Decorator");
@@ -156,8 +159,6 @@ public class DecoratorDetector implements IDetector {
 		}
 		return result;
 	}
-
-	
 
 	private Set<String> getSuperClasses(IClass c, Set<IRelation> r) {
 		Set<String> result = new HashSet<String>();

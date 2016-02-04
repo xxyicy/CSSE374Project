@@ -11,7 +11,6 @@ public abstract class IOutputStream extends FilterOutputStream {
 		super(out);
 	}
 	
-	
 	public void start(){
 		throw new UnsupportedOperationException();
 	}
