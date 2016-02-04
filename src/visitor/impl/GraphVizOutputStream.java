@@ -1,6 +1,6 @@
 package visitor.impl;
 
-import java.io.FilterOutputStream;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -18,7 +18,7 @@ import visitor.api.IVisitMethod;
 import visitor.api.IVisitor;
 import visitor.api.VisitType;
 
-public class GraphVizOutputStream extends FilterOutputStream {
+public class GraphVizOutputStream extends IOutputStream {
 	private final IVisitor visitor;
 	private StringBuffer result;
 
@@ -54,15 +54,19 @@ public class GraphVizOutputStream extends FilterOutputStream {
 		}
 	}
 
+	@Override
 	public void write(IModel m) {
 		ITraverser t = (ITraverser) m;
 		t.accept(this.visitor);
 	}
 
+	
+	
 	public String toString() {
 		return this.result.toString();
 	}
 
+	@Override
 	public void start() {
 		this.writeln("digraph G {");
 		this.writeln("fontname = \"Avenir Book\"");
@@ -79,7 +83,8 @@ public class GraphVizOutputStream extends FilterOutputStream {
 		this.writeln("fontsize = 10");
 		this.writeln("]");
 	}
-
+	
+	@Override
 	public void end() {
 		this.writeln("}");
 	}

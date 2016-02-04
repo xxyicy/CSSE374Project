@@ -1,50 +1,43 @@
 package app;
 
-import impl.Clazz;
-import impl.Method;
+
 import impl.Model;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Opcodes;
 
 import pattern.api.IDetector;
 import pattern.impl.AdapterDetector;
 import pattern.impl.DecoratorDetector;
 import pattern.impl.SingletonDetector;
 import visitor.impl.GraphVizOutputStream;
+import visitor.impl.IOutputStream;
 import visitor.impl.SDEditOutputStream;
-import api.IClass;
-import api.IMethod;
 import api.IModel;
-import asm.ClassDeclarationVisitor;
-import asm.ClassFieldVisitor;
-import asm.ClassMethodVisitor;
+
 
 public class App {
 
 	public static void main(String[] args) throws Exception {
 
-		IModel m = new Model();	
-		NewbeeFramework nf;
+		
 		
 		if (args.length < 2) {
 			throw new Exception("Not Enough Parameters");
 		}
-		if (args[0].equals("UML")){		
-
+		if (args[0].equals("UML")){				
 			createUmlDiagram(args[1]);
 		} else if (args[0].equals("UMLWP")) {
 			createUmlWithPattern(args[1]);
 		} else if (args[0].equals("SD")) {
 			String[] params = new String[2];
 			params[0] = args[1];
-			params[1] = args[2];
+			if(args.length>=3){
+				params[1] = args[2];
+			}
+			
 			createSequenceDiagram(params);
 		} else {
 			throw new Exception("Command not found");
@@ -59,60 +52,37 @@ public class App {
 		for (Class<?> clazz : classes) {
 			cs.add(clazz.getName());
 		}
+		
+		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
+		NewbeeFramework nf;
+		nf = new NewbeeFramework("UMLWP", cs,graphOut);
 
-		GraphVizOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
-
-		IModel m = new Model();
-
-		List<String> classRead = new ArrayList<>();
-
-		while (!cs.isEmpty()) {
-			String clazz = cs.get(0);
-			cs.remove(0);
-
-			ClassReader reader = new ClassReader(clazz);
-			IClass c = new Clazz();
-			// make class declaration visitor to get superclass and interfaces
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m, cs);
-			// DECORATE declaration visitor with field visitor
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
-			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-
-			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-
-			clazz = clazz.replaceAll("/", ".");
-			if (!c.getName().contains("$") && !classRead.contains(clazz)) {
-				m.addClass(c);
-				classRead.add(clazz);
-			}
-
-		}
-		m.setRelation(Utility.removeRelationNotInPackage(m));
-
+		
+		//Adding detectors to the framework
 		IDetector d = new SingletonDetector();
-		d.detect(m);
-
+		nf.addDetector(d);
 		IDetector decorator = new DecoratorDetector();
-		decorator.detect(m);
-
+		nf.addDetector(decorator);
 		IDetector adapter = new AdapterDetector();
-		adapter.detect(m);
-
-		graphOut.start();
-
-		graphOut.write(m);
-
-		graphOut.end();
-
-		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit
-		// the class
-
-		graphOut.close();
+		nf.addDetector(adapter);
+		
+		
+		nf.process();
+		
+//		graphOut.start();
+//
+//		graphOut.write(m);
+//
+//		graphOut.end();
+//
+//		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit
+//		// the class
+//
+//		graphOut.close();
 
 	}
 
-	public static void createUmlDiagram(String arg) throws IOException {
+	public static void createUmlDiagram(String arg) throws Exception {
 		Utility.APP_TYPE = Utility.APP_UML;
 		List<Class<?>> classes = ClassFinder.find(arg);
 		List<String> cs = new ArrayList<>();
@@ -121,40 +91,22 @@ public class App {
 		}
 
 
-		GraphVizOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
+		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		IModel m = new Model();
 
-		for (String clazz : cs) {
+		NewbeeFramework nf = new NewbeeFramework("UML",cs,graphOut);
+		nf.process();
 
-			ClassReader reader = new ClassReader(clazz);
-
-			IClass c = new Clazz();
-			// make class declaration visitor to get superclass and interfaces
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
-
-			// DECORATE declaration visitor with field visitor
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
-
-			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-
-			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-
-			if (!c.getName().contains("$")) {
-				m.addClass(c);
-			}
-		}
-
-		graphOut.start();
-
-		graphOut.write(m);
-
-		graphOut.end();
-
-		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit
-		// the class
-
-		graphOut.close();
+//		graphOut.start();
+//
+//		graphOut.write(m);
+//
+//		graphOut.end();
+//
+//		// Tell the Reader to use our (heavily decorated) ClassVisitor to visit
+//		// the class
+//
+//		graphOut.close();
 	}
 
 	public static void createSequenceDiagram(String[] args) throws Exception {
@@ -162,31 +114,20 @@ public class App {
 		if (args.length < 1) {
 			throw new Exception("No given method name");
 		}
-
-		String methodFQS = args[0];
-
-		int depth = args.length == 2 ? Integer.valueOf(args[1]) : 5;
-
-		String[] methodInfo = Utility.parseMethodSignature(methodFQS);
-		String methodClassName = methodInfo[0];
-		String methodName = methodInfo[1];
-		List<String> params = new ArrayList<String>();
-		for (int i = 2; i < methodInfo.length; i++) {
-			params.add(methodInfo[i].split(" ")[0]);
-		}
-
-		IMethod startMethod = new Method(methodName, "", "", params, new ArrayList<String>(), methodClassName);
-
-		List<String> classesRead = new ArrayList<String>();
-
-		Utility.readClassAndMethods(startMethod, depth, classesRead);
-
-		SDEditOutputStream sdEditOut = new SDEditOutputStream(new FileOutputStream("./output/output.txt"));
-		sdEditOut.write(startMethod);
+		
+		List<String> cs = Arrays.asList(args);
+		
+		IOutputStream sdEditOut = new SDEditOutputStream(new FileOutputStream("./output/output.txt"));
+		NewbeeFramework nf = new NewbeeFramework("SD",cs,sdEditOut);
+		
+		
+		nf.process();
+		
+		
 		System.out.println(sdEditOut.toString());
 
-		sdEditOut.close();
-		System.out.println(startMethod.printCallChains(0));
+
+		
 
 	}
 

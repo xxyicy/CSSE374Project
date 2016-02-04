@@ -8,6 +8,8 @@ public class Field implements IField {
 	private String name;
 	private String type;
 	private String access;
+	private String innerType;
+	
 	
 	public Field(String name,String type,String access){
 		this.name = name;
@@ -21,6 +23,9 @@ public class Field implements IField {
 		result += "type:" + this.type + " ";
 		result += "name:" + this.name + " ";
 		result += "accss:" + this.access; 
+		if(this.innerType != null){
+			result += " "+"innerType: "+this.innerType;
+		}
 		return result;
 	}
 	
@@ -54,6 +59,16 @@ public class Field implements IField {
 	@Override
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
+	}
+
+	@Override
+	public String getInnerType() {
+		return this.innerType;
+	}
+
+	@Override
+	public void setInnerType(String compositeType) {
+		this.innerType = compositeType;
 	}
 
 }
