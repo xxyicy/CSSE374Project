@@ -4,8 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +15,9 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 import api.IClass;
-import api.IDeclaration;
+
 import api.IModel;
-import api.IRelation;
+
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
