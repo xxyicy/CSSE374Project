@@ -92,13 +92,13 @@ public class TestForGraphViz {
 		expectedResult.append("fontsize = 10\n");
 		expectedResult.append("]\n");
 
-		expectedResult.append("AbstractSprite [\n");
+		expectedResult.append("CompositeSprite [\n");
 		expectedResult.append("shape=\"record\",\n");
 		expectedResult.append("color=\"blue\"\n");
 		expectedResult
-				.append("label = \"{AbstractSprite\\n\\<\\<abstract\\>\\>\\n|- dx : double\\l- dy: double\\1- shape:Shape\\1|- init() : void\\l+ getInstance() : Singleton1\\l}\"\n"
+				.append("label = \"{CompositeSprite\\n\\<\\<\\>\\>\\n|- children:List<ISprite>\\1|- init(arg0:double,arg1:double,arg2:double,arg3:double) : void\\l+ iterator() : Iterator<ISprite>\\l+ add(arg0:ISprite) : void\\1+ remove(arg0:ISprite)\\1+ getChild(arg0:int) :ISprite\\1+ move(arg0:Dimension):void }\"\n"
 						+ "];\n");
-		expectedResult.append("AbstractSprite -> AbstractSprite [arrowhead=\"vee\"]\n");
+		expectedResult.append("CompositeSprite -> CompositeSprite [arrowhead=\"vee\"]\n");
 		expectedResult.append("}\n");
 
 		assertEquals(expectedResult.toString(), v.toString());
