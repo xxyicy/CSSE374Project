@@ -1,0 +1,32 @@
+<<<<<<< HEAD
+=======
+digraph G {
+fontname = "Avenir Book"
+fontsize = 10
+node [
+fontname = "Avenir Book"
+fontsize = 10
+shape = "record"
+]
+edge [
+fontname = "Avenir Book"
+fontsize = 10
+]
+AbstractSprite [
+shape="record",
+label = "{AbstractSprite|# dx : double\l# dy : double\l# shape : Shape\l|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l# computeNewBoundsAfterMoving(arg0:Dimension) : Rectangle2D\l+ getShape() : Shape\l+ add(arg0:ISprite) : void\l+ remove(arg0:ISprite) : void\l+ getChild(arg0:int) : ISprite\l+ iterator() : Iterator\l+ move(arg0:Dimension) : void\l}"
+];
+ISprite [
+shape="record",
+label = "{\<\<interface\>\>\nISprite|+ move(arg0:Dimension) : void\l+ getShape() : Shape\l+ add(arg0:ISprite) : void\l+ remove(arg0:ISprite) : void\l+ getChild(arg0:int) : ISprite\l}"
+];
+Iterable [
+shape="record",
+label = "{\<\<interface\>\>\nIterable|+ iterator() : Iterator\l+ forEach(arg0:Consumer) : void\l+ spliterator() : Spliterator\l}"
+];
+AbstractSprite -> ISprite [arrowhead="onormal",style="dashed"]
+AbstractSprite -> ISprite [arrowhead="vee",style="dashed"]
+ISprite -> Iterable [arrowhead="onormal",style="dashed"]
+ISprite -> ISprite [arrowhead="vee",style="dashed"]
+}
+>>>>>>> 40103cf50e867555d0330dc1b69c34ecd82292b6
