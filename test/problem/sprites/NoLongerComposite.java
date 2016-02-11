@@ -1,57 +1,34 @@
 package problem.sprites;
 
 import java.awt.Dimension;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
+
 import java.util.Iterator;
 
-	public abstract class NoLongerComposite implements ISprite {
-		protected double dx;
-		protected double dy;
-		protected Shape shape;
-		
 
-		// Subclasses need to chain this constructor
-		public NoLongerComposite(double x, double y, double width, double height) {
-			this.dx = SpriteFactory.DX;
-			this.dy = SpriteFactory.DY;
-		}
+public class NoLongerComposite extends AbstractSprite {
+	ISprite children;
 
-		
-		// Designed to be used by subclasses
-		protected final Rectangle2D computeNewBoundsAfterMoving(Dimension space) {
-			Rectangle2D bounds = shape.getBounds2D();
-			
-			if(bounds.getX() < 0 || bounds.getX() > space.getWidth())
-				dx = -dx;
+	public NoLongerComposite(double x, double y, double width, double height) {
+		super(x, y, width, height);
+	}
 
-			if(bounds.getY() < 0 || bounds.getY() > space.getHeight())
-				dy = -dy;
-			
-			Rectangle2D newBounds = new Rectangle2D.Double(bounds.getX() + dx,
-															bounds.getY() + dy,
-															bounds.getWidth(),
-															bounds.getHeight());
-			return newBounds;
-		}
-		
-		@Override
-		public final Shape getShape() {
-			return this.shape;
-		}
-		
-		
+	@Override
+	public Iterator<ISprite> iterator() {
+		return new CompositeSpriteIterator(children.iterator());
+	}
 
-		@Override
-		public ISprite getChild(int index) {
-			throw new UnsupportedOperationException();
-		}
+	@Override
+	public void add(ISprite s) {
+		children = s;
+	}
 
-		@Override
-		public Iterator<ISprite> iterator() {
-			return new NullSpriteIterator();
+
+	
+
+	@Override
+	public void move(Dimension space) {
+		for(ISprite s : children) {
+			s.move(space);
 		}
-		
-		@Override
-		public abstract void move(Dimension space);
+	}
 }

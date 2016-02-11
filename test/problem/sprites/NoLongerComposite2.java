@@ -1,65 +1,33 @@
 package problem.sprites;
 
 import java.awt.Dimension;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public abstract class NoLongerComposite2 implements ISprite {
-	protected double dx;
-	protected double dy;
-	protected Shape shape;
-	
+public class NoLongerComposite2 extends AbstractSprite {
+	List<ISprite> children;
 
-	// Subclasses need to chain this constructor
 	public NoLongerComposite2(double x, double y, double width, double height) {
-//		
-	}
-
-	
-	// Designed to be used by subclasses
-	protected final Rectangle2D computeNewBoundsAfterMoving(Dimension space) {
-		Rectangle2D bounds = shape.getBounds2D();
-		
-		if(bounds.getX() < 0 || bounds.getX() > space.getWidth())
-			dx = -dx;
-
-		if(bounds.getY() < 0 || bounds.getY() > space.getHeight())
-			dy = -dy;
-		
-		Rectangle2D newBounds = new Rectangle2D.Double(bounds.getX() + dx,
-														bounds.getY() + dy,
-														bounds.getWidth(),
-														bounds.getHeight());
-		return newBounds;
-	}
-	
-	@Override
-	public final Shape getShape() {
-		return this.shape;
-	}
-	
-	@Override
-	public void add(ISprite s) {
-		throw new UnsupportedOperationException();
-	}
-
-
-	@Override
-	public void remove(ISprite s) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public ISprite getChild(int index) {
-		throw new UnsupportedOperationException();
+		super(x, y, width, height);
+		children = new ArrayList<ISprite>();
 	}
 
 	@Override
 	public Iterator<ISprite> iterator() {
-		return new NullSpriteIterator();
+		return new CompositeSpriteIterator(children.iterator());
 	}
+
+
+	public void add() {
+		children.add(new NoLongerComposite2(0,0,0,0));
+	}
+
 	
 	@Override
-	public abstract void move(Dimension space);
+	public void move(Dimension space) {
+		for(ISprite s : children) {
+			s.move(space);
+		}
+	}
 }

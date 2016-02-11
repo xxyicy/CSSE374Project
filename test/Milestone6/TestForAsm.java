@@ -48,7 +48,7 @@ public class TestForAsm {
 	@Test
 	public void TestComposite1() throws Exception {
 		List<String> cs = new ArrayList<>();
-		cs.add("problem/sprites/AbstractSprite");
+		cs.add("problem/sprites/CompositeSprite");
 
 		IModel m = new Model();
 
@@ -77,15 +77,16 @@ public class TestForAsm {
 
 		}
 
+		System.out.println(m);
 		detect.detect(m);
 		System.out.println(m);
 		for (IClass c : m.getClasses()) {
 		//	System.out.println(c.getName()+"boo");
 			System.out.println(c.getFields()+"baa");
 			
-			if (c.getName().equals("problem/sprites/AbstractSprite")) {
+			if (c.getName().equals("problem/sprites/CompositeSprite")) {
 				//System.out.println(c.getName() + "blah");
-				assertEquals(true, c.getTags().contains("composite"));
+				assertEquals(true, c.getTags().contains("Composite"));
 			//	assertEquals(true,c.getFields().size()!=0);
 			}
 
@@ -186,7 +187,7 @@ public class TestForAsm {
 			
 			if (c.getName().equals("problem/sprites/CrystalBall")) {
 				//System.out.println(c.getName() + "blah");
-				assertEquals(false, c.getTags().contains("composite"));
+				assertEquals(false, c.getTags().contains("Composite"));
 				
 				
 				
@@ -240,7 +241,7 @@ public class TestForAsm {
 			
 			if (c.getName().equals("problem/sprites/ISprite")) {
 				//System.out.println(c.getName() + "blah");
-				assertEquals(false, c.getTags().contains("composite"));
+				assertEquals(false, c.getTags().contains("Composite"));
 				assertEquals(true,c.getFields().size()==0);
 				//assertEquals(true, );
 				
@@ -296,7 +297,7 @@ public class TestForAsm {
 			
 			if (c.getName().equals("problem/sprites/NoLongerComposite")) {
 				//System.out.println(c.getName() + "blah");
-				assertEquals(false, c.getTags().contains("composite"));
+				assertEquals(false, c.getTags().contains("Composite"));
 				
 			}
 
@@ -345,7 +346,7 @@ public class TestForAsm {
 			
 			if (c.getName().equals("problem/sprites/NoLongerComposite2")) {
 				//System.out.println(c.getName() + "blah");
-				assertEquals(false, c.getTags().contains("composite"));
+				assertEquals(false, c.getTags().contains("Composite"));
 				
 			}
 
@@ -395,7 +396,7 @@ public class TestForAsm {
 			
 			if (c.getName().equals("CompositeExample/CompositeExample")) {
 				//System.out.println(c.getName() + "blah");
-				assertEquals(true, c.getTags().contains("composite"));
+				assertEquals(false, c.getTags().contains("Composite"));
 				
 			}
 
