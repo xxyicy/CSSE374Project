@@ -14,7 +14,8 @@ import api.IPattern;
 import api.IRelation;
 
 public class DecoratorDetector implements IDetector {
-
+	private int threshold = 1;
+	
 	@Override
 	public void detect(IModel m) throws Exception {
 
@@ -32,7 +33,6 @@ public class DecoratorDetector implements IDetector {
 				}
 			}
 		}
-
 	}
 
 	private Set<String> getParamInConst(IClass c) {
@@ -63,27 +63,28 @@ public class DecoratorDetector implements IDetector {
 			fieldType = fieldType.replaceAll("[.]", "/");
 			this.updateModelWithPattern(c, m, fieldType);
 		} else {
+			String fieldType = f.getType();
+			fieldType = fieldType.replaceAll("[.]", "/");
+			int methodCount  = 0;
 			for (IMethod s : c.getMethods()) {
-				boolean found = false;
+				
 				for (IMethod called : s.getCalls()) {
 					String calledClass = called.getClassName();
-					String fieldType = f.getType();
-					fieldType = fieldType.replaceAll("[.]", "/");
-
 					if (s.getName().equals(called.getName())
 							&& fieldType.equals(calledClass)
 							&& !calledClass.equals("java/lang/Object")) {
-						//
-						this.updateModelWithPattern(c, m, calledClass);
-						found = true;
+						
+						methodCount ++;
 						break;
-
 					}
 				}
-				if (found) {
-					break;
-				}
 			}
+			System.out.println("methodCount is : " + methodCount);
+			if(methodCount >= this.threshold){
+				this.updateModelWithPattern(c, m, fieldType);
+			}
+			
+			
 		}
 	}
 
@@ -95,6 +96,7 @@ public class DecoratorDetector implements IDetector {
 		if (component == null) {
 			return;
 		}
+		
 		IPattern p = new Pattern("Decorator");
 		
 		component.addTag("component");
@@ -105,6 +107,7 @@ public class DecoratorDetector implements IDetector {
 		
 		this.addTagAndUpdatePattern(p, c, m);
 		
+	
 		for (IRelation i : m.getRelations()) {
 			if (i.getFrom().equals(c.getName())
 					&& i.getTo().replaceAll("[.]", "/").equals(calledClass)

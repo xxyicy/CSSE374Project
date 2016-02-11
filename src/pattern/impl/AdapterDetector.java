@@ -26,14 +26,16 @@ import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
 
 public class AdapterDetector implements IDetector {
-
+	private int threshold = 1;
+	
+	
 	@Override
 	public void detect(IModel m) throws Exception {
 		String adaptee = null;
 		IClass adapter = null;
 		IClass ITarget = null;
-
 		
+
 		for (IClass c : m.getClasses()) {
 			Set<String> result = this.getInterfaces(c, m.getRelations());
 			if (result.size() == 1) {
@@ -41,53 +43,67 @@ public class AdapterDetector implements IDetector {
 				System.out.println(first);
 				// find the target interface
 				IClass target = this.getClassByName(m, first);
-				
+
 				if (target == null) {
 					throw new Exception("unexpected situation");
 				}
+
 				// collect information about methods in the target interface
 				List<String> targetMethods = new ArrayList<String>();
-				
+
 				for (IMethod method : target.getMethods()) {
 					targetMethods.add(method.getName());
 				}
 
-				
+				// find types of fields that are parameters of constructor
 				List<String> fieldTypes = new ArrayList<String>();
 				for (IField f : c.getFields()) {
 					String fieldType = f.getType();
 					fieldType = fieldType.replaceAll("[.]", "/");
-					fieldTypes.add(fieldType);
+					
+					if(this.checkConstructor(fieldType, c)){
+						fieldTypes.add(fieldType);
+					}
 				}
-
+				
+				
+				
 				
 
 				// used to store all the ClassName of methods invoked in those
 				// methods that also exist in super interface
-				List<String> calledClasses = null;
+				
+				int methodCount = 0;
+				Set<String> adaptees = new HashSet<String>();
+				Set<IMethod> methodsInInterface = new HashSet<IMethod>();
+				
+				
+				//find all the methods inherited from interface.
 				for (IMethod meth : c.getMethods()) {
 					if (targetMethods.contains(meth.getName())) {
-						System.out.println(meth.printCallChains(0));
-
-						List<String> tmp = new ArrayList<String>();
-						for (IMethod called : meth.getCalls()) {
-							tmp.add(called.getClassName());
-						}
-
-						if (calledClasses == null) {
-							calledClasses = tmp;
-						} else {
-							calledClasses = this.intersection(calledClasses,
-									tmp);
-						}
+						methodsInInterface.add(meth);
+					}
+				}
+				
+				
+							
+				for (IMethod meth : methodsInInterface) {
+					List<String> tmp = new ArrayList<String>();
+					// find all the class types invoked in the method
+					for (IMethod called : meth.getCalls()) {
+						tmp.add(called.getClassName());
+					}
+					
+					List<String> intersection = this.intersection(fieldTypes, tmp);
+					if(!intersection.isEmpty()){
+						adaptees.addAll(intersection);
+						methodCount ++;
 					}
 				}
 
-				List<String> adaptees = this.intersection(calledClasses,
-						fieldTypes);
 				
 
-				if (adaptees.isEmpty()) {
+				if (adaptees.isEmpty() || methodCount < this.threshold) {
 					continue;
 				}
 
@@ -95,17 +111,18 @@ public class AdapterDetector implements IDetector {
 					throw new Exception("Detect more than 1 adaptee?");
 				}
 
-				adaptee = adaptees.get(0);
+				
+				
+				adaptee = adaptees.iterator().next();
 				System.out.println("adaptee found is " + adaptee);
-				
-				if(!this.checkConstructor(adaptee, c)){
-					adaptee = null;
-					break;
-				}
-				
-				
+
+//				if (!this.checkConstructor(adaptee, c)) {
+//					adaptee = null;
+//					break;
+//				}
+
 				adapter = c;
-				
+
 				ITarget = target;
 
 				break;
@@ -117,33 +134,31 @@ public class AdapterDetector implements IDetector {
 
 	}
 
-	
-	private boolean checkConstructor(String adaptee, IClass adapter){
+	private boolean checkConstructor(String adaptee, IClass adapter) {
 		boolean result = false;
-		
-		for(IMethod m : adapter.getMethods()){
-			if(m.getName().equals("init")){
-				
+
+		for (IMethod m : adapter.getMethods()) {
+			if (m.getName().equals("init")) {
+
 				String toFound = adaptee.replaceAll("/", ".");
-				if(m.getParamTypes().contains(toFound)){
+				if (m.getParamTypes().contains(toFound)) {
 					result = true;
 				}
 			}
 		}
 		return result;
 	}
-	
+
 	private void constructPattern(String adaptee, IClass adapter,
 			IClass ITarget, IModel m) throws IOException {
-		
+
 		if (adaptee != null && adapter != null && ITarget != null) {
 			System.out.print(adapter.getName() + ":" + ITarget.getName() + ":"
 					+ adaptee);
-			
+
 			IClass adapteeClass = this.getClassByName(m, adaptee);
-			
-			
-			//possible if adaptee class is not read yet
+
+			// possible if adaptee class is not read yet
 			if (adapteeClass == null) {
 
 				ClassReader reader = new ClassReader(adaptee);
@@ -171,22 +186,23 @@ public class AdapterDetector implements IDetector {
 			adapteeClass.addTag("adaptee");
 			adapter.addTag("adapter");
 			ITarget.addTag("target");
-			
-			
+
 			boolean suc = false;
 			for (IRelation r : m.getRelations()) {
 				if (r.getFrom().equals(adapter.getName())
-				&& r.getTo().replaceAll("[.]", "/").equals(adaptee) && r.getType().equals("association")) {
-						r.setDes("adapts");
-						suc = true;
+						&& r.getTo().replaceAll("[.]", "/").equals(adaptee)
+						&& r.getType().equals("association")) {
+					r.setDes("adapts");
+					suc = true;
 				}
 			}
-			if(!suc){
-				IRelation ir = new Relation(adapter.getName(),adaptee,"association");
+			if (!suc) {
+				IRelation ir = new Relation(adapter.getName(), adaptee,
+						"association");
 				ir.setDes("adapts");
 				m.addRelation(ir);
 			}
-			
+
 			IPattern p = new Pattern("adapter");
 			p.addClass(adapteeClass);
 			p.addClass(adapter);
@@ -197,7 +213,7 @@ public class AdapterDetector implements IDetector {
 
 	private List<String> intersection(List<String> a, List<String> b) {
 		List<String> r = new ArrayList<String>();
-		if(a==null || b ==null){
+		if (a == null || b == null) {
 			return r;
 		}
 		for (String s : a) {
