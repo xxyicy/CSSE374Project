@@ -48,9 +48,13 @@ public class App {
 		Utility.APP_TYPE = Utility.APP_UMLWP;
 		List<Class<?>> classes = ClassFinder.find(arg);
 		List<String> cs = new ArrayList<>();
-		for (Class<?> clazz : classes) {
-			cs.add(clazz.getName());
-		}
+		
+//		for (Class<?> clazz : classes) {
+//			cs.add(clazz.getName());
+//		}
+		
+		cs.add("javax.swing.JPanel");
+		cs.add("javax.swing.JLabel");
 		
 		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		NewbeeFramework nf;
