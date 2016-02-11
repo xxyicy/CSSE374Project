@@ -2,8 +2,6 @@ package Milestone6;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileOutputStream;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,25 +21,19 @@ import asm.ClassMethodVisitor;
 import impl.Clazz;
 import impl.Model;
 import pattern.api.IDetector;
-import pattern.impl.AdapterDetector;
 import pattern.impl.CompositeDetector;
-import pattern.impl.DecoratorDetector;
-import visitor.impl.GraphVizOutputStream;
 
 public class TestForAsm {
 	private IModel m;
 	private IClass c;
-	private ClassVisitor visitor;
-	private GraphVizOutputStream v;
-
+	
 	@Before
 	public void setUp() throws Exception {
 		m = new Model();
 		c = new Clazz();
 		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
 		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
-		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
-		v = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
+		new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
 	}
 
 	@Test
@@ -221,7 +213,6 @@ public class TestForAsm {
 				m.addClass(c);
 				classRead.add(clazz);
 			}
-
 		}
 
 		detect.detect(m);

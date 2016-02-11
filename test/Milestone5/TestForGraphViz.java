@@ -27,7 +27,6 @@ import visitor.impl.GraphVizOutputStream;
 public class TestForGraphViz {
 	private IModel m;
 	private IClass c;
-	private ClassVisitor visitor;
 	private GraphVizOutputStream v;
 	private IDetector d;
 
@@ -37,7 +36,7 @@ public class TestForGraphViz {
 		c = new Clazz();
 		ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5, c, m);
 		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
-		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
+		new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
 		v = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		d = new DecoratorDetector();
 	}
