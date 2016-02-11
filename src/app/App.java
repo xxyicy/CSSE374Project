@@ -49,13 +49,10 @@ public class App {
 		List<Class<?>> classes = ClassFinder.find(arg);
 		List<String> cs = new ArrayList<>();
 		
-//		for (Class<?> clazz : classes) {
-//			cs.add(clazz.getName());
-//		}
-		
-		cs.add("javax.swing.JPanel");
-		cs.add("javax.swing.JLabel");
-		
+		for (Class<?> clazz : classes) {
+			cs.add(clazz.getName());
+		}
+			
 		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		NewbeeFramework nf;
 		nf = new NewbeeFramework("UMLWP", cs,graphOut);
