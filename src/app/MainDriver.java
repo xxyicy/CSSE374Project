@@ -11,6 +11,8 @@ public class MainDriver {
 	public MainDriver(String path) throws FileNotFoundException{
 		this.reader = new TMXXreader(path);
 		
+		
+		
 	}
 
 	public void readFile(){
