@@ -1,13 +1,19 @@
 package app;
 
+import impl.Model;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import api.IMethod;
+import api.IModel;
 import pattern.api.IDetector;
 import pattern.impl.AdapterDetector;
 import pattern.impl.CompositeDetector;
@@ -19,65 +25,86 @@ import visitor.impl.SDEditOutputStream;
 
 
 public class Framework {
-	private String inputFolder;
-	private List<String> inputClasses;
-	private String outputDir;
-	private String dotPath;
-	private List<String> phases;
-	private Map<String,String> attributeMap;
-	private NewBeeFramework framework;
-	private String appType;
+	private TMXXreader reader;
+	private List<String> classes;
+	private Set<IDetector> detectors;
+	private IOutputStream out;
+	private IModel model;
+	private IMethod start;
+	
+	private String currentTask = "Not Started";
+	private int progress = 0;
+	
+	
+	public Framework() throws FileNotFoundException, IOException{
+		this.currentTask = "Initializing";
+		this.model = new Model();
+		this.detectors = new HashSet<IDetector>();
+		this.classes = new ArrayList<String>();
+		this.out = null;
+		this.start = null;	
+		this.reader = null;
+	}
+	
+	
+	public void loadConfig(String path) throws IOException{
+		
+		this.reader = new TMXXreader(path);
+		this.reader.readFile();
+	}
 	
 	
 	
-	public Framework(String appType,String inputFolder, String outputDir, String dotPath) throws FileNotFoundException, IOException{
-		this.inputClasses = new ArrayList<String>();
-		this.phases = new ArrayList<String>();
-		this.attributeMap = new HashMap<>();
-		this.appType = appType;
-		this.inputFolder = inputFolder;
-		this.outputDir = outputDir;
-		this.dotPath = dotPath;
-		//this.initialize();
+	private void changeTask(String task){
+		this.currentTask = task;
+	}
+	
+	private void changeProgress(int pro){
+		this.progress = pro;
+	}
+	
+	
+	private void addDetector(IDetector d){
+		this.detectors.add(d);
 	}
 	
 	
 	
 	private void addDetectors(){
-		if(this.phases.contains("Decorator-Detection")){
-			String mdstr = this.attributeMap.get("Decorator-MethodDelegation");
+		if(this.reader.getPhases().contains("Decorator-Detection")){
+			String mdstr = this.reader.getAttrMap().get("Decorator-MethodDelegation");
 			int methodDelegation = 0;
 			if(mdstr != null){
 				methodDelegation = Integer.parseInt(mdstr);
 			}
 			IDetector decorator = new DecoratorDetector(methodDelegation);
-			this.framework.addDetector(decorator);
+			this.addDetector(decorator);
 		}
 		
-		if(this.phases.contains("Adapter-Detection")){
-			String mdstr = this.attributeMap.get("Adapter-MethodDelegation");
+		if(this.reader.getPhases().contains("Adapter-Detection")){
+			String mdstr = this.reader.getAttrMap().get("Adapter-MethodDelegation");
 			int methodDelegation = 0;
 			if(mdstr != null){
 				methodDelegation = Integer.parseInt(mdstr);
 			}
 			IDetector adapter = new AdapterDetector(methodDelegation);
-			this.framework.addDetector(adapter);
+			this.addDetector(adapter);
 		}
 		
-		if(this.phases.contains("Singleton-Detection")){
-			String mdstr = this.attributeMap.get("Singleton-RequireGetInstance");
+		if(this.reader.getPhases().contains("Singleton-Detection")){
+			String mdstr = this.reader.getAttrMap().get("Singleton-RequireGetInstance");
 			int methodDelegation = 0;
 			if(mdstr != null){
 				methodDelegation = Integer.parseInt(mdstr);
 			}
 			IDetector singleton = new SingletonDetector(methodDelegation);
-			this.framework.addDetector(singleton);
+			this.addDetector(singleton);
 		}
 		
-		if(this.phases.contains("Composite-Detection")){
+		if(this.reader.getPhases().contains("Composite-Detection")){
 			
 			IDetector composite = new CompositeDetector();
-			this.framework.addDetector(composite);
+			this.addDetector(composite);
 		}
 		
 		
@@ -86,23 +113,22 @@ public class Framework {
 	
 	
 	private void initialize() throws FileNotFoundException, IOException{
-		List<String> cs = this.loadClassNames();
-		IOutputStream out;
+		this.classes = this.loadClassNames();
 		
-		if(this.appType.equals("SD")){
-			out = new SDEditOutputStream(new FileOutputStream(this.outputDir));
+		
+		if(this.reader.getAppType().equals("SD")){
+			out = new SDEditOutputStream(new FileOutputStream(this.reader.getOutputDir()));
 		}
 		else{
-			out = new GraphVizOutputStream(new FileOutputStream(this.outputDir));
+			out = new GraphVizOutputStream(new FileOutputStream(this.reader.getOutputDir()));
 		}
 		
-		this.framework = new NewBeeFramework(this.appType,cs,this.inputClasses,out);
 		this.addDetectors();
 	}
 	
 	
 	private List<String> loadClassNames(){
-		List<Class<?>> classes = ClassFinder.find(this.inputFolder);
+		List<Class<?>> classes = ClassFinder.find(this.reader.getInputFolder());
 		List<String> cs = new ArrayList<>();
 		
 		for (Class<?> clazz : classes) {
@@ -113,29 +139,23 @@ public class Framework {
 	
 	
 	
-	public void addInputClass(String clazz){
-		this.inputClasses.add(clazz);
-	}
 	
-	public void addPhase(String p){
-		this.phases.add(p);
-	}
 	
-	public void addAttribute(String key,String value){
-		this.attributeMap.put(key, value);
-	}
+	
+	
+	
 	
 	
 	public String toString() {
 		String result = "";
-		result += "input-folder : " + this.inputFolder + "\n";
-		result += "output-dir : " + this.outputDir + "\n";
-		result += "dot-path : " + this.dotPath + "\n";
-		result += "app-type : " + this.appType + "\n";
-		result += "phases : " + this.phases + "\n";
-		result += "input-classes : " + this.inputClasses + "\n";
-		for (String s : this.attributeMap.keySet()) {
-			result += s + " : " + this.attributeMap.get(s) + "\n";
+		result += "input-folder : " + this.reader.getInputFolder() + "\n";
+		result += "output-dir : " + this.reader.getOutputDir() + "\n";
+		result += "dot-path : " + this.reader.getDotPath() + "\n";
+		result += "app-type : " + this.reader.getAppType() + "\n";
+		result += "reader.getPhases() : " + this.reader.getPhases() + "\n";
+		result += "input-classes : " + this.reader.getInputClasses() + "\n";
+		for (String s : this.reader.getAttrMap().keySet()) {
+			result += s + " : " + this.reader.getAttrMap().get(s) + "\n";
 		}
 		return result;
 

@@ -1,11 +1,13 @@
 package app;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class MainDriver {
 	
 	private TMXXreader reader;
+	
 	private String currentTask;
 	
 	public MainDriver(String path) throws FileNotFoundException{
@@ -13,8 +15,10 @@ public class MainDriver {
 		
 	}
 
-	public void readFile(){
-		
+	
+	
+	public void readFile() throws IOException{
+		this.reader.readFile();
 	}
 	
 	

@@ -80,27 +80,27 @@ public class TMXXreader {
 		}
 	}
 
-	public Framework constructFramework() throws IOException {
-		// read the input file
-		this.readFile();
-
-		// create a framework based on read in information
-		Framework fw = new Framework(appType, inputFolder, outputDir, dotPath);
-		for (String s : this.inputClasses) {
-			fw.addInputClass(s);
-		}
-
-		for (String s : this.phases) {
-			fw.addPhase(s);
-		}
-
-		for (String s : this.attributeMap.keySet()) {
-			fw.addAttribute(s, this.attributeMap.get(s));
-		}
-
-		return fw;
-
-	}
+//	public Framework constructFramework() throws IOException {
+//		// read the input file
+//		this.readFile();
+//
+//		// create a framework based on read in information
+//		Framework fw = new Framework(appType, inputFolder, outputDir, dotPath);
+//		for (String s : this.inputClasses) {
+//			fw.addInputClass(s);
+//		}
+//
+//		for (String s : this.phases) {
+//			fw.addPhase(s);
+//		}
+//
+//		for (String s : this.attributeMap.keySet()) {
+//			fw.addAttribute(s, this.attributeMap.get(s));
+//		}
+//
+//		return fw;
+//
+//	}
 
 	public String toString() {
 		String result = "";
@@ -115,6 +115,35 @@ public class TMXXreader {
 		}
 		return result;
 
+	}
+	
+	public String getInputFolder(){
+		return this.inputFolder;
+	}
+	
+	public String getOutputDir(){
+		return this.outputDir;
+	}
+	
+	public String getAppType(){
+		return this.appType;
+		
+	}
+	
+	public Map<String, String> getAttrMap(){
+		return this.attributeMap;
+	}
+	
+	public List<String> getPhases(){
+		return this.phases;
+	}
+	
+	public List<String> getInputClasses(){
+		return this.inputClasses;
+	}
+	
+	public String getDotPath(){
+		return this.dotPath;
 	}
 
 }

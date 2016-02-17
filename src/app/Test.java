@@ -8,7 +8,6 @@ public class Test {
 		TMXXreader reader= new TMXXreader("input/input.txt");
 		reader.readFile();
 		
-		Framework fw = reader.constructFramework();
-		System.out.println(fw);
+		System.out.println(reader);
 	}
 }

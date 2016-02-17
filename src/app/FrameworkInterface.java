@@ -4,13 +4,13 @@ import pattern.api.IDetector;
 import visitor.impl.IOutputStream;
 import impl.Clazz;
 import impl.Method;
-import impl.Model;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
+
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -24,17 +24,12 @@ import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
 import asm.SequenceMethodVisitor;
 
-public class FrameworkInterface {
-	
 
-	
-	
+public class FrameworkInterface {
+		
 	public void detectPattern(IDetector d, IModel m) throws Exception{
 		d.detect(m);
 	}
-	
-	
-	
 	
 	
 	public void loadInputClasses(List<String> additionalClasses,IModel model) throws IOException {
@@ -65,6 +60,7 @@ public class FrameworkInterface {
 		}	
 	}
 
+	
 	private void loadClassRecur(List<String> cs, IModel model) throws IOException {
 		List<String> classRead = new ArrayList<>();
 		while (!cs.isEmpty()) {

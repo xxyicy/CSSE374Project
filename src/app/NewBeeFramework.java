@@ -40,10 +40,10 @@ public class NewBeeFramework {
 		this.additionalClasses = additionalClasses;
 		this.detectors = new HashSet<IDetector>();
 		this.out = out;
-		this.start = null;
-		
+		this.start = null;	
 	}
 
+	
 	public void addDetector(IDetector d){
 		this.detectors.add(d);
 	}
