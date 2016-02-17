@@ -53,6 +53,7 @@ public class App {
 		for (Class<?> clazz : classes) {
 			cs.add(clazz.getName());
 		}
+
 		
 		
 		List<String> addi = new ArrayList<>();
@@ -60,6 +61,7 @@ public class App {
 //		addi.add("javax.swing.JPanel");
 //		addi.add("javax.swing.JLabel");
 		
+
 		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		NewBeeFramework nf;
 		nf = new NewBeeFramework("UMLWP", cs,addi,graphOut);
