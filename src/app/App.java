@@ -23,25 +23,25 @@ public class App {
 	public static void main(String[] args) throws Exception {
 
 		
-		if (args.length < 2) {
-			throw new Exception("Not Enough Parameters");
-		}
-		
-		if (args[0].equals("UML")){				
-			createUmlDiagram(args[1]);
-		} else if (args[0].equals("UMLWP")) {
-			createUmlWithPattern(args[1]);
-		} else if (args[0].equals("SD")) {
-			String[] params = new String[2];
-			params[0] = args[1];
-			if(args.length>=3){
-				params[1] = args[2];
-			}
-			
-			createSequenceDiagram(params);
-		} else {
-			throw new Exception("Command not found");
-		}
+//		if (args.length < 2) {
+//			throw new Exception("Not Enough Parameters");
+//		}
+//		
+//		if (args[0].equals("UML")){				
+//			createUmlDiagram(args[1]);
+//		} else if (args[0].equals("UMLWP")) {
+//			createUmlWithPattern(args[1]);
+//		} else if (args[0].equals("SD")) {
+//			String[] params = new String[2];
+//			params[0] = args[1];
+//			if(args.length>=3){
+//				params[1] = args[2];
+//			}
+//			
+//			createSequenceDiagram(params);
+//		} else {
+//			throw new Exception("Command not found");
+//		}
 
 		LandingPage p = new LandingPage();
 //		p.setDefaultLookAndFeelDecorated(true);

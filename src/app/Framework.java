@@ -39,9 +39,7 @@ public class Framework implements Notifier {
 	private static final double LOADING_CLASSES_FROM_FOLDER = 40;
 	private static final double PATTERN_DETECTION = 20;
 	private static final double GENERATE_DOT = 20;
-	
-	
-	
+
 	private static final String CLASS_LOADING = "Class-Loading";
 	private static final String DECORATOR_DETECTION = "Decorator-Detection";
 	private static final String COMPOSITE_DETECTION = "Composite-Detection";
@@ -49,7 +47,6 @@ public class Framework implements Notifier {
 	private static final String SINGLETON_DETECTION = "Singleton-Detection";
 	private static final String DOT_GENERATION = "DOT-Generation";
 
-	
 	public class ProgressBox {
 
 		private String currentTask;
@@ -97,11 +94,29 @@ public class Framework implements Notifier {
 		this.reader = null;
 	}
 
-	public void loadConfig(String path) throws IOException {
+	public void loadConfig(String path) {
 		this.changeProgress("Loading Configuration", -1);
-		this.reader = new TMXXreader(path);
-		this.reader.readFile();
-		this.changeProgress("Loading Configuration Finished", -1);
+		boolean loadFinished = true;
+		try {
+			this.reader = new TMXXreader(path);
+		} catch (Exception e) {
+			this.changeProgress("File Not Found", -1);
+			loadFinished = false;
+		}
+		
+		if(loadFinished){
+			try {
+				this.reader.readFile();
+			} catch (Exception e) {
+				this.changeProgress("File Not Found", -1);
+				loadFinished = false;
+			}
+		}
+		if(loadFinished){
+			this.changeProgress("Loading Configuration Finished", -1);
+		}
+
+		
 	}
 
 	private void changeProgress(String task, double progress) {
@@ -120,12 +135,11 @@ public class Framework implements Notifier {
 	}
 
 	private void addDetectors(double totalProgess) {
-		totalProgess = totalProgess/4;
+		totalProgess = totalProgess / 4;
 		System.out.println("this:::" + this.reader.getPhases());
 		this.changeProgress("Creating Detectors", -1);
 		if (this.reader.getPhases().contains(Framework.DECORATOR_DETECTION)) {
-			
-			
+
 			String mdstr = this.reader.getAttrMap().get(
 					"Decorator-MethodDelegation");
 			int methodDelegation = 0;
@@ -137,7 +151,7 @@ public class Framework implements Notifier {
 		}
 
 		if (this.reader.getPhases().contains(Framework.ADAPTER_DETECTION)) {
-			
+
 			String mdstr = this.reader.getAttrMap().get(
 					"Adapter-MethodDelegation");
 			int methodDelegation = 0;
@@ -165,39 +179,40 @@ public class Framework implements Notifier {
 			IDetector composite = new CompositeDetector();
 			this.addDetector(composite);
 		}
-		
-		
+
 		this.changeProgress(null, this.box.getProgress() + totalProgess);
 	}
 
-	
-	private void detectPatterns(double totalProgress) throws Exception{
+	private void detectPatterns(double totalProgress) throws Exception {
 		this.changeProgress("Detecting Patterns", -1);
 		double currentProgress = this.box.getProgress();
-		totalProgress = totalProgress*3/4;
+		totalProgress = totalProgress * 3 / 4;
 		int size = this.detectors.size();
-		for(IDetector d: this.detectors){
-			this.changeProgress("Detecting" + d.toString(), this.box.getProgress()+totalProgress/size);
+		for (IDetector d : this.detectors) {
+			this.changeProgress("Detecting" + d.toString(),
+					this.box.getProgress() + totalProgress / size);
 			d.detect(model);
 		}
-		
-		this.changeProgress(null, currentProgress + totalProgress);
+
+		this.changeProgress("Pattern Detection Finished", currentProgress + totalProgress);
 	}
-	
-	
-	
+
 	public void Analyze() throws Exception {
+		try {
+			if (this.reader.getAppType().equals("SD")) {
+				out = new SDEditOutputStream(new FileOutputStream(
+						this.reader.getOutputDir()));
+			} else {
+				out = new GraphVizOutputStream(new FileOutputStream(
+						this.reader.getOutputDir()));
+			}
 
-		if (this.reader.getAppType().equals("SD")) {
-			out = new SDEditOutputStream(new FileOutputStream(
-					this.reader.getOutputDir()));
-		} else {
-			out = new GraphVizOutputStream(new FileOutputStream(
-					this.reader.getOutputDir()));
+			this.processPhases();
+		} catch (Exception e) {
+			this.changeProgress("Analyze Failed", -1);
 		}
-
-		this.processPhases();
 		
+
 	}
 
 	private void processPhases() throws Exception {
@@ -205,45 +220,42 @@ public class Framework implements Notifier {
 		if (phases.contains(Framework.CLASS_LOADING)) {
 			this.loadClassFromInputFolder();
 			this.loadInputClasses();
-		}
-		else{
+		} else {
 			throw new Exception("Not Loading class??????!");
 		}
-		
+
 		this.detectPattern();
-		
-		//TO DO
-		if(phases.contains(Framework.DOT_GENERATION)){
-			System.out.println(model);
+
+		// TO DO
+		if (phases.contains(Framework.DOT_GENERATION)) {
+//			 System.out.println(model);
 		}
-		
 
 	}
+
 	
 	
-	
-	
-	private void detectPattern() throws Exception{
+	private void detectPattern() throws Exception {
 		this.changeProgress("PATTERN DETECTION", -1);
 		double totalProgress = Framework.PATTERN_DETECTION;
 		int detectorCount = 0;
-		for(String s: this.reader.getPhases()){
-			if(s.contains("Detection")){
-				detectorCount ++;
+		for (String s : this.reader.getPhases()) {
+			if (s.contains("Detection")) {
+				detectorCount++;
 			}
 		}
-		
-		if(detectorCount == 0){
-			this.changeProgress("Finished Pattern Detection", this.box.getProgress() + totalProgress);
+
+		if (detectorCount == 0) {
+			this.changeProgress("Finished Pattern Detection",
+					this.box.getProgress() + totalProgress);
 		}
-		
-		else{
+
+		else {
 			this.addDetectors(totalProgress);
 			this.detectPatterns(totalProgress);
 		}
-		
+
 	}
-	
 
 	private List<String> loadClassNames() {
 		this.changeProgress("Loading class names", -1);
@@ -255,7 +267,8 @@ public class Framework implements Notifier {
 			cs.add(clazz.getName());
 		}
 
-		this.changeProgress("Loading class names finished", Framework.LOADING_CLASS_NAMES);
+		this.changeProgress("Loading class names finished",
+				Framework.LOADING_CLASS_NAMES);
 		return cs;
 	}
 
@@ -289,37 +302,32 @@ public class Framework implements Notifier {
 	@Override
 	public void notifyObservers(Object data) {
 		ProgressBox box = (ProgressBox) data;
-		
-		System.out.println(box.getCurrentTask()+" : "+box.getProgress());
+
+		System.out.println(box.getCurrentTask() + " : " + box.getProgress());
 		for (Observer o : this.observers) {
 			o.update(data);
 		}
-		
+
 	}
 
-	
-	
-	private void loadClassFromInputFolder() throws IOException{
+	private void loadClassFromInputFolder() throws IOException {
 		this.classes = this.loadClassNames();
 		this.loadClassRecur();
 	}
-	
-	
-	
+
 	private void loadInputClasses() throws IOException {
 		double totalProgess = Framework.LOADING_INPUT_CLASSES;
 		this.changeProgress("Loading Additional Classes", -1);
 		double currentProgess = this.box.getProgress();
-		
+
 		if (this.reader.getInputClasses().isEmpty()) {
 			this.changeProgress(null, this.box.getProgress() + totalProgess);
-		}	
-		else {
+		} else {
 			int size = this.reader.getInputClasses().size();
-			
+
 			for (String clazz : this.reader.getInputClasses()) {
-				this.changeProgress("Loading "+ clazz, -1);
-				
+				this.changeProgress("Loading " + clazz, -1);
+
 				ClassReader reader = new ClassReader(clazz);
 
 				IClass c = new Clazz();
@@ -341,35 +349,35 @@ public class Framework implements Notifier {
 				if (!c.getName().contains("$")) {
 					model.addClass(c);
 				}
-				
-				this.changeProgress(null, this.box.getProgress() + totalProgess/size);
+
+				this.changeProgress(null, this.box.getProgress() + totalProgess
+						/ size);
 			}
-			
-			this.changeProgress(null, currentProgess+totalProgess);
+
+			this.changeProgress(null, currentProgess + totalProgess);
 		}
 
 	}
-	
-	
-	
+
 	private void loadClassRecur() throws IOException {
-		
+
 		double totalProgress = Framework.LOADING_CLASSES_FROM_FOLDER;
-		
+
 		double currentProgress = this.box.getProgress();
-		
+
 		double maxProgess = totalProgress + currentProgress;
 		List<String> cs = this.classes;
 		List<String> classRead = new ArrayList<>();
-		
+
 		double size = cs.size() * 3;
-		
+
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
 			cs.remove(0);
-			
-			this.changeProgress("Loading "+clazz, Math.min(this.box.getProgress()+totalProgress/size, maxProgess) );
-			
+
+			this.changeProgress("Loading " + clazz, Math.min(
+					this.box.getProgress() + totalProgress / size, maxProgess));
+
 			ClassReader reader = new ClassReader(clazz);
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
@@ -390,10 +398,9 @@ public class Framework implements Notifier {
 				classRead.add(clazz);
 			}
 		}
-		
-		model.setRelation(Utility.removeRelationNotInPackage(model));	
+
+		model.setRelation(Utility.removeRelationNotInPackage(model));
 		this.changeProgress(null, maxProgess);
 	}
-	
 
 }

@@ -9,4 +9,6 @@ public class Test {
 		fw.loadConfig("input/input.txt");
 		fw.Analyze();
 	}
+	
+	
 }
