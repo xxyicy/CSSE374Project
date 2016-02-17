@@ -73,6 +73,28 @@ public class Framework implements Notifier {
 			this.progress = progress;
 		}
 	}
+	
+	public class DataBox{
+		private IModel model;
+		private TMXXreader reader;
+		public DataBox(IModel model2, TMXXreader reader2) {
+			model = model2;
+			reader = reader2;
+		}
+		public IModel getModel() {
+			return model;
+		}
+		public void setModel(IModel model) {
+			this.model = model;
+		}
+		public TMXXreader getReader() {
+			return reader;
+		}
+		public void setReader(TMXXreader reader) {
+			this.reader = reader;
+		}
+	}
+	
 
 	private TMXXreader reader;
 	private List<String> classes;
@@ -92,6 +114,8 @@ public class Framework implements Notifier {
 		this.out = null;
 		this.start = null;
 		this.reader = null;
+		
+		
 	}
 
 	public void loadConfig(String path) {
@@ -233,7 +257,7 @@ public class Framework implements Notifier {
 		
 		
 		this.changeProgress("Analyzing Finished", 100);
-		this.notifyObservers(this.model);
+		this.notifyObservers(new DataBox(this.model,this.reader));
 	}
 
 	

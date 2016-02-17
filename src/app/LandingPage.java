@@ -16,6 +16,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import api.IModel;
+import app.Framework.DataBox;
 import app.Framework.ProgressBox;
 import observer.api.Observer;
 
@@ -131,9 +132,9 @@ public class LandingPage extends JFrame implements Observer {
 
 	@Override
 	public void update(Object data) {
-		if (data instanceof IModel) {
-			System.out.println("lets go");
-			IModel m = (IModel) data;
+		if (data instanceof DataBox) {
+			
+			DataBox m = (DataBox) data;
 			ResultFrame frame = new ResultFrame(m);
 			this.setVisible(false);
 			this.dispose();

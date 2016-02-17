@@ -30,10 +30,11 @@ import com.sun.glass.events.KeyEvent;
 import api.IClass;
 import api.IModel;
 import api.IPattern;
+import app.Framework.DataBox;
 
 public class ResultFrame extends JFrame {
 	private IModel model;
-
+	private TMXXreader reader;
 	/**
 	 * 
 	 */
@@ -42,9 +43,9 @@ public class ResultFrame extends JFrame {
 	private static final int FIXED_HEIGHT = 600;
 	private static final Dimension INITAL_SIZE = new Dimension(FIXED_WIDTH, FIXED_HEIGHT);
 
-	public ResultFrame(IModel model) {
-		this.model = model;
-
+	public ResultFrame(DataBox box) {
+		this.model = box.getModel();
+		this.reader = box.getReader();
 		this.setTitle("Design Parser - Result");
 
 		this.setPreferredSize(INITAL_SIZE);
