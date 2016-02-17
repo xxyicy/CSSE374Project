@@ -15,28 +15,25 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
+import api.IModel;
 import app.Framework.ProgressBox;
 import observer.api.Observer;
 
 public class LandingPage extends JFrame implements Observer {
-	
-	private class updateRunnable implements Runnable{
+
+	private class updateRunnable implements Runnable {
 		@Override
 		public void run() {
 			try {
 				LandingPage.this.fw.Analyze();
 			} catch (Exception e) {
-			
+
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
-	
-	
-	
-	
 	private Framework fw;
 	/**
 	 * 
@@ -113,12 +110,12 @@ public class LandingPage extends JFrame implements Observer {
 
 		progressPanel.add(progressBar);
 
-		this.add(new JPanel());
-		this.add(btnPanel);
-		this.add(pathPanel);
-		this.add(new JPanel());
-		this.add(message);
-		this.add(progressPanel);
+		this.getContentPane().add(new JPanel());
+		this.getContentPane().add(btnPanel);
+		this.getContentPane().add(pathPanel);
+		this.getContentPane().add(new JPanel());
+		this.getContentPane().add(message);
+		this.getContentPane().add(progressPanel);
 		this.pack();
 		this.setVisible(true);
 	}
@@ -132,19 +129,19 @@ public class LandingPage extends JFrame implements Observer {
 		t.start();
 	}
 
-	
-	
-	
-	
 	@Override
 	public void update(Object data) {
+		if (data instanceof IModel) {
+			System.out.println("lets go");
+			IModel m = (IModel) data;
+			ResultFrame frame = new ResultFrame(m);
+			this.setVisible(false);
+			this.dispose();
+			return;
+		}
 		ProgressBox box = (ProgressBox) data;
 		this.message.setText(box.getCurrentTask());
-		this.progressBar.setValue((int)box.getProgress());
+		this.progressBar.setValue((int) box.getProgress());
 	}
 
-	
-	
-	
-	
 }

@@ -34,11 +34,11 @@ import visitor.impl.SDEditOutputStream;
 
 public class Framework implements Notifier {
 
-	private static final double LOADING_CLASS_NAMES = 5;
-	private static final double LOADING_INPUT_CLASSES = 15;
-	private static final double LOADING_CLASSES_FROM_FOLDER = 40;
+	private static final double LOADING_CLASS_NAMES = 10;
+	private static final double LOADING_INPUT_CLASSES = 20;
+	private static final double LOADING_CLASSES_FROM_FOLDER = 50;
 	private static final double PATTERN_DETECTION = 20;
-	private static final double GENERATE_DOT = 20;
+	private static final double GENERATE_DOT = 0;
 
 	private static final String CLASS_LOADING = "Class-Loading";
 	private static final String DECORATOR_DETECTION = "Decorator-Detection";
@@ -230,7 +230,10 @@ public class Framework implements Notifier {
 		if (phases.contains(Framework.DOT_GENERATION)) {
 //			 System.out.println(model);
 		}
-
+		
+		
+		this.changeProgress("Analyzing Finished", 100);
+		this.notifyObservers(this.model);
 	}
 
 	
@@ -301,9 +304,11 @@ public class Framework implements Notifier {
 
 	@Override
 	public void notifyObservers(Object data) {
-		ProgressBox box = (ProgressBox) data;
-
-		System.out.println(box.getCurrentTask() + " : " + box.getProgress());
+		if(data instanceof ProgressBox){
+			ProgressBox box = (ProgressBox) data;
+			System.out.println(box.getCurrentTask() + " : " + box.getProgress());
+		}
+		
 		for (Observer o : this.observers) {
 			o.update(data);
 		}
