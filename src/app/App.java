@@ -43,6 +43,8 @@ public class App {
 			throw new Exception("Command not found");
 		}
 
+		LandingPage p = new LandingPage();
+		p.setDefaultLookAndFeelDecorated(true);
 	}
 
 	public static void createUmlWithPattern(String arg) throws Exception {

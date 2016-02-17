@@ -10,43 +10,11 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-CompositeSprite [
-shape="record",
-style="filled"
-fillcolor="yellow"
-label = "{CompositeSprite\n\<\<Composite\>\>\n| children : List\l|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l+ iterator() : Iterator\l+ add(arg0:ISprite) : void\l+ remove(arg0:ISprite) : void\l+ getChild(arg0:int) : ISprite\l+ move(arg0:Dimension) : void\l}"
-];
-SpriteFactory [
-shape="record",
-label = "{SpriteFactory|+ DX : double\l+ DY : double\l+ WIDTH : double\l+ HEIGHT : double\l- random : Random\l- sprites : List\l| clinit() : void\l+ init() : void\l+ computeRandomLocation(arg0:Dimension) : Point2D\l+ createRandomSprite(arg0:Dimension) : ISprite throws Exception\l}"
-];
-CrystalBall [
-shape="record",
-style="filled"
-fillcolor="yellow"
-label = "{CrystalBall\n\<\<Leaf\>\>\n|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l}"
-];
-RectangleSprite [
-shape="record",
-style="filled"
-fillcolor="yellow"
-label = "{RectangleSprite\n\<\<Leaf\>\>\n|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l+ move(arg0:Dimension) : void\l}"
-];
 AbstractSprite [
 shape="record",
 style="filled"
 fillcolor="yellow"
 label = "{AbstractSprite\n\<\<Component\>\>\n|# dx : double\l# dy : double\l# shape : Shape\l|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l# computeNewBoundsAfterMoving(arg0:Dimension) : Rectangle2D\l+ getShape() : Shape\l+ add(arg0:ISprite) : void\l+ remove(arg0:ISprite) : void\l+ getChild(arg0:int) : ISprite\l+ iterator() : Iterator\l+ move(arg0:Dimension) : void\l}"
-];
-CompositeSpriteIterator [
-shape="record",
-label = "{CompositeSpriteIterator|- stack : Stack\l|+ init(arg0:Iterator) : void\l+ hasNext() : boolean\l+ next() : ISprite\l+ remove() : void\l+ next() : Object\l}"
-];
-ISprite [
-shape="record",
-style="filled"
-fillcolor="yellow"
-label = "{\<\<interface\>\>\nISprite\n\<\<Component\>\>\n|+ move(arg0:Dimension) : void\l+ getShape() : Shape\l+ add(arg0:ISprite) : void\l+ remove(arg0:ISprite) : void\l+ getChild(arg0:int) : ISprite\l}"
 ];
 CircleSprite [
 shape="record",
@@ -54,23 +22,55 @@ style="filled"
 fillcolor="yellow"
 label = "{CircleSprite\n\<\<Leaf\>\>\n|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l+ move(arg0:Dimension) : void\l}"
 ];
-NullSpriteIterator [
+CrystalBall [
 shape="record",
-label = "{NullSpriteIterator|+ init() : void\l+ hasNext() : boolean\l+ next() : ISprite\l+ remove() : void\l+ next() : Object\l}"
-];
-Iterator [
-shape="record",
-label = "{\<\<interface\>\>\nIterator|+ hasNext() : boolean\l+ next() : Object\l+ remove() : void\l+ forEachRemaining(arg0:Consumer) : void\l}"
-];
-Iterable [
-shape="record",
-label = "{\<\<interface\>\>\nIterable|+ iterator() : Iterator\l+ forEach(arg0:Consumer) : void\l+ spliterator() : Spliterator\l}"
+style="filled"
+fillcolor="yellow"
+label = "{CrystalBall\n\<\<Leaf\>\>\n|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l}"
 ];
 RectangleTower [
 shape="record",
 style="filled"
 fillcolor="yellow"
 label = "{RectangleTower\n\<\<Leaf\>\>\n|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l}"
+];
+SpriteFactory [
+shape="record",
+label = "{SpriteFactory|+ DX : double\l+ DY : double\l+ WIDTH : double\l+ HEIGHT : double\l- random : Random\l- sprites : List\l| clinit() : void\l+ init() : void\l+ computeRandomLocation(arg0:Dimension) : Point2D\l+ createRandomSprite(arg0:Dimension) : ISprite throws Exception\l}"
+];
+NullSpriteIterator [
+shape="record",
+label = "{NullSpriteIterator|+ init() : void\l+ hasNext() : boolean\l+ next() : ISprite\l+ remove() : void\l+ next() : Object\l}"
+];
+ISprite [
+shape="record",
+style="filled"
+fillcolor="yellow"
+label = "{\<\<interface\>\>\nISprite\n\<\<Component\>\>\n|+ move(arg0:Dimension) : void\l+ getShape() : Shape\l+ add(arg0:ISprite) : void\l+ remove(arg0:ISprite) : void\l+ getChild(arg0:int) : ISprite\l}"
+];
+RectangleSprite [
+shape="record",
+style="filled"
+fillcolor="yellow"
+label = "{RectangleSprite\n\<\<Leaf\>\>\n|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l+ move(arg0:Dimension) : void\l}"
+];
+Iterable [
+shape="record",
+label = "{\<\<interface\>\>\nIterable|+ iterator() : Iterator\l+ forEach(arg0:Consumer) : void\l+ spliterator() : Spliterator\l}"
+];
+CompositeSpriteIterator [
+shape="record",
+label = "{CompositeSpriteIterator|- stack : Stack\l|+ init(arg0:Iterator) : void\l+ hasNext() : boolean\l+ next() : ISprite\l+ remove() : void\l+ next() : Object\l}"
+];
+CompositeSprite [
+shape="record",
+style="filled"
+fillcolor="yellow"
+label = "{CompositeSprite\n\<\<Composite\>\>\n| children : List\l|+ init(arg0:double,arg1:double,arg2:double,arg3:double) : void\l+ iterator() : Iterator\l+ add(arg0:ISprite) : void\l+ remove(arg0:ISprite) : void\l+ getChild(arg0:int) : ISprite\l+ move(arg0:Dimension) : void\l}"
+];
+Iterator [
+shape="record",
+label = "{\<\<interface\>\>\nIterator|+ hasNext() : boolean\l+ next() : Object\l+ remove() : void\l+ forEachRemaining(arg0:Consumer) : void\l}"
 ];
 AbstractSprite -> NullSpriteIterator [arrowhead="vee",style="dashed"]
 NullSpriteIterator -> Iterator [arrowhead="onormal",style="dashed"]
