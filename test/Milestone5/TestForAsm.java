@@ -51,7 +51,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new DecoratorDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -95,7 +95,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new DecoratorDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -142,7 +142,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new AdapterDetector();
+		IDetector detect = new AdapterDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -196,7 +196,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new DecoratorDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -242,7 +242,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new DecoratorDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -288,7 +288,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new DecoratorDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -334,7 +334,7 @@ public class TestForAsm {
 		cs.add("problem/client/IteratorToEnumerationAdapter");
 		IModel m = new Model();
 
-		IDetector detect = new AdapterDetector();
+		IDetector detect = new AdapterDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {

@@ -49,7 +49,7 @@ public class TestForAsmRelations {
 
 		IModel m = new Model();
 
-		IDetector detect = new AdapterDetector();
+		IDetector detect = new AdapterDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {
@@ -96,7 +96,7 @@ public class TestForAsmRelations {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new DecoratorDetector(0);
 		
 		List<String> classRead = new ArrayList<>();
 
@@ -148,7 +148,7 @@ public class TestForAsmRelations {
 
 		IModel m = new Model();
 
-		IDetector detect = new DecoratorDetector();
+		IDetector detect = new DecoratorDetector(0);
 		List<String> classRead = new ArrayList<>();
 
 		while (!cs.isEmpty()) {

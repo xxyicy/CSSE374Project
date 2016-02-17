@@ -198,7 +198,7 @@ public class CompositeDetector implements IDetector {
 			if (c != null) {
 				result.add(c);
 			} else {
-				throw new Exception("Class not found, should not happen "+s);
+				throw new Exception("Class not loaded exception :"+ s);
 			}
 
 		}

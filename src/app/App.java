@@ -26,6 +26,7 @@ public class App {
 		if (args.length < 2) {
 			throw new Exception("Not Enough Parameters");
 		}
+		
 		if (args[0].equals("UML")){				
 			createUmlDiagram(args[1]);
 		} else if (args[0].equals("UMLWP")) {
@@ -53,25 +54,28 @@ public class App {
 			cs.add(clazz.getName());
 		}
 		
-//		cs.add("javax.swing.JPanel");
-//		cs.add("javax.swing.JLabel");
+		
+		List<String> addi = new ArrayList<>();
+		
+//		addi.add("javax.swing.JPanel");
+//		addi.add("javax.swing.JLabel");
 		
 		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
-		NewbeeFramework nf;
-		nf = new NewbeeFramework("UMLWP", cs,graphOut);
+		NewBeeFramework nf;
+		nf = new NewBeeFramework("UMLWP", cs,addi,graphOut);
 
 		
 		//Adding detectors to the framework
-		IDetector d = new SingletonDetector();
+		IDetector d = new SingletonDetector(0);
 		nf.addDetector(d);
-		IDetector decorator = new DecoratorDetector();
+		IDetector decorator = new DecoratorDetector(1);
 		nf.addDetector(decorator);
-		IDetector adapter = new AdapterDetector();
+		IDetector adapter = new AdapterDetector(1);
 		nf.addDetector(adapter);
 		
 		IDetector composite = new CompositeDetector();
 		nf.addDetector(composite);
-		nf.process();
+		nf.processAll();
 
 	}
 
@@ -86,9 +90,9 @@ public class App {
 
 		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
 		
-		NewbeeFramework nf = new NewbeeFramework("UML", cs, graphOut);
+		NewBeeFramework nf = new NewBeeFramework("UML", cs,null, graphOut);
 		
-		nf.process();
+		nf.processAll();
 
 
 	}
@@ -102,10 +106,10 @@ public class App {
 		List<String> cs = Arrays.asList(args);
 		
 		IOutputStream sdEditOut = new SDEditOutputStream(new FileOutputStream("./output/output.txt"));
-		NewbeeFramework nf = new NewbeeFramework("SD",cs,sdEditOut);
+		NewBeeFramework nf = new NewBeeFramework("SD",cs,null,sdEditOut);
 		
 		
-		nf.process();
+		nf.processAll();
 		
 		
 		System.out.println(sdEditOut.toString());

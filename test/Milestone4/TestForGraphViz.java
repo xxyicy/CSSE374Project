@@ -38,7 +38,7 @@ public class TestForGraphViz {
 		ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5, decVisitor, c, m);
 		visitor = new ClassMethodVisitor(Opcodes.ASM5, fieldVisitor, c, m);
 		v = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
-		d = new SingletonDetector();
+		d = new SingletonDetector(0);
 	}
 
 	@Test

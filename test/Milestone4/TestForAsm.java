@@ -42,7 +42,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new SingletonDetector();
+		IDetector detect = new SingletonDetector(0);
 		List<String> classRead = new ArrayList<>();
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
@@ -85,7 +85,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new SingletonDetector();
+		IDetector detect = new SingletonDetector(0);
 		List<String> classRead = new ArrayList<>();
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
@@ -126,7 +126,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new SingletonDetector();
+		IDetector detect = new SingletonDetector(0);
 		List<String> classRead = new ArrayList<>();
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
@@ -168,7 +168,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new SingletonDetector();
+		IDetector detect = new SingletonDetector(0);
 		List<String> classRead = new ArrayList<>();
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
@@ -209,7 +209,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new SingletonDetector();
+		IDetector detect = new SingletonDetector(0);
 		List<String> classRead = new ArrayList<>();
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
@@ -250,7 +250,7 @@ public class TestForAsm {
 
 		IModel m = new Model();
 
-		IDetector detect = new SingletonDetector();
+		IDetector detect = new SingletonDetector(0);
 		List<String> classRead = new ArrayList<>();
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);

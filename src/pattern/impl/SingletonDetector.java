@@ -19,11 +19,13 @@ public class SingletonDetector implements IDetector {
 	private boolean staticField;
 	boolean privateConstructor;
 	boolean staticMethod;
+	int requireGetInstance;
 
-	public SingletonDetector() {
+	public SingletonDetector(int requireGetInstance) {
 		visitor = new Visitor();
 		this.setupVisitMethod();
 		this.setupVisitField();
+		this.requireGetInstance = requireGetInstance;
 	}
 
 	@Override

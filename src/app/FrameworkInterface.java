@@ -24,63 +24,24 @@ import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
 import asm.SequenceMethodVisitor;
 
-public class NewbeeFramework {
-	private IModel model;
-	private IMethod start;
-	private String appType;
-	private List<String> cs;
-	private Set<IDetector> detectors;
-	private IOutputStream out;
+public class FrameworkInterface {
+	
 
-	public NewbeeFramework(String appType,List<String> cs, IOutputStream out) {
-		this.model = new Model();
-		this.appType = appType;
-		this.cs = cs;
-		this.detectors = new HashSet<IDetector>();
-		this.out = out;
-		this.start = null;
-		
-	}
-
-	public void addDetector(IDetector d){
-		this.detectors.add(d);
-	}
 	
 	
-	public void process() throws Exception{
-		this.loadClass();
-		this.detectPattern();
-		this.writeOutput();
+	public void detectPattern(IDetector d, IModel m) throws Exception{
+		d.detect(m);
 	}
 	
 	
 	
 	
-	private void detectPattern() throws Exception{
-		for(IDetector d : this.detectors){
-			d.detect(model);
+	
+	public void loadInputClasses(List<String> additionalClasses,IModel model) throws IOException {
+		if(additionalClasses == null){
+			return;
 		}
-	}
-	
-	
-	
-	
-	
-	
-	private void loadClass() throws IOException{
-		if(this.appType.equals("UMLWP")){
-			this.loadClassRecur();
-		}else if(this.appType.equals("UML")){
-			this.loadClassNonRecur();
-		}
-		else{
-			this.loadMethodCallRelations();
-		}
-	}
-	
-	
-	private void loadClassNonRecur() throws IOException {
-		for (String clazz : cs) {
+		for (String clazz : additionalClasses) {
 			ClassReader reader = new ClassReader(clazz);
 
 			IClass c = new Clazz();
@@ -104,13 +65,11 @@ public class NewbeeFramework {
 		}	
 	}
 
-	private void loadClassRecur() throws IOException {
+	private void loadClassRecur(List<String> cs, IModel model) throws IOException {
 		List<String> classRead = new ArrayList<>();
-		
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
 			cs.remove(0);
-
 			ClassReader reader = new ClassReader(clazz);
 			IClass c = new Clazz();
 			// make class declaration visitor to get superclass and interfaces
@@ -132,15 +91,12 @@ public class NewbeeFramework {
 			}
 		}
 		
-		model.setRelation(Utility.removeRelationNotInPackage(model));
-		
-		
+		model.setRelation(Utility.removeRelationNotInPackage(model));	
 	}
 	
-	private void loadMethodCallRelations() throws IOException{
-		String methodFQS = cs.get(0);
+	
+	public IMethod generateStartMethod(String methodFQS){
 		
-		int depth = cs.get(1) != null ? Integer.valueOf(cs.get(1)) : 5;
 
 		String[] methodInfo = Utility.parseMethodSignature(methodFQS);
 		String methodClassName = methodInfo[0];
@@ -150,10 +106,13 @@ public class NewbeeFramework {
 			params.add(methodInfo[i].split(" ")[0]);
 		}
 
-		this.start = new Method(methodName, "", "", params, new ArrayList<String>(), methodClassName);
-
+		return new Method(methodName, "", "", params, new ArrayList<String>(), methodClassName);
+	}
+	
+	
+	public void loadMethodCallRelations(int depth, IMethod start) throws IOException{
+		
 		List<String> classesRead = new ArrayList<String>();
-
 		readClassAndMethods(start, depth, classesRead);
 	}
 	
@@ -180,15 +139,14 @@ public class NewbeeFramework {
 	}
 	
 	
-	private void writeOutput(){
-		if(this.appType.equals("SD")){
-			this.out.write(start);
+	public void writeOutput(IOutputStream out, String appType,IMethod start, IModel model){
+		if(appType.equals("SD")){
+			 out.write(start);
 		}
 		else{
-			System.out.println(model);
-			this.out.start();
-			this.out.write(model);
-			this.out.end();
+			out.start();
+			out.write(model);
+			out.end();
 		}
 	}
 	

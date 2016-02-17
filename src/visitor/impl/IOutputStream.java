@@ -11,16 +11,8 @@ public abstract class IOutputStream extends FilterOutputStream {
 		super(out);
 	}
 	
-	public void start(){
-		throw new UnsupportedOperationException();
-	}
-	public void write(IMethod m){
-		throw new UnsupportedOperationException();
-	}
-	public void write(IModel m){
-		throw new UnsupportedOperationException();
-	}
-	public void end(){
-		throw new UnsupportedOperationException();
-	}
+	public void start(){}
+	public void write(IMethod m){}
+	public void write(IModel m){}
+	public void end(){}
 }

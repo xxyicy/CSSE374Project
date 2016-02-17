@@ -16,6 +16,10 @@ import api.IRelation;
 public class DecoratorDetector implements IDetector {
 	private int threshold = 1;
 	
+	public DecoratorDetector(int threshold){
+		this.threshold = threshold;
+	}
+	
 	@Override
 	public void detect(IModel m) throws Exception {
 

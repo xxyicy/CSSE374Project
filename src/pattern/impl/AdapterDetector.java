@@ -26,8 +26,11 @@ import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;
 
 public class AdapterDetector implements IDetector {
-	private int threshold = 1;
+	private int threshold;
 	
+	public AdapterDetector(int threshold){
+		this.threshold = threshold;
+	}
 	
 	@Override
 	public void detect(IModel m) throws Exception {
@@ -45,7 +48,7 @@ public class AdapterDetector implements IDetector {
 				IClass target = this.getClassByName(m, first);
 
 				if (target == null) {
-					throw new Exception("unexpected situation");
+					throw new Exception("unexpected target class not loaded exception : " + target);
 				}
 
 				// collect information about methods in the target interface
