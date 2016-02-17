@@ -27,6 +27,12 @@ public class SingletonDetector implements IDetector {
 		this.setupVisitField();
 		this.requireGetInstance = requireGetInstance;
 	}
+	
+	
+	@Override
+	public String toString(){
+		return "Singleton Pattern";
+	}
 
 	@Override
 	public void detect(IModel m) {

@@ -17,7 +17,10 @@ import pattern.api.IDetector;
 
 public class CompositeDetector implements IDetector {
 	
-
+	@Override
+	public String toString(){
+		return "Composite Pattern";
+	}
 
 	@Override
 	public void detect(IModel m) throws Exception {

@@ -44,7 +44,7 @@ public class App {
 		}
 
 		LandingPage p = new LandingPage();
-		p.setDefaultLookAndFeelDecorated(true);
+//		p.setDefaultLookAndFeelDecorated(true);
 	}
 
 	public static void createUmlWithPattern(String arg) throws Exception {

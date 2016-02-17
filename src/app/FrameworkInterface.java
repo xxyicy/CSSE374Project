@@ -32,63 +32,9 @@ public class FrameworkInterface {
 	}
 	
 	
-	public void loadInputClasses(List<String> additionalClasses,IModel model) throws IOException {
-		if(additionalClasses == null){
-			return;
-		}
-		for (String clazz : additionalClasses) {
-			ClassReader reader = new ClassReader(clazz);
-
-			IClass c = new Clazz();
-			// make class declaration visitor to get superclass and interfaces
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,
-					c, model);
-
-			// DECORATE declaration visitor with field visitor
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5,
-					decVisitor, c, model);
-
-			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5,
-					fieldVisitor, c, model);
-
-			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-
-			if (!c.getName().contains("$")) {
-				model.addClass(c);
-			}
-		}	
-	}
+	
 
 	
-	private void loadClassRecur(List<String> cs, IModel model) throws IOException {
-		List<String> classRead = new ArrayList<>();
-		while (!cs.isEmpty()) {
-			String clazz = cs.get(0);
-			cs.remove(0);
-			ClassReader reader = new ClassReader(clazz);
-			IClass c = new Clazz();
-			// make class declaration visitor to get superclass and interfaces
-			ClassVisitor decVisitor = new ClassDeclarationVisitor(Opcodes.ASM5,
-					c, model, cs);
-			// DECORATE declaration visitor with field visitor
-			ClassVisitor fieldVisitor = new ClassFieldVisitor(Opcodes.ASM5,
-					decVisitor, c, model);
-			// DECORATE field visitor with method visitor
-			ClassVisitor methodVisitor = new ClassMethodVisitor(Opcodes.ASM5,
-					fieldVisitor, c, model);
-
-			reader.accept(methodVisitor, ClassReader.EXPAND_FRAMES);
-
-			clazz = clazz.replaceAll("/", ".");
-			if (!c.getName().contains("$") && !classRead.contains(clazz)) {
-				model.addClass(c);
-				classRead.add(clazz);
-			}
-		}
-		
-		model.setRelation(Utility.removeRelationNotInPackage(model));	
-	}
 	
 	
 	public IMethod generateStartMethod(String methodFQS){

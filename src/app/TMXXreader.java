@@ -69,14 +69,14 @@ public class TMXXreader {
 	private void splitAndAddPhases(String content) {
 		String[] arr = content.split(",");
 		for (String s : arr) {
-			this.phases.add(s);
+			this.phases.add(s.trim());
 		}
 	}
 
 	private void splitAndAddClasses(String content) {
 		String[] arr = content.split(",");
 		for (String s : arr) {
-			this.inputClasses.add(s);
+			this.inputClasses.add(s.trim());
 		}
 	}
 

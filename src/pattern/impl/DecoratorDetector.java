@@ -21,6 +21,12 @@ public class DecoratorDetector implements IDetector {
 	}
 	
 	@Override
+	public String toString(){
+		return "Decorator Pattern";
+	}
+	
+	
+	@Override
 	public void detect(IModel m) throws Exception {
 
 		for (IClass c : m.getClasses()) {

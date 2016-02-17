@@ -32,6 +32,12 @@ public class AdapterDetector implements IDetector {
 		this.threshold = threshold;
 	}
 	
+	
+	@Override
+	public String toString(){
+		return "Aadapter Pattern";
+	}
+	
 	@Override
 	public void detect(IModel m) throws Exception {
 		String adaptee = null;
