@@ -6,12 +6,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+
 import java.util.Set;
 
+import observer.api.Notifier;
+import observer.api.Observer;
 import api.IMethod;
 import api.IModel;
 import pattern.api.IDetector;
@@ -24,20 +26,43 @@ import visitor.impl.IOutputStream;
 import visitor.impl.SDEditOutputStream;
 
 
-public class Framework {
+public class Framework implements Notifier {
+	public class ProgressBox{
+		
+		private String currentTask;
+		private int progress;
+		
+		public ProgressBox(String task, int progress){
+			this.currentTask = task;
+			this.progress = progress;
+		}
+		public String getCurrentTask() {
+			return currentTask;
+		}
+		public void setCurrentTask(String currentTask) {
+			this.currentTask = currentTask;
+		}
+		public int getProgress() {
+			return progress;
+		}
+		public void setProgress(int progress) {
+			this.progress = progress;
+		}
+	}
+	
 	private TMXXreader reader;
 	private List<String> classes;
 	private Set<IDetector> detectors;
 	private IOutputStream out;
 	private IModel model;
 	private IMethod start;
+	private List<Observer> observers;
 	
-	private String currentTask = "Not Started";
-	private int progress = 0;
+	private ProgressBox box = new ProgressBox("Not Stared",0);
 	
 	
 	public Framework() throws FileNotFoundException, IOException{
-		this.currentTask = "Initializing";
+		this.changeTask("Initializing");
 		this.model = new Model();
 		this.detectors = new HashSet<IDetector>();
 		this.classes = new ArrayList<String>();
@@ -48,19 +73,23 @@ public class Framework {
 	
 	
 	public void loadConfig(String path) throws IOException{
-		
+		this.changeTask("Loading Configuration");
 		this.reader = new TMXXreader(path);
 		this.reader.readFile();
+		this.changeTask("Loading Configuration finished");
+		this.changeProgress(100);
 	}
 	
 	
 	
 	private void changeTask(String task){
-		this.currentTask = task;
+		this.box.setCurrentTask(task);
+		this.notifyObservers(box);
 	}
 	
 	private void changeProgress(int pro){
-		this.progress = pro;
+		this.box.setProgress(pro);
+		this.notifyObservers(box);
 	}
 	
 	
@@ -159,6 +188,28 @@ public class Framework {
 		}
 		return result;
 
+	}
+
+
+	@Override
+	public void registerObserver(Observer o) {
+		this.observers.add(o);
+		
+	}
+
+
+	@Override
+	public void removeObserver(Observer o) {
+		this.observers.remove(o);
+		
+	}
+
+
+	@Override
+	public void notifyObservers(Object data) {
+		for(Observer o: this.observers){
+			o.update(data);
+		}
 	}
 	
 	
