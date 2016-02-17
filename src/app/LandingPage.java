@@ -61,12 +61,12 @@ public class LandingPage extends JFrame {
 		
 		progressPanel.add(progressBar);
 
-		this.add(new JPanel());
-		this.add(btnPanel);
-		this.add(pathPanel);
-		this.add(new JPanel());
-		this.add(message);
-		this.add(progressPanel);
+		this.getContentPane().add(new JPanel());
+		this.getContentPane().add(btnPanel);
+		this.getContentPane().add(pathPanel);
+		this.getContentPane().add(new JPanel());
+		this.getContentPane().add(message);
+		this.getContentPane().add(progressPanel);
 		this.pack();
 		this.setVisible(true);
 	}
