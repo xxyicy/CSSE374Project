@@ -22,10 +22,19 @@ public class ClassFinder {
     private static final String BAD_PACKAGE_ERROR = "Unable to get resources from path '%s'. Are you sure the package '%s' exists?";
 
     public static List<Class<?>> find(String scannedPackage) {
+    	String str="";
         String scannedPath = scannedPackage.replace(DOT, SLASH);
-        URL scannedUrl = Thread.currentThread().getContextClassLoader().getResource(scannedPath);
+       
+        if(scannedPath.contains("/")){
+        	 int lIndex =  scannedPath.lastIndexOf("/");
+        	 str += scannedPath.substring(lIndex+1, scannedPath.length());
+        }else{
+        	str+= scannedPath;
+        }
+        
+        URL scannedUrl = Thread.currentThread().getContextClassLoader().getResource(str);
         if (scannedUrl == null) {
-            throw new IllegalArgumentException(String.format(BAD_PACKAGE_ERROR, scannedPath, scannedPackage));
+            throw new IllegalArgumentException(String.format(BAD_PACKAGE_ERROR, str, scannedPackage));
         }
         File scannedDir = new File(scannedUrl.getFile());
         List<Class<?>> classes = new ArrayList<Class<?>>();
@@ -36,8 +45,17 @@ public class ClassFinder {
     }
 
     private static List<Class<?>> find(File file, String scannedPackage) {
+    	String str="";
+        String scannedPath = scannedPackage.replace(DOT, SLASH);
+       
+        if(scannedPath.contains("/")){
+        	 int lIndex =  scannedPath.lastIndexOf("/");
+        	 str += scannedPath.substring(lIndex+1, scannedPath.length());
+        }else{
+        	str+= scannedPath;
+        }
         List<Class<?>> classes = new ArrayList<Class<?>>();
-        String resource = scannedPackage + DOT + file.getName();
+        String resource = str + DOT + file.getName();
         if (file.isDirectory()) {
             for (File child : file.listFiles()) {
                 classes.addAll(find(child, resource));
