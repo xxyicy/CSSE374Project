@@ -206,7 +206,7 @@ public class AdapterDetector implements IDetector {
 				m.addRelation(ir);
 			}
 
-			IPattern p = new Pattern("adapter");
+			IPattern p = new Pattern("Adapter");
 			p.addClass(adapteeClass);
 			p.addClass(adapter);
 			p.addClass(ITarget);

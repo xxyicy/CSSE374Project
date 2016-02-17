@@ -6,14 +6,14 @@ import java.awt.GridLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class HelpFramework extends JFrame {
+public class HelpFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
-	private static final int FIXED_WIDTH = 350;
+	private static final int FIXED_WIDTH = 500;
 	private static final int FIXED_HEIGHT = 300;
 	private static final Dimension INITAL_SIZE = new Dimension(FIXED_WIDTH, FIXED_HEIGHT);
 	
-	public HelpFramework(){
+	public HelpFrame(){
 		this.setTitle("Help Framework");
 
 		this.setPreferredSize(INITAL_SIZE);

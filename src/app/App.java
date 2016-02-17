@@ -43,9 +43,9 @@ public class App {
 			throw new Exception("Command not found");
 		}
 
-		LandingPage p = new LandingPage();
+//		LandingPage p = new LandingPage();
 		
-		ResultFrame p2 = new ResultFrame();
+		ResultFrame p2 = new ResultFrame(null);
 	}
 
 	public static void createUmlWithPattern(String arg) throws Exception {
