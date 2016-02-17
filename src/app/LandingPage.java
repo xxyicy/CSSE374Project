@@ -30,48 +30,10 @@ public class LandingPage extends JFrame {
 		this.setResizable(false);
 		this.setLayout(new GridLayout(6, 1));
 
-		this.add(new JPanel());
-		this.addButton();
-
-		JPanel pathPanel = new JPanel();
-		pathPanel.setLayout(new FlowLayout());
-
-		JLabel pathLabel = new JLabel("Config File Path: ");
-		pathLabel.setHorizontalAlignment(JLabel.LEFT);
-
-		JTextField pathText = new JTextField(20);
-
-		pathPanel.add(pathLabel);
-		pathPanel.add(pathText);
-
-		JLabel message = new JLabel("Analyzing");
-		message.setHorizontalAlignment(JLabel.CENTER);
-
-		JPanel progressPanel = new JPanel();
-
-		JProgressBar progressBar = new JProgressBar(0, 100);
-		progressBar.setValue(0);
-
-		progressPanel.add(progressBar);
-
-		this.add(new JPanel());
-
-		this.add(pathPanel);
-		this.add(new JPanel());
-		this.add(message);
-		this.add(progressPanel);
-		this.pack();
-		this.setVisible(true);
-	}
-
-	private void addButton() {
 		JPanel btnPanel = new JPanel();
 
 		JButton load = new JButton();
 		load.setText("Load Config");
-//		load.addActionListener(new ActionListener() {
-//
-//		});
 
 		JButton analy = new JButton();
 		analy.setText("Analyze");
@@ -80,7 +42,33 @@ public class LandingPage extends JFrame {
 		btnPanel.add(load);
 		btnPanel.add(analy);
 
+		JPanel pathPanel = new JPanel();
+		
+		JLabel pathLabel = new JLabel("Config File Path: ");
+		
+		JTextField pathText = new JTextField(20);
+		
+		pathPanel.add(pathLabel);
+		pathPanel.add(pathText);
+		
+		JLabel message = new JLabel("Analyzing");
+		message.setHorizontalAlignment(JLabel.CENTER);
+		
+		JPanel progressPanel = new JPanel();
+
+		JProgressBar progressBar = new JProgressBar(0, 100);
+		progressBar.setValue(0);
+		
+		progressPanel.add(progressBar);
+
+		this.add(new JPanel());
 		this.add(btnPanel);
+		this.add(pathPanel);
+		this.add(new JPanel());
+		this.add(message);
+		this.add(progressPanel);
+		this.pack();
+		this.setVisible(true);
 	}
 
 }
