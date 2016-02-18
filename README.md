@@ -366,7 +366,7 @@ please use “.png” as the suffix of the output file.
 ## Milestone 7
 ### Design of the tool
 
-![UML Diagram](/UML/milestone7_project374.png "UML Diagram")
+![UML Diagram](/UML/milestone3_project374fuml.png "UML Diagram")
 
 We created several frame classes to handle gui, and using proxy pattern to show UML diagram.
 
