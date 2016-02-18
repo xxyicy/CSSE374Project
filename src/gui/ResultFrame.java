@@ -49,8 +49,8 @@ public class ResultFrame extends JFrame implements Observer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final int FIXED_WIDTH = 1200;
-	private static final int FIXED_HEIGHT = 800;
+	private static final int FIXED_WIDTH = 1400;
+	private static final int FIXED_HEIGHT = 850;
 	private static final Dimension INITAL_SIZE = new Dimension(FIXED_WIDTH, FIXED_HEIGHT);
 
 	public ResultFrame(DataBox box) {
@@ -77,7 +77,7 @@ public class ResultFrame extends JFrame implements Observer {
 
 		proxy = new UMLImageProxy(reader);
 		UMLImageComponent component = new UMLImageComponent(proxy);
-		component.setPreferredSize(new Dimension(1500,1200));
+		component.setPreferredSize(new Dimension(1800,1200));
 		JScrollPane scrollPane = new JScrollPane(component);
 
 		JScrollPane checkPane = new JScrollPane(checkPanel);

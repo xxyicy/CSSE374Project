@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import com.sun.prism.Image;
 
 import app.TMXXreader;
+import dotExecutable.DotExecuter;
 
 public class UMLImageProxy implements Icon {
 	ImageIcon imageIcon = null;
@@ -30,18 +31,19 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			imageIcon.paintIcon(c, g, x, y);
 		} else {
-			g.drawString("Loading UML Diagram, please wait...", x + 300, y + 190);
+			g.drawString("Loading UML Diagram, please wait...", x + 200, y + 190);
+			System.out.println("lalalal");
 			if (!retrieving) {
 				retrieving = true;
 
 				retrievalThread = new Thread(new Runnable() {
 					public void run() {
 						try {
-							Thread.sleep(3000);
-							
-							imageIcon = new ImageIcon(reader.getOutputDir() + "/streamWriter.png");
-							System.out.println(imageIcon);
-							// imageIcon = new ImageIcon(imageURL, "CD Cover");
+							DotExecuter executer = new DotExecuter(reader.getDotPath(),
+									reader.getOutputDir() + "/output.txt", reader.getOutputDir() + "/output.png");
+							executer.execute();
+							imageIcon = new ImageIcon(reader.getOutputDir() + "/output.png");
+							imageIcon.getImage().flush();
 							c.revalidate();
 							c.repaint();
 						} catch (Exception e) {
@@ -64,7 +66,7 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			return imageIcon.getIconWidth();
 		} else {
-			return 1500;
+			return 1800;
 		}
 	}
 
@@ -76,19 +78,5 @@ public class UMLImageProxy implements Icon {
 			return 1200;
 		}
 	}
-
-//	private BufferedImage createResizedCopy(Image originalImage, int scaledWidth, int scaledHeight,
-//			boolean preserveAlpha) {
-//		System.out.println("resizing...");
-//		int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
-//		BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);
-//		Graphics2D g = scaledBI.createGraphics();
-//		if (preserveAlpha) {
-//			g.setComposite(AlphaComposite.Src);
-//		}
-//		g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
-//		g.dispose();
-//		return scaledBI;
-//	}
 
 }

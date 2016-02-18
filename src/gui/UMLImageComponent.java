@@ -25,7 +25,7 @@ public class UMLImageComponent extends JComponent {
 		super.paintComponent(g);
 		int w = icon.getIconWidth();
 		int h = icon.getIconHeight();
-		int x = (1500 - w) / 2;
+		int x = (1800 - w) / 2;
 		int y = (1200 - h) / 2;
 		icon.paintIcon(this, g, x, y);
 	}
