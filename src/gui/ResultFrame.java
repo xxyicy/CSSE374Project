@@ -266,7 +266,7 @@ public class ResultFrame extends JFrame {
 		}
 		run();
 		System.out.println(patternList.size());
-
+//		System.out.println(this.model);
 	}
 
 	private void classCheckBoxAction(ActionEvent e) {
@@ -283,6 +283,7 @@ public class ResultFrame extends JFrame {
 		}
 		run();
 		System.out.println(patternList.size());
+//		System.out.println(this.model);
 	}
 
 	private void run() {
