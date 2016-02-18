@@ -13,7 +13,9 @@ public class Relation implements IRelation {
 
 	@Override
 	public void accept(IVisitor v) {
-		v.visit(this);
+		if (isVisible) {
+			v.visit(this);
+		}
 	}
 
 	public Relation(String from, String to, String type) {
@@ -24,9 +26,9 @@ public class Relation implements IRelation {
 
 	@Override
 	public String toString() {
-		return "Relation {from: " + from + " to: " + to + " type: " + type
-				+ " des:" + des + "Visibility: "+this.isVisible+ " }" + "\n";
-		
+		return "Relation {from: " + from + " to: " + to + " type: " + type + " des:" + des + "Visibility: "
+				+ this.isVisible + " }" + "\n";
+
 	}
 
 	@Override
@@ -56,8 +58,7 @@ public class Relation implements IRelation {
 		int result = 1;
 		result = prime * result + ((from == null) ? 0 : from.hashCode());
 		result = prime * result + ((to == null) ? 0 : to.hashCode());
-		result = prime * result
-				+ ((this.type == null) ? 0 : this.type.hashCode());
+		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
 		return result;
 	}
 
@@ -75,14 +76,12 @@ public class Relation implements IRelation {
 		if (from == null) {
 			if (other.from != null)
 				return false;
-		} else if (!Utility.simplifyClassName(from).equals(
-				Utility.simplifyClassName(other.from)))
+		} else if (!Utility.simplifyClassName(from).equals(Utility.simplifyClassName(other.from)))
 			return false;
 		if (to == null) {
 			if (other.to != null)
 				return false;
-		} else if (!Utility.simplifyClassName(to).equals(
-				Utility.simplifyClassName(other.to)))
+		} else if (!Utility.simplifyClassName(to).equals(Utility.simplifyClassName(other.to)))
 			return false;
 		if (type == null) {
 			if (other.type != null)

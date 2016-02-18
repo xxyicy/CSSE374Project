@@ -223,17 +223,18 @@ public class Framework implements Notifier {
 
 	public void Analyze() throws Exception {
 		try {
-			if (this.reader.getAppType().equals("SD")) {
-				out = new SDEditOutputStream(new FileOutputStream(
-						this.reader.getOutputDir()));
-			} else {
-				out = new GraphVizOutputStream(new FileOutputStream(
-						this.reader.getOutputDir()));
-			}
+//			if (this.reader.getAppType().equals("SD")) {
+//				out = new SDEditOutputStream(new FileOutputStream(
+//						this.reader.getOutputDir()));
+//			} else {
+//				out = new GraphVizOutputStream(new FileOutputStream(
+//						this.reader.getOutputDir()));
+//			}
 
 			this.processPhases();
 		} catch (Exception e) {
 			this.changeProgress("Analyze Failed", -1);
+			e.printStackTrace();
 		}
 		
 
