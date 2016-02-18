@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
-
 public class Pattern implements IPattern{
 	private String name;
 //	private HashMap<IClass,String> tagMap;
@@ -85,6 +83,11 @@ public class Pattern implements IPattern{
 		
 		return result;
 		
+	}
+
+	@Override
+	public void accept(IVisitor v) {
+		v.visit(this);
 	}
 	
 }

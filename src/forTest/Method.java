@@ -204,6 +204,4 @@ public class Method implements IMethod {
 		this.isStatic = s;
 	}
 
-
-
 }

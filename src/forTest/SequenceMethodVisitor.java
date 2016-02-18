@@ -10,7 +10,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 
-
 public class SequenceMethodVisitor extends ClassVisitor {
 	private IMethod m;
 	private String className;

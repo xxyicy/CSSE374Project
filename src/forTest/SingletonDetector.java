@@ -1,22 +1,31 @@
 package forTest;
 
 
+
+
 public class SingletonDetector implements IDetector {
 	private final IVisitor visitor;
 	private String className;
 	private boolean staticField;
 	boolean privateConstructor;
 	boolean staticMethod;
+	int requireGetInstance;
 
-	public SingletonDetector() {
+	public SingletonDetector(int requireGetInstance) {
 		visitor = new Visitor();
 		this.setupVisitMethod();
 		this.setupVisitField();
+		this.requireGetInstance = requireGetInstance;
+	}
+	
+	
+	@Override
+	public String toString(){
+		return "Singleton Pattern";
 	}
 
 	@Override
 	public void detect(IModel m) {
-
 		for (IClass c : m.getClasses()) {
 			className = c.getName().replaceAll("/", ".");
 			staticField = false;

@@ -2,11 +2,11 @@ package forTest;
 
 
 
-
 import java.io.FileOutputStream;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
+
 
 
 
@@ -15,10 +15,10 @@ public class App {
 	public static void main(String[] args) throws Exception {
 
 		
-		
 		if (args.length < 2) {
 			throw new Exception("Not Enough Parameters");
 		}
+		
 		if (args[0].equals("UML")){				
 			createUmlDiagram(args[1]);
 		} else if (args[0].equals("UMLWP")) {
@@ -35,49 +35,22 @@ public class App {
 			throw new Exception("Command not found");
 		}
 
+
+		
+		
+//		ResultFrame p2 = new ResultFrame(null);
+
 	}
 
 	public static void createUmlWithPattern(String arg) throws Exception {
 		Utility.APP_TYPE = Utility.APP_UMLWP;
-		List<Class<?>> classes = ClassFinder.find(arg);
-		List<String> cs = new ArrayList<>();
-		for (Class<?> clazz : classes) {
-			cs.add(clazz.getName());
-		}
+		LandingPage p = new LandingPage();
 		
-		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
-		NewbeeFramework nf;
-		nf = new NewbeeFramework("UMLWP", cs,graphOut);
-
-		
-		//Adding detectors to the framework
-		IDetector d = new SingletonDetector();
-		nf.addDetector(d);
-		IDetector decorator = new DecoratorDetector();
-		nf.addDetector(decorator);
-		IDetector adapter = new AdapterDetector();
-		nf.addDetector(adapter);
-		
-		IDetector composite = new CompositeDetector();
-		nf.addDetector(composite);
-		nf.process();
-
 	}
 
 	public static void createUmlDiagram(String arg) throws Exception {
 		Utility.APP_TYPE = Utility.APP_UML;
-		List<Class<?>> classes = ClassFinder.find(arg);
-		List<String> cs = new ArrayList<>();
-		for (Class<?> clazz : classes) {
-			cs.add(clazz.getName());
-		}
-
-
-		IOutputStream graphOut = new GraphVizOutputStream(new FileOutputStream("./output/output.txt"));
-		IModel m = new Model();
-
-		NewbeeFramework nf = new NewbeeFramework("UML",cs,graphOut);
-		nf.process();
+		LandingPage p = new LandingPage();
 
 
 	}
@@ -91,10 +64,10 @@ public class App {
 		List<String> cs = Arrays.asList(args);
 		
 		IOutputStream sdEditOut = new SDEditOutputStream(new FileOutputStream("./output/output.txt"));
-		NewbeeFramework nf = new NewbeeFramework("SD",cs,sdEditOut);
+		NewBeeFramework nf = new NewBeeFramework("SD",cs,null,sdEditOut);
 		
 		
-		nf.process();
+		nf.processAll();
 		
 		
 		System.out.println(sdEditOut.toString());

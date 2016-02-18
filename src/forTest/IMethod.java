@@ -3,7 +3,6 @@ package forTest;
 import java.util.List;
 
 
-
 public interface IMethod extends ITraverser {
 	public String getName();
 	public String getReturnType();

@@ -10,9 +10,9 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import Framework.Utility;
 import api.IClass;
 import api.IModel;
-import app.Utility;
 import asm.ClassDeclarationVisitor;
 import asm.ClassFieldVisitor;
 import asm.ClassMethodVisitor;

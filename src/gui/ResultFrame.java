@@ -26,11 +26,11 @@ import observer.api.Observer;
 
 import com.sun.glass.events.KeyEvent;
 
+import Framework.TMXXreader;
+import Framework.Framework.DataBox;
 import api.IClass;
 import api.IModel;
 import api.IPattern;
-import app.Framework.DataBox;
-import app.TMXXreader;
 import modelAnalyzer.ModelVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.IOutputStream;
@@ -176,7 +176,7 @@ public class ResultFrame extends JFrame implements Observer {
 					color = Color.blue;
 					break;
 				case "Adapter":
-					if (c.getTags().contains("dapter")) {
+					if (c.getTags().contains("adapter")) {
 						className = c.getName();
 					}
 					color = Color.red;
@@ -249,6 +249,9 @@ public class ResultFrame extends JFrame implements Observer {
 	}
 
 	private void patternCheckBoxAction(ActionEvent e) {
+		if (proxy.getRetrieving()){
+			return;
+		}
 		JCheckBox checkBox = (JCheckBox) e.getSource();
 		boolean selected = checkBox.getModel().isSelected();
 		if (selected) {
@@ -261,11 +264,14 @@ public class ResultFrame extends JFrame implements Observer {
 			}
 		}
 		m.setPatterns(patternList);
-		System.out.println(patternList.size());
+		
 
 	}
 
 	private void classCheckBoxAction(ActionEvent e) {
+		if (proxy.getRetrieving()){
+			return;
+		}
 		JCheckBox checkBox = (JCheckBox) e.getSource();
 		boolean selected = checkBox.getModel().isSelected();
 		if (selected) {

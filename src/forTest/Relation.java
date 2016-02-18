@@ -1,43 +1,46 @@
 package forTest;
 
 
-
-
 public class Relation implements IRelation {
 	private String from;
 	private String to;
 	private String type;
 	private String des;
-	
+	private boolean isVisible = false;
+
 	@Override
 	public void accept(IVisitor v) {
 		v.visit(this);
 	}
-	
-	public Relation(String from,String to,String type){
+
+	public Relation(String from, String to, String type) {
 		this.from = from;
 		this.to = to;
 		this.type = type;
 	}
-	
+
 	@Override
-	public String toString(){
-		return "Relation {from: "+from+" to: "+to+" type: "+type+" des:"+des+ " }"+"\n";
+	public String toString() {
+		return "Relation {from: " + from + " to: " + to + " type: " + type + " des:" + des + "Visibility: "
+				+ this.isVisible + " }" + "\n";
+
 	}
-	
+
 	@Override
 	public String getFrom() {
-		
+
 		return from;
 	}
+
 	@Override
 	public String getTo() {
-	
+
 		return to;
 	}
+
 	@Override
 	public String getType() {
-	
+
 		return type;
 	}
 
@@ -45,8 +48,7 @@ public class Relation implements IRelation {
 	public int hashCode() {
 		String from = Utility.simplifyClassName(this.from);
 		String to = Utility.simplifyClassName(this.to);
-		
-		
+
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((from == null) ? 0 : from.hashCode());
@@ -63,10 +65,9 @@ public class Relation implements IRelation {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		
-		
+
 		Relation other = (Relation) obj;
-		
+
 		if (from == null) {
 			if (other.from != null)
 				return false;
@@ -89,15 +90,20 @@ public class Relation implements IRelation {
 	public String getDes() {
 		return this.des;
 	}
-	
+
 	@Override
 	public void setDes(String des) {
 		this.des = des;
 	}
 
+	@Override
+	public boolean isVisible() {
+		return this.isVisible;
+	}
 
+	@Override
+	public void setVisible(boolean v) {
+		this.isVisible = v;
+	}
 
-
-	
-	
 }

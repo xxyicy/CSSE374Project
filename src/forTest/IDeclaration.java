@@ -2,8 +2,6 @@ package forTest;
 
 import java.util.Set;
 
-
-
 public interface IDeclaration extends ITraverser {
 	public String getType();
 	public String getName();

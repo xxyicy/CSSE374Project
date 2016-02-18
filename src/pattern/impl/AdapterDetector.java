@@ -49,7 +49,7 @@ public class AdapterDetector implements IDetector {
 			Set<String> result = this.getInterfaces(c, m.getRelations());
 			if (result.size() == 1) {
 				String first = result.iterator().next();
-				System.out.println(first);
+				
 				// find the target interface
 				IClass target = this.getClassByName(m, first);
 
@@ -116,15 +116,15 @@ public class AdapterDetector implements IDetector {
 					continue;
 				}
 
-				if (adaptees.size() > 1) {
-					System.out.println(adaptees);
-					throw new Exception("Detect more than 1 adaptee? "+c );
-				}
+//				if (adaptees.size() > 1) {
+//					System.out.println(adaptees);
+//					throw new Exception("Detect more than 1 adaptee? "+c );
+//				}
 
 				
 				
 				adaptee = adaptees.iterator().next();
-				System.out.println("adaptee found is " + adaptee);
+			
 
 //				if (!this.checkConstructor(adaptee, c)) {
 //					adaptee = null;

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
 public class Model implements IModel {
 	private Set<IClass> classes = new HashSet<IClass>();
 	private Set<IRelation> relations = new HashSet<IRelation>();
@@ -13,12 +12,18 @@ public class Model implements IModel {
 	
 	@Override
 	public void accept(IVisitor v) {
+		for(IPattern p : this.patterns){
+			p.accept(v);
+		}
+		
 		for (IClass c: this.classes) {
 			c.accept(v);
 		}
+		
 		for (IRelation r: this.relations) {
 			r.accept(v);
 		}
+	
 	}
 	
 	@Override
@@ -103,7 +108,11 @@ public class Model implements IModel {
 //	}
 
 
-
+	public IModel getClone(){
+		IModel m = new Model();
+		
+		return new Model();
+	}
 	
 
 

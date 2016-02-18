@@ -38,7 +38,7 @@ public class ModelVisitor extends AbstractModelVisitor  {
 		this.patterns = patterns;
 		this.visitModel();
 		
-		System.out.println("notify");
+		
 		this.notifyObservers(this.m);
 	}
 	

@@ -5,31 +5,36 @@ import java.util.List;
 import java.util.Set;
 
 
+
 public class Clazz implements IClass {
+	private boolean isVisible = false;
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
-	
+
 	@Override
 	public void accept(IVisitor v) {
-		v.preVisit(this);
-		this.declaration.accept(v);
-		
-		if(!this.fields.isEmpty()){
-			v.visit(this);
-			for(IField f : this.fields){
-				f.accept(v);
+		if ((v instanceof GraphVizVistor && this.isVisible) || !(v instanceof GraphVizVistor)) {
+			v.preVisit(this);
+			this.declaration.accept(v);
+
+			if (!this.fields.isEmpty()) {
+				v.visit(this);
+				for (IField f : this.fields) {
+					f.accept(v);
+				}
 			}
-		}
-		
-		if(!this.methods.isEmpty()){
-			v.visit(this);
-			for(IMethod m : this.methods){
-				m.accept(v);
+
+			if (!this.methods.isEmpty()) {
+				v.visit(this);
+				for (IMethod m : this.methods) {
+					m.accept(v);
+				}
 			}
+
+			v.postVisit(this);
 		}
-		
-		v.postVisit(this);
+
 	}
 
 	@Override
@@ -73,7 +78,8 @@ public class Clazz implements IClass {
 		result += "methods " + this.methods + "\n";
 		result += "fields " + this.fields + "\n";
 		result += "declaration " + this.declaration + "\n";
-		result += "tags "+ this.getTags()+"\n";
+		result += "tags " + this.getTags() + "\n";
+		result += "Visibility " + this.isVisible + "\n";
 		return result;
 
 	}
@@ -91,5 +97,14 @@ public class Clazz implements IClass {
 		this.declaration.addTag(tag);
 	}
 
+	@Override
+	public boolean isVisible() {
+		return this.isVisible;
+	}
+
+	@Override
+	public void setVisible(boolean v) {
+		this.isVisible = v;
+	}
 
 }

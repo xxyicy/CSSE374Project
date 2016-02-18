@@ -1,17 +1,14 @@
 package gui;
 
-import java.awt.AlphaComposite;
+
 import java.awt.Component;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.net.URL;
+
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import app.TMXXreader;
+import Framework.TMXXreader;
 import dotExecutable.DotExecuter;
 
 public class UMLImageProxy implements Icon {
@@ -31,16 +28,19 @@ public class UMLImageProxy implements Icon {
 			imageIcon.paintIcon(c, g, x, y);
 		} else {
 			g.drawString("Loading UML Diagram, please wait...", x + 300, y + 190);
-			System.out.println("lalalal");
+			System.out.println("draw string");
 			if (!retrieving) {
 				retrieving = true;
-
+				System.out.println("Creating thread");
 				retrievalThread = new Thread(new Runnable() {
 					public void run() {
 						try {
 							DotExecuter executer = new DotExecuter(reader.getDotPath(),
 									reader.getOutputDir() + "/output.txt", reader.getOutputDir() + "/output.png");
 							executer.execute();
+							
+							
+							
 							imageIcon = new ImageIcon(reader.getOutputDir() + "/output.png");
 							// Image img = imageIcon.getImage();
 							// Image newimg = img.getScaledInstance(800, 800,
@@ -49,6 +49,7 @@ public class UMLImageProxy implements Icon {
 							imageIcon.getImage().flush();
 							c.repaint();
 							c.revalidate();
+							retrieving = false;
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -80,6 +81,10 @@ public class UMLImageProxy implements Icon {
 		} else {
 			return 0;
 		}
+	}
+	
+	public boolean getRetrieving(){
+		return retrieving;
 	}
 
 }

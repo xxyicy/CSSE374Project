@@ -8,12 +8,13 @@ public class Field implements IField {
 	private String type;
 	private String access;
 	private String innerType;
+	private String className;
 	
-	
-	public Field(String name,String type,String access){
+	public Field(String name,String type,String access,String className){
 		this.name = name;
 		this.type = type;
 		this.access = access;
+		this.className = className;
 	}
 	
 	@Override
@@ -68,6 +69,12 @@ public class Field implements IField {
 	@Override
 	public void setInnerType(String compositeType) {
 		this.innerType = compositeType;
+	}
+
+	@Override
+	public String getClassName() {
+		
+		return this.className;
 	}
 
 }

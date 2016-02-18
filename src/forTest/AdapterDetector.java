@@ -1,5 +1,6 @@
 package forTest;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,14 +12,25 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
 
-
 public class AdapterDetector implements IDetector {
-
+	private int threshold;
+	
+	public AdapterDetector(int threshold){
+		this.threshold = threshold;
+	}
+	
+	
+	@Override
+	public String toString(){
+		return "Aadapter Pattern";
+	}
+	
 	@Override
 	public void detect(IModel m) throws Exception {
 		String adaptee = null;
 		IClass adapter = null;
 		IClass ITarget = null;
+		
 
 		for (IClass c : m.getClasses()) {
 			Set<String> result = this.getInterfaces(c, m.getRelations());
@@ -27,61 +39,87 @@ public class AdapterDetector implements IDetector {
 				System.out.println(first);
 				// find the target interface
 				IClass target = this.getClassByName(m, first);
+
 				if (target == null) {
-					throw new Exception("unexpected situation");
+					throw new Exception("unexpected target class not loaded exception : " + target);
 				}
+
 				// collect information about methods in the target interface
 				List<String> targetMethods = new ArrayList<String>();
+
 				for (IMethod method : target.getMethods()) {
 					targetMethods.add(method.getName());
 				}
 
-				System.out.println(targetMethods);
-
+				// find types of fields that are parameters of constructor
 				List<String> fieldTypes = new ArrayList<String>();
 				for (IField f : c.getFields()) {
 					String fieldType = f.getType();
 					fieldType = fieldType.replaceAll("[.]", "/");
-					fieldTypes.add(fieldType);
+					
+					if(this.checkConstructor(fieldType, c)){
+						fieldTypes.add(fieldType);
+					}
 				}
-
-				System.out.println(fieldTypes);
+				
+				
+				
+				
 
 				// used to store all the ClassName of methods invoked in those
 				// methods that also exist in super interface
-				List<String> calledClasses = null;
+				
+				int methodCount = 0;
+				Set<String> adaptees = new HashSet<String>();
+				Set<IMethod> methodsInInterface = new HashSet<IMethod>();
+				
+				
+				//find all the methods inherited from interface.
 				for (IMethod meth : c.getMethods()) {
 					if (targetMethods.contains(meth.getName())) {
-						System.out.println(meth.printCallChains(0));
-
-						List<String> tmp = new ArrayList<String>();
-						for (IMethod called : meth.getCalls()) {
-							tmp.add(called.getClassName());
-						}
-
-						if (calledClasses == null) {
-							calledClasses = tmp;
-						} else {
-							calledClasses = this.intersection(calledClasses,
-									tmp);
-						}
+						methodsInInterface.add(meth);
+					}
+				}
+				
+				
+							
+				for (IMethod meth : methodsInInterface) {
+					List<String> tmp = new ArrayList<String>();
+					// find all the class types invoked in the method
+					for (IMethod called : meth.getCalls()) {
+						tmp.add(called.getClassName());
+					}
+					
+					List<String> intersection = this.intersection(fieldTypes, tmp);
+					if(!intersection.isEmpty()){
+						adaptees.addAll(intersection);
+						methodCount ++;
 					}
 				}
 
-				List<String> adaptees = this.intersection(calledClasses,
-						fieldTypes);
-				System.out.println("adaptees: " + adaptees);
+				
 
-				if (adaptees.isEmpty()) {
+				if (adaptees.isEmpty() || methodCount < this.threshold) {
 					continue;
 				}
 
-				if (adaptees.size() > 1) {
-					throw new Exception("Detect more than 1 adaptee?");
-				}
+//				if (adaptees.size() > 1) {
+//					System.out.println(adaptees);
+//					throw new Exception("Detect more than 1 adaptee? "+c );
+//				}
 
-				adaptee = adaptees.get(0);
+				
+				
+				adaptee = adaptees.iterator().next();
+				System.out.println("adaptee found is " + adaptee);
+
+//				if (!this.checkConstructor(adaptee, c)) {
+//					adaptee = null;
+//					break;
+//				}
+
 				adapter = c;
+
 				ITarget = target;
 
 				break;
@@ -91,6 +129,21 @@ public class AdapterDetector implements IDetector {
 
 		this.constructPattern(adaptee, adapter, ITarget, m);
 
+	}
+
+	private boolean checkConstructor(String adaptee, IClass adapter) {
+		boolean result = false;
+
+		for (IMethod m : adapter.getMethods()) {
+			if (m.getName().equals("init")) {
+
+				String toFound = adaptee.replaceAll("/", ".");
+				if (m.getParamTypes().contains(toFound)) {
+					result = true;
+				}
+			}
+		}
+		return result;
 	}
 
 	private void constructPattern(String adaptee, IClass adapter,
@@ -147,7 +200,7 @@ public class AdapterDetector implements IDetector {
 				m.addRelation(ir);
 			}
 
-			IPattern p = new Pattern("adapter");
+			IPattern p = new Pattern("Adapter");
 			p.addClass(adapteeClass);
 			p.addClass(adapter);
 			p.addClass(ITarget);

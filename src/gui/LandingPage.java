@@ -7,9 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,12 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
-import modelAnalyzer.ModelVisitor;
-import api.IModel;
-import app.Framework;
-import api.IPattern;
-import app.Framework.DataBox;
-import app.Framework.ProgressBox;
+
+import Framework.Framework;
+import Framework.Framework.DataBox;
+import Framework.Framework.ProgressBox;
+
 import observer.api.Observer;
 
 public class LandingPage extends JFrame implements Observer {
@@ -141,9 +138,6 @@ public class LandingPage extends JFrame implements Observer {
 		if (data instanceof DataBox) {
 			
 			DataBox m = (DataBox) data;
-			
-			
-			
 			ResultFrame frame = new ResultFrame(m);
 			this.setVisible(false);
 			this.dispose();

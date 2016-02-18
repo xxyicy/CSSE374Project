@@ -1,8 +1,8 @@
 package impl;
 
 import visitor.api.IVisitor;
+import Framework.Utility;
 import api.IRelation;
-import app.Utility;
 
 public class Relation implements IRelation {
 	private String from;

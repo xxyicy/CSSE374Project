@@ -13,8 +13,8 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Opcodes;
 
+import Framework.Utility;
 import api.IMethod;
-import app.Utility;
 import asm.SequenceMethodVisitor;
 import impl.Method;
 import visitor.impl.SDEditOutputStream;

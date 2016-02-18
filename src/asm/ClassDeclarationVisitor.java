@@ -52,7 +52,7 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 		
 		if(cs!= null){
 			if(superName != null && !superName.equals("java/lang/Object")){
-				System.out.println("adding "+ superName);
+				
 				cs.add(superName);
 			}	
 		}
@@ -60,10 +60,10 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 		
 		List<String> ins = interfaces == null ? new ArrayList<String>() : Arrays.asList(interfaces); 
 		
-		System.out.println(ins);
+		
 		for(String i : ins){
 			if(cs!=null && !i.equals("java/lang/Object")){
-				System.out.println("adding "+i);
+				
 				cs.add(i);
 			}
 			this.m.addRelation(new Relation(name,i,"implements"));
