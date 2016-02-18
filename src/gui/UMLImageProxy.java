@@ -3,7 +3,7 @@ package gui;
 
 import java.awt.Component;
 import java.awt.Graphics;
-
+import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -37,15 +37,15 @@ public class UMLImageProxy implements Icon {
 						try {
 							DotExecuter executer = new DotExecuter(reader.getDotPath(),
 									reader.getOutputDir() + "/output.txt", reader.getOutputDir() + "/output.png");
-							executer.execute();
-							
-							
+							try {
+								executer.execute();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 							
 							imageIcon = new ImageIcon(reader.getOutputDir() + "/output.png");
-							// Image img = imageIcon.getImage();
-							// Image newimg = img.getScaledInstance(800, 800,
-							// java.awt.Image.SCALE_SMOOTH);
-							// imageIcon = new ImageIcon(newimg);
+//							imageIcon = new ImageIcon("input/streamWriter.png");
+
 							imageIcon.getImage().flush();
 							c.repaint();
 							c.revalidate();

@@ -49,12 +49,7 @@ public class DotExecuter implements Notifier {
 				.println("Here is the standard error of the command (if any):\n");
 		while ((s = stdError.readLine()) != null) {
 			System.out.println(s);
-		}
-
-		p.waitFor();
-		
-		
-		
+		}		
 
 	}
 

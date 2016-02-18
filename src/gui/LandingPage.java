@@ -5,11 +5,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.nio.file.Files;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -58,7 +60,7 @@ public class LandingPage extends JFrame implements Observer {
 
 		this.setPreferredSize(INITAL_SIZE);
 		this.setResizable(false);
-		this.setLayout(new GridLayout(6, 1));
+		this.setLayout(new GridLayout(5, 1));
 		JTextField pathText = new JTextField(20);
 		JPanel btnPanel = new JPanel();
 
@@ -68,9 +70,8 @@ public class LandingPage extends JFrame implements Observer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String text = pathText.getText();
 				try {
-					LandingPage.this.loadConfig(text);
+					LandingPage.this.loadConfig();
 				} catch (IOException e1) {
 
 					e1.printStackTrace();
@@ -97,13 +98,6 @@ public class LandingPage extends JFrame implements Observer {
 		btnPanel.add(load);
 		btnPanel.add(analy);
 
-		JPanel pathPanel = new JPanel();
-
-		JLabel pathLabel = new JLabel("Config File Path: ");
-
-		pathPanel.add(pathLabel);
-		pathPanel.add(pathText);
-
 		message = new JLabel("Analyzing");
 		message.setHorizontalAlignment(JLabel.CENTER);
 
@@ -116,16 +110,22 @@ public class LandingPage extends JFrame implements Observer {
 
 		this.getContentPane().add(new JPanel());
 		this.getContentPane().add(btnPanel);
-		this.getContentPane().add(pathPanel);
-		this.getContentPane().add(new JPanel());
 		this.getContentPane().add(message);
 		this.getContentPane().add(progressPanel);
 		this.pack();
 		this.setVisible(true);
 	}
 
-	public void loadConfig(String path) throws IOException {
-		this.fw.loadConfig(path);
+	public void loadConfig() throws IOException {
+		JFileChooser fc = new JFileChooser();
+		int returnVal = fc.showOpenDialog(LandingPage.this.getContentPane());
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String filePath = fc.getSelectedFile().getAbsolutePath();
+			this.fw.loadConfig(filePath);
+		} else {
+
+		}
+		
 	}
 
 	public void Analyze() throws Exception {

@@ -6,7 +6,10 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -31,6 +35,7 @@ import Framework.Framework.DataBox;
 import api.IClass;
 import api.IModel;
 import api.IPattern;
+import dotExecutable.DotExecuter;
 import modelAnalyzer.ModelVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.IOutputStream;
@@ -59,7 +64,7 @@ public class ResultFrame extends JFrame implements Observer {
 		this.patterns = new HashMap<JCheckBox, ArrayList<JCheckBox>>();
 		this.classString = new HashMap<String, IPattern>();
 		this.patternList = new ArrayList<IPattern>();
-		
+
 		m = new ModelVisitor(model);
 		m.registerObserver(this);
 
@@ -77,7 +82,7 @@ public class ResultFrame extends JFrame implements Observer {
 
 		proxy = new UMLImageProxy(reader);
 		UMLImageComponent component = new UMLImageComponent(proxy);
-		component.setPreferredSize(new Dimension(10000,10000));
+		component.setPreferredSize(new Dimension(10000, 10000));
 		JScrollPane scrollPane = new JScrollPane(component);
 
 		JScrollPane checkPane = new JScrollPane(checkPanel);
@@ -86,12 +91,12 @@ public class ResultFrame extends JFrame implements Observer {
 		this.getContentPane().add(checkPane, BorderLayout.LINE_START);
 		this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
 		this.getContentPane().revalidate();
 		this.getContentPane().repaint();
+
 
 		m.setPatterns(patternList);
 	}
@@ -125,6 +130,23 @@ public class ResultFrame extends JFrame implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// HelpFrame frame = new HelpFrame();
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showSaveDialog(ResultFrame.this.getContentPane());
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					String filePath = fc.getSelectedFile().getAbsolutePath();
+					filePath = filePath.endsWith(".png") ? filePath
+							: (filePath + ".png");
+
+					String outputImagePath = reader.getOutputDir()
+							+ "/output.png";
+					try {
+						Files.copy(new File(outputImagePath).toPath(), new File(filePath).toPath());
+					} catch (IOException e1) {
+						
+					}
+				} else {
+
+				}
 			}
 
 		});
@@ -249,9 +271,9 @@ public class ResultFrame extends JFrame implements Observer {
 	}
 
 	private void patternCheckBoxAction(ActionEvent e) {
-		if (proxy.getRetrieving()){
-			return;
-		}
+//		if (proxy.getRetrieving()) {
+//			return;
+//		}
 		JCheckBox checkBox = (JCheckBox) e.getSource();
 		boolean selected = checkBox.getModel().isSelected();
 		if (selected) {
@@ -263,16 +285,22 @@ public class ResultFrame extends JFrame implements Observer {
 				}
 			}
 		}
-		m.setPatterns(patternList);
 		
-
+//		for (JCheckBox c : patterns.keySet()) {
+//			c.setEnabled(false);
+//			for (JCheckBox c1 : patterns.get(c)) {
+//				c1.setEnabled(false);
+//			}
+//		}
+		m.setPatterns(patternList);
 	}
 
 	private void classCheckBoxAction(ActionEvent e) {
-		if (proxy.getRetrieving()){
-			return;
-		}
 		JCheckBox checkBox = (JCheckBox) e.getSource();
+//		if (proxy.getRetrieving()) {
+//			checkBox.setSelected(!checkBox.getModel().isSelected());
+//			return;
+//		}
 		boolean selected = checkBox.getModel().isSelected();
 		if (selected) {
 			if (!patternList.contains(classString.get(checkBox.getText()))) {
@@ -283,26 +311,35 @@ public class ResultFrame extends JFrame implements Observer {
 				patternList.remove(classString.get(checkBox.getText()));
 			}
 		}
+		
+//		for (JCheckBox c : patterns.keySet()) {
+//			c.setEnabled(false);
+//			for (JCheckBox c1 : patterns.get(c)) {
+//				c1.setEnabled(false);
+//			}
+//		}
 		m.setPatterns(patternList);
-	
 	}
 
 	@Override
 	public void update(Object data) {
-		if(data instanceof IModel){
+		if (data instanceof IModel) {
 			IModel m = (IModel) data;
 			try {
-				this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "/output.txt"));
+				this.outputStream = new GraphVizOutputStream(
+						new FileOutputStream(reader.getOutputDir() + "/output.txt"));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			outputStream.start();
 			outputStream.write(m);
 			outputStream.end();
-			proxy.clearImageIcon();
 			
+			proxy.clearImageIcon();
+
 			revalidate();
 			repaint();
+
 			System.out.println("write to file");
 		}
 	}
