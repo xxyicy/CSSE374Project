@@ -10,27 +10,15 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-Mocha [
-shape="record",
-style="filled"
-fillcolor="green"
-label = "{Mocha\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
-];
-BufferedReader [
-shape="record",
-style="filled"
-fillcolor="green"
-label = "{BufferedReader\n\<\<decorator\>\>\n|- in : Reader\l- cb : char[]\l- nChars : int\l- nextChar : int\l- INVALIDATED : int\l- UNMARKED : int\l- markedChar : int\l- readAheadLimit : int\l- skipLF : boolean\l- markedSkipLF : boolean\l- defaultCharBufferSize : int\l- defaultExpectedLineLength : int\l|+ init(arg0:Reader,arg1:int) : void\l+ init(arg0:Reader) : void\l- ensureOpen() : void throws IOException\l- fill() : void throws IOException\l+ read() : int throws IOException\l- read1(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l readLine(arg0:boolean) : String throws IOException\l+ readLine() : String throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l+ lines() : Stream\l clinit() : void\l}"
-];
-HouseBlend [
-shape="record",
-label = "{HouseBlend|+ init() : void\l+ cost() : double\l}"
-];
 Milk [
 shape="record",
 style="filled"
 fillcolor="green"
 label = "{Milk\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+Espresso [
+shape="record",
+label = "{Espresso|+ init() : void\l+ cost() : double\l}"
 ];
 Soy [
 shape="record",
@@ -38,11 +26,10 @@ style="filled"
 fillcolor="green"
 label = "{Soy\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-Whip [
+Runtime [
 shape="record",
-style="filled"
-fillcolor="green"
-label = "{Whip\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+color="blue"
+label = "{Runtime\n\<\<Singleton\>\>\n|- currentRuntime : Runtime\l|+ getRuntime() : Runtime\l- init() : void\l+ exit(arg0:int) : void\l+ addShutdownHook(arg0:Thread) : void\l+ removeShutdownHook(arg0:Thread) : boolean\l+ halt(arg0:int) : void\l+ runFinalizersOnExit(arg0:boolean) : void\l+ exec(arg0:String) : Process throws IOException\l+ exec(arg0:String,arg1:String[]) : Process throws IOException\l+ exec(arg0:String,arg1:String[],arg2:File) : Process throws IOException\l+ exec(arg0:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[],arg2:File) : Process throws IOException\l+ availableProcessors() : int\l+ freeMemory() : long\l+ totalMemory() : long\l+ maxMemory() : long\l+ gc() : void\l- runFinalization0() : void\l+ runFinalization() : void\l+ traceInstructions(arg0:boolean) : void\l+ traceMethodCalls(arg0:boolean) : void\l+ load(arg0:String) : void\l load0(arg0:Class,arg1:String) : void\l+ loadLibrary(arg0:String) : void\l loadLibrary0(arg0:Class,arg1:String) : void\l+ getLocalizedInputStream(arg0:InputStream) : InputStream\l+ getLocalizedOutputStream(arg0:OutputStream) : OutputStream\l clinit() : void\l}"
 ];
 Beverage [
 shape="record",
@@ -50,36 +37,49 @@ style="filled"
 fillcolor="green"
 label = "{Beverage\n\<\<component\>\>\n| description : String\l|+ init() : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-Espresso [
+HouseBlend [
 shape="record",
-label = "{Espresso|+ init() : void\l+ cost() : double\l}"
+label = "{HouseBlend|+ init() : void\l+ cost() : double\l}"
 ];
 Decaf [
 shape="record",
 label = "{Decaf|+ init() : void\l+ cost() : double\l}"
 ];
-Runtime [
+Mocha [
 shape="record",
-color="blue"
-label = "{Runtime\n\<\<Singleton\>\>\n|- currentRuntime : Runtime\l|+ getRuntime() : Runtime\l- init() : void\l+ exit(arg0:int) : void\l+ addShutdownHook(arg0:Thread) : void\l+ removeShutdownHook(arg0:Thread) : boolean\l+ halt(arg0:int) : void\l+ runFinalizersOnExit(arg0:boolean) : void\l+ exec(arg0:String) : Process throws IOException\l+ exec(arg0:String,arg1:String[]) : Process throws IOException\l+ exec(arg0:String,arg1:String[],arg2:File) : Process throws IOException\l+ exec(arg0:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[],arg2:File) : Process throws IOException\l+ availableProcessors() : int\l+ freeMemory() : long\l+ totalMemory() : long\l+ maxMemory() : long\l+ gc() : void\l- runFinalization0() : void\l+ runFinalization() : void\l+ traceInstructions(arg0:boolean) : void\l+ traceMethodCalls(arg0:boolean) : void\l+ load(arg0:String) : void\l load0(arg0:Class,arg1:String) : void\l+ loadLibrary(arg0:String) : void\l loadLibrary0(arg0:Class,arg1:String) : void\l+ getLocalizedInputStream(arg0:InputStream) : InputStream\l+ getLocalizedOutputStream(arg0:OutputStream) : OutputStream\l clinit() : void\l}"
+style="filled"
+fillcolor="green"
+label = "{Mocha\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+StarbuzzCoffee [
+shape="record",
+label = "{StarbuzzCoffee|+ init() : void\l+ main(arg0:String[]) : void\l}"
+];
+CondimentDecorator [
+shape="record",
+label = "{CondimentDecorator|+ init() : void\l+ getDescription() : String\l}"
+];
+Whip [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Whip\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
 DarkRoast [
 shape="record",
 label = "{DarkRoast|+ init() : void\l+ cost() : double\l}"
 ];
-StarbuzzCoffee [
+BufferedReader [
 shape="record",
-label = "{StarbuzzCoffee|+ init() : void\l+ main(arg0:String[]) : void\l}"
+style="filled"
+fillcolor="green"
+label = "{BufferedReader\n\<\<decorator\>\>\n|- in : Reader\l- cb : char[]\l- nChars : int\l- nextChar : int\l- INVALIDATED : int\l- UNMARKED : int\l- markedChar : int\l- readAheadLimit : int\l- skipLF : boolean\l- markedSkipLF : boolean\l- defaultCharBufferSize : int\l- defaultExpectedLineLength : int\l|+ init(arg0:Reader,arg1:int) : void\l+ init(arg0:Reader) : void\l- ensureOpen() : void throws IOException\l- fill() : void throws IOException\l+ read() : int throws IOException\l- read1(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l readLine(arg0:boolean) : String throws IOException\l+ readLine() : String throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l+ lines() : Stream\l clinit() : void\l}"
 ];
 Reader [
 shape="record",
 style="filled"
 fillcolor="green"
 label = "{Reader\n\<\<component\>\>\n|# lock : Object\l- maxSkipBufferSize : int\l- skipBuffer : char[]\l|# init() : void\l# init(arg0:Object) : void\l+ read(arg0:CharBuffer) : int throws IOException\l+ read() : int throws IOException\l+ read(arg0:char[]) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l}"
-];
-CondimentDecorator [
-shape="record",
-label = "{CondimentDecorator|+ init() : void\l+ getDescription() : String\l}"
 ];
 BufferedReader -> Reader [arrowhead="onormal"]
 Milk -> Beverage [arrowhead="vee",label="decorates"]
@@ -102,27 +102,15 @@ edge [
 fontname = "Avenir Book"
 fontsize = 10
 ]
-Mocha [
-shape="record",
-style="filled"
-fillcolor="green"
-label = "{Mocha\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
-];
-BufferedReader [
-shape="record",
-style="filled"
-fillcolor="green"
-label = "{BufferedReader\n\<\<decorator\>\>\n|- in : Reader\l- cb : char[]\l- nChars : int\l- nextChar : int\l- INVALIDATED : int\l- UNMARKED : int\l- markedChar : int\l- readAheadLimit : int\l- skipLF : boolean\l- markedSkipLF : boolean\l- defaultCharBufferSize : int\l- defaultExpectedLineLength : int\l|+ init(arg0:Reader,arg1:int) : void\l+ init(arg0:Reader) : void\l- ensureOpen() : void throws IOException\l- fill() : void throws IOException\l+ read() : int throws IOException\l- read1(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l readLine(arg0:boolean) : String throws IOException\l+ readLine() : String throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l+ lines() : Stream\l clinit() : void\l}"
-];
-HouseBlend [
-shape="record",
-label = "{HouseBlend|+ init() : void\l+ cost() : double\l}"
-];
 Milk [
 shape="record",
 style="filled"
 fillcolor="green"
 label = "{Milk\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+Espresso [
+shape="record",
+label = "{Espresso|+ init() : void\l+ cost() : double\l}"
 ];
 Soy [
 shape="record",
@@ -130,11 +118,10 @@ style="filled"
 fillcolor="green"
 label = "{Soy\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-Whip [
+Runtime [
 shape="record",
-style="filled"
-fillcolor="green"
-label = "{Whip\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+color="blue"
+label = "{Runtime\n\<\<Singleton\>\>\n|- currentRuntime : Runtime\l|+ getRuntime() : Runtime\l- init() : void\l+ exit(arg0:int) : void\l+ addShutdownHook(arg0:Thread) : void\l+ removeShutdownHook(arg0:Thread) : boolean\l+ halt(arg0:int) : void\l+ runFinalizersOnExit(arg0:boolean) : void\l+ exec(arg0:String) : Process throws IOException\l+ exec(arg0:String,arg1:String[]) : Process throws IOException\l+ exec(arg0:String,arg1:String[],arg2:File) : Process throws IOException\l+ exec(arg0:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[],arg2:File) : Process throws IOException\l+ availableProcessors() : int\l+ freeMemory() : long\l+ totalMemory() : long\l+ maxMemory() : long\l+ gc() : void\l- runFinalization0() : void\l+ runFinalization() : void\l+ traceInstructions(arg0:boolean) : void\l+ traceMethodCalls(arg0:boolean) : void\l+ load(arg0:String) : void\l load0(arg0:Class,arg1:String) : void\l+ loadLibrary(arg0:String) : void\l loadLibrary0(arg0:Class,arg1:String) : void\l+ getLocalizedInputStream(arg0:InputStream) : InputStream\l+ getLocalizedOutputStream(arg0:OutputStream) : OutputStream\l clinit() : void\l}"
 ];
 Beverage [
 shape="record",
@@ -142,26 +129,43 @@ style="filled"
 fillcolor="green"
 label = "{Beverage\n\<\<component\>\>\n| description : String\l|+ init() : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
-Espresso [
+HouseBlend [
 shape="record",
-label = "{Espresso|+ init() : void\l+ cost() : double\l}"
+label = "{HouseBlend|+ init() : void\l+ cost() : double\l}"
 ];
 Decaf [
 shape="record",
 label = "{Decaf|+ init() : void\l+ cost() : double\l}"
 ];
-Runtime [
+Mocha [
 shape="record",
-color="blue"
-label = "{Runtime\n\<\<Singleton\>\>\n|- currentRuntime : Runtime\l|+ getRuntime() : Runtime\l- init() : void\l+ exit(arg0:int) : void\l+ addShutdownHook(arg0:Thread) : void\l+ removeShutdownHook(arg0:Thread) : boolean\l+ halt(arg0:int) : void\l+ runFinalizersOnExit(arg0:boolean) : void\l+ exec(arg0:String) : Process throws IOException\l+ exec(arg0:String,arg1:String[]) : Process throws IOException\l+ exec(arg0:String,arg1:String[],arg2:File) : Process throws IOException\l+ exec(arg0:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[],arg2:File) : Process throws IOException\l+ availableProcessors() : int\l+ freeMemory() : long\l+ totalMemory() : long\l+ maxMemory() : long\l+ gc() : void\l- runFinalization0() : void\l+ runFinalization() : void\l+ traceInstructions(arg0:boolean) : void\l+ traceMethodCalls(arg0:boolean) : void\l+ load(arg0:String) : void\l load0(arg0:Class,arg1:String) : void\l+ loadLibrary(arg0:String) : void\l loadLibrary0(arg0:Class,arg1:String) : void\l+ getLocalizedInputStream(arg0:InputStream) : InputStream\l+ getLocalizedOutputStream(arg0:OutputStream) : OutputStream\l clinit() : void\l}"
+style="filled"
+fillcolor="green"
+label = "{Mocha\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+StarbuzzCoffee [
+shape="record",
+label = "{StarbuzzCoffee|+ init() : void\l+ main(arg0:String[]) : void\l}"
+];
+CondimentDecorator [
+shape="record",
+label = "{CondimentDecorator|+ init() : void\l+ getDescription() : String\l}"
+];
+Whip [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Whip\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
 ];
 DarkRoast [
 shape="record",
 label = "{DarkRoast|+ init() : void\l+ cost() : double\l}"
 ];
-StarbuzzCoffee [
+BufferedReader [
 shape="record",
-label = "{StarbuzzCoffee|+ init() : void\l+ main(arg0:String[]) : void\l}"
+style="filled"
+fillcolor="green"
+label = "{BufferedReader\n\<\<decorator\>\>\n|- in : Reader\l- cb : char[]\l- nChars : int\l- nextChar : int\l- INVALIDATED : int\l- UNMARKED : int\l- markedChar : int\l- readAheadLimit : int\l- skipLF : boolean\l- markedSkipLF : boolean\l- defaultCharBufferSize : int\l- defaultExpectedLineLength : int\l|+ init(arg0:Reader,arg1:int) : void\l+ init(arg0:Reader) : void\l- ensureOpen() : void throws IOException\l- fill() : void throws IOException\l+ read() : int throws IOException\l- read1(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l readLine(arg0:boolean) : String throws IOException\l+ readLine() : String throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l+ lines() : Stream\l clinit() : void\l}"
 ];
 Reader [
 shape="record",
@@ -169,15 +173,101 @@ style="filled"
 fillcolor="green"
 label = "{Reader\n\<\<component\>\>\n|# lock : Object\l- maxSkipBufferSize : int\l- skipBuffer : char[]\l|# init() : void\l# init(arg0:Object) : void\l+ read(arg0:CharBuffer) : int throws IOException\l+ read() : int throws IOException\l+ read(arg0:char[]) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l}"
 ];
-CondimentDecorator [
-shape="record",
-label = "{CondimentDecorator|+ init() : void\l+ getDescription() : String\l}"
-];
 BufferedReader -> Reader [arrowhead="onormal"]
-Milk -> Beverage [arrowhead="vee",label="decorates"]
 BufferedReader -> BufferedReader [arrowhead="vee",style="dashed"]
 Soy -> Beverage [arrowhead="vee",label="decorates"]
 Mocha -> Beverage [arrowhead="vee",label="decorates"]
 BufferedReader -> Reader [arrowhead="vee",label="decorates"]
 Whip -> Beverage [arrowhead="vee",label="decorates"]
+Runtime -> Runtime [arrowhead="vee"]
+}
+digraph G {
+fontname = "Avenir Book"
+fontsize = 10
+node [
+fontname = "Avenir Book"
+fontsize = 10
+shape = "record"
+]
+edge [
+fontname = "Avenir Book"
+fontsize = 10
+]
+Milk [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Milk\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+Espresso [
+shape="record",
+label = "{Espresso|+ init() : void\l+ cost() : double\l}"
+];
+Soy [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Soy\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+Runtime [
+shape="record",
+color="blue"
+label = "{Runtime\n\<\<Singleton\>\>\n|- currentRuntime : Runtime\l|+ getRuntime() : Runtime\l- init() : void\l+ exit(arg0:int) : void\l+ addShutdownHook(arg0:Thread) : void\l+ removeShutdownHook(arg0:Thread) : boolean\l+ halt(arg0:int) : void\l+ runFinalizersOnExit(arg0:boolean) : void\l+ exec(arg0:String) : Process throws IOException\l+ exec(arg0:String,arg1:String[]) : Process throws IOException\l+ exec(arg0:String,arg1:String[],arg2:File) : Process throws IOException\l+ exec(arg0:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[]) : Process throws IOException\l+ exec(arg0:String[],arg1:String[],arg2:File) : Process throws IOException\l+ availableProcessors() : int\l+ freeMemory() : long\l+ totalMemory() : long\l+ maxMemory() : long\l+ gc() : void\l- runFinalization0() : void\l+ runFinalization() : void\l+ traceInstructions(arg0:boolean) : void\l+ traceMethodCalls(arg0:boolean) : void\l+ load(arg0:String) : void\l load0(arg0:Class,arg1:String) : void\l+ loadLibrary(arg0:String) : void\l loadLibrary0(arg0:Class,arg1:String) : void\l+ getLocalizedInputStream(arg0:InputStream) : InputStream\l+ getLocalizedOutputStream(arg0:OutputStream) : OutputStream\l clinit() : void\l}"
+];
+Beverage [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Beverage\n\<\<component\>\>\n| description : String\l|+ init() : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+HouseBlend [
+shape="record",
+label = "{HouseBlend|+ init() : void\l+ cost() : double\l}"
+];
+Decaf [
+shape="record",
+label = "{Decaf|+ init() : void\l+ cost() : double\l}"
+];
+Mocha [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Mocha\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+StarbuzzCoffee [
+shape="record",
+label = "{StarbuzzCoffee|+ init() : void\l+ main(arg0:String[]) : void\l}"
+];
+CondimentDecorator [
+shape="record",
+label = "{CondimentDecorator|+ init() : void\l+ getDescription() : String\l}"
+];
+Whip [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Whip\n\<\<decorator\>\>\n| beverage : Beverage\l|+ init(arg0:Beverage) : void\l+ getDescription() : String\l+ cost() : double\l}"
+];
+DarkRoast [
+shape="record",
+label = "{DarkRoast|+ init() : void\l+ cost() : double\l}"
+];
+BufferedReader [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{BufferedReader\n\<\<decorator\>\>\n|- in : Reader\l- cb : char[]\l- nChars : int\l- nextChar : int\l- INVALIDATED : int\l- UNMARKED : int\l- markedChar : int\l- readAheadLimit : int\l- skipLF : boolean\l- markedSkipLF : boolean\l- defaultCharBufferSize : int\l- defaultExpectedLineLength : int\l|+ init(arg0:Reader,arg1:int) : void\l+ init(arg0:Reader) : void\l- ensureOpen() : void throws IOException\l- fill() : void throws IOException\l+ read() : int throws IOException\l- read1(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l readLine(arg0:boolean) : String throws IOException\l+ readLine() : String throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l+ lines() : Stream\l clinit() : void\l}"
+];
+Reader [
+shape="record",
+style="filled"
+fillcolor="green"
+label = "{Reader\n\<\<component\>\>\n|# lock : Object\l- maxSkipBufferSize : int\l- skipBuffer : char[]\l|# init() : void\l# init(arg0:Object) : void\l+ read(arg0:CharBuffer) : int throws IOException\l+ read() : int throws IOException\l+ read(arg0:char[]) : int throws IOException\l+ read(arg0:char[],arg1:int,arg2:int) : int throws IOException\l+ skip(arg0:long) : long throws IOException\l+ ready() : boolean throws IOException\l+ markSupported() : boolean\l+ mark(arg0:int) : void throws IOException\l+ reset() : void throws IOException\l+ close() : void throws IOException\l}"
+];
+BufferedReader -> Reader [arrowhead="onormal"]
+BufferedReader -> BufferedReader [arrowhead="vee",style="dashed"]
+Soy -> Beverage [arrowhead="vee",label="decorates"]
+BufferedReader -> Reader [arrowhead="vee",label="decorates"]
+Whip -> Beverage [arrowhead="vee",label="decorates"]
+Runtime -> Runtime [arrowhead="vee"]
 }

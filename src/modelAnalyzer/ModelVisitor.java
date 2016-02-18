@@ -3,8 +3,7 @@ package modelAnalyzer;
 import java.util.ArrayList;
 import java.util.List;
 
-import observer.api.Notifier;
-import observer.api.Observer;
+
 import api.IClass;
 import api.IField;
 import api.IMethod;
@@ -38,6 +37,8 @@ public class ModelVisitor extends AbstractModelVisitor  {
 		
 		this.patterns = patterns;
 		this.visitModel();
+		
+		System.out.println("notify");
 		this.notifyObservers(this.m);
 	}
 	
