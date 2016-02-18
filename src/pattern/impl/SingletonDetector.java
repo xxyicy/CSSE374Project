@@ -36,7 +36,6 @@ public class SingletonDetector implements IDetector {
 
 	@Override
 	public void detect(IModel m) {
-
 		for (IClass c : m.getClasses()) {
 			className = c.getName().replaceAll("/", ".");
 			staticField = false;

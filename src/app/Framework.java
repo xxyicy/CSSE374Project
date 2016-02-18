@@ -187,7 +187,7 @@ public class Framework implements Notifier {
 		}
 
 		if (this.reader.getPhases().contains(Framework.SINGLETON_DETECTION)) {
-			System.out.println("Adding");
+			System.out.println("Adding Singleton");
 			String mdstr = this.reader.getAttrMap().get(
 					"Singleton-RequireGetInstance");
 			int methodDelegation = 0;
@@ -215,6 +215,7 @@ public class Framework implements Notifier {
 		for (IDetector d : this.detectors) {
 			this.changeProgress("Detecting" + d.toString(),
 					this.box.getProgress() + totalProgress / size);
+
 			d.detect(model);
 		
 		}
@@ -224,17 +225,18 @@ public class Framework implements Notifier {
 
 	public void Analyze() throws Exception {
 		try {
-			if (this.reader.getAppType().equals("SD")) {
-				out = new SDEditOutputStream(new FileOutputStream(
-						this.reader.getOutputDir()));
-			} else {
-				out = new GraphVizOutputStream(new FileOutputStream(
-						this.reader.getOutputDir()));
-			}
+//			if (this.reader.getAppType().equals("SD")) {
+//				out = new SDEditOutputStream(new FileOutputStream(
+//						this.reader.getOutputDir()));
+//			} else {
+//				out = new GraphVizOutputStream(new FileOutputStream(
+//						this.reader.getOutputDir()));
+//			}
 
 			this.processPhases();
 		} catch (Exception e) {
 			this.changeProgress("Analyze Failed", -1);
+			e.printStackTrace();
 		}
 		
 

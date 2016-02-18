@@ -2,7 +2,7 @@ Input-Folder: starbuzz
 
 Input-Classes: java.io.Reader,java.io.BufferedReader,java.lang.Runtime
 
-Output-Directory: c:\\User1\\Documents\\Lab2-1\\input-output
+Output-Directory: input
 
 Dot-Path: C:\\Program Files (x86)\\Graphviz2.38\\bin\\dot.exe
 
