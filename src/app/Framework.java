@@ -252,12 +252,8 @@ public class Framework implements Notifier {
 		
 		this.detectPattern();
 
-		// TO DO
-//		if (phases.contains(Framework.DOT_GENERATION)) {
-////			 System.out.println(model);
-//		}
 		
-		
+			
 		this.changeProgress("Analyzing Finished", 100);
 		
 		this.notifyObservers(new DataBox(this.model,this.reader));
@@ -343,6 +339,9 @@ public class Framework implements Notifier {
 	}
 
 	private void loadClassFromInputFolder() throws IOException {
+		if(this.reader.getInputFolder() == null){
+			return;
+		}
 		this.classes = this.loadClassNames();
 		this.loadClassRecur();
 	}

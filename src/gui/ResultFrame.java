@@ -58,7 +58,6 @@ public class ResultFrame extends JFrame {
 		this.classString = new HashMap<String, IPattern>();
 		this.patternList = new ArrayList<IPattern>();
 		m = new ModelVisitor(model);
-
 		this.setTitle("Design Parser - Result");
 
 		this.setPreferredSize(INITAL_SIZE);

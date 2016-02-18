@@ -127,7 +127,6 @@ public class TMXXreader {
 	
 	public String getAppType(){
 		return this.appType;
-		
 	}
 	
 	public Map<String, String> getAttrMap(){

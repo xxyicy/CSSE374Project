@@ -18,16 +18,18 @@ public class Model implements IModel {
 	
 	@Override
 	public void accept(IVisitor v) {
-		for (IClass c: this.classes) {
-			c.accept(v);
-		}
-		for (IRelation r: this.relations) {
-			r.accept(v);
-		}
-		
 		for(IPattern p : this.patterns){
 			p.accept(v);
 		}
+		
+		for (IClass c: this.classes) {
+			c.accept(v);
+		}
+		
+		for (IRelation r: this.relations) {
+			r.accept(v);
+		}
+	
 	}
 	
 	@Override

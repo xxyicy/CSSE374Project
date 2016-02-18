@@ -9,7 +9,7 @@ public class Relation implements IRelation {
 	private String to;
 	private String type;
 	private String des;
-	private boolean isVisible = true;
+	private boolean isVisible = false;
 
 	@Override
 	public void accept(IVisitor v) {
