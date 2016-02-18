@@ -22,6 +22,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import observer.api.Observer;
+
 import com.sun.glass.events.KeyEvent;
 
 import api.IClass;
@@ -33,7 +35,7 @@ import modelAnalyzer.ModelVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.IOutputStream;
 
-public class ResultFrame extends JFrame {
+public class ResultFrame extends JFrame implements Observer {
 	private IModel model;
 	private TMXXreader reader;
 	private IOutputStream outputStream;
@@ -56,12 +58,16 @@ public class ResultFrame extends JFrame {
 		this.patterns = new HashMap<JCheckBox, ArrayList<JCheckBox>>();
 		this.classString = new HashMap<String, IPattern>();
 		this.patternList = new ArrayList<IPattern>();
+		
 		m = new ModelVisitor(model);
+		m.registerObserver(this);
 		try {
 			this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "/output.txt"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 		this.setTitle("Design Parser - Result");
 
 		this.setPreferredSize(INITAL_SIZE);
@@ -263,6 +269,7 @@ public class ResultFrame extends JFrame {
 		}
 		run();
 		System.out.println(patternList.size());
+
 	}
 
 	private void classCheckBoxAction(ActionEvent e) {
@@ -278,16 +285,25 @@ public class ResultFrame extends JFrame {
 			}
 		}
 		run();
-		System.out.println(patternList.size());
+	
 	}
 
 	private void run() {
 		m.setPatterns(patternList);
-		System.out.println(model);
-		outputStream.start();
-		outputStream.write(model);
-		outputStream.end();
-		System.out.println("changed");
+		
+
+	
+	}
+
+	@Override
+	public void update(Object data) {
+		if(data instanceof IModel){
+			IModel m = (IModel) data;
+			outputStream.start();
+			outputStream.write(m);
+			outputStream.end();
+			System.out.println("write to file");
+		}
 	}
 
 }

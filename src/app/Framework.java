@@ -160,7 +160,7 @@ public class Framework implements Notifier {
 
 	private void addDetectors(double totalProgess) {
 		totalProgess = totalProgess / 4;
-		System.out.println("this:::" + this.reader.getPhases());
+		
 		this.changeProgress("Creating Detectors", -1);
 		if (this.reader.getPhases().contains(Framework.DECORATOR_DETECTION)) {
 
@@ -187,7 +187,7 @@ public class Framework implements Notifier {
 		}
 
 		if (this.reader.getPhases().contains(Framework.SINGLETON_DETECTION)) {
-			System.out.println("Adding Singleton");
+			
 			String mdstr = this.reader.getAttrMap().get(
 					"Singleton-RequireGetInstance");
 			int methodDelegation = 0;
@@ -199,7 +199,7 @@ public class Framework implements Notifier {
 		}
 
 		if (this.reader.getPhases().contains(Framework.COMPOSITE_DETECTION)) {
-			System.out.println("Adding");
+			
 			IDetector composite = new CompositeDetector();
 			this.addDetector(composite);
 		}
@@ -217,6 +217,7 @@ public class Framework implements Notifier {
 					this.box.getProgress() + totalProgress / size);
 
 			d.detect(model);
+		
 		}
 
 		this.changeProgress("Pattern Detection Finished", currentProgress + totalProgress);
