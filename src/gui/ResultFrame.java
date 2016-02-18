@@ -6,12 +6,16 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import javax.swing.JMenu;
@@ -29,6 +33,7 @@ import Framework.Framework.DataBox;
 import api.IClass;
 import api.IModel;
 import api.IPattern;
+import dotExecutable.DotExecuter;
 import modelAnalyzer.ModelVisitor;
 import visitor.impl.GraphVizOutputStream;
 import visitor.impl.IOutputStream;
@@ -124,9 +129,7 @@ public class ResultFrame extends JFrame implements Observer {
 		setVisible(true);
 		this.getContentPane().revalidate();
 		this.getContentPane().repaint();
-		
-		
-		
+
 	}
 
 	private void addMenuBar() {
@@ -158,6 +161,23 @@ public class ResultFrame extends JFrame implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// HelpFrame frame = new HelpFrame();
+				JFileChooser fc = new JFileChooser();
+				int returnVal = fc.showSaveDialog(ResultFrame.this.getContentPane());
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					String filePath = fc.getSelectedFile().getAbsolutePath();
+					filePath = filePath.endsWith(".png") ? filePath
+							: (filePath + ".png");
+
+					String outputImagePath = reader.getOutputDir()
+							+ "/output.png";
+					try {
+						Files.copy(new File(outputImagePath).toPath(), new File(filePath).toPath());
+					} catch (IOException e1) {
+						
+					}
+				} else {
+
+				}
 			}
 
 		});
@@ -299,10 +319,6 @@ public class ResultFrame extends JFrame implements Observer {
 	
 
 	private void patternCheckBoxAction(ActionEvent e) {
-		// if (proxy.getRetrieving()){
-		// return;
-		// }
-
 		JCheckBox checkBox = (JCheckBox) e.getSource();
 		boolean selected = checkBox.getModel().isSelected();
 		
@@ -313,21 +329,27 @@ public class ResultFrame extends JFrame implements Observer {
 
 			}
 		}
+
 		
 		this.firePatternThread();
+
+
 
 	}
 
 	private void classCheckBoxAction(ActionEvent e) {
-		// if (proxy.getRetrieving()){
-		// return;
-		// }
 
 		JCheckBox checkBox = (JCheckBox) e.getSource();
+//		if (proxy.getRetrieving()) {
+//			checkBox.setSelected(!checkBox.getModel().isSelected());
+//			return;
+//		}
 		boolean selected = checkBox.getModel().isSelected();
+
 		
 		
 		this.firePatternThread();
+
 
 	}
 
@@ -336,8 +358,8 @@ public class ResultFrame extends JFrame implements Observer {
 			IModel m = (IModel) data;
 			try {
 				this.outputStream = new GraphVizOutputStream(
-						new FileOutputStream(reader.getOutputDir()
-								+ "/output.txt"));
+						new FileOutputStream(reader.getOutputDir() + "/output.txt"));
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -345,6 +367,7 @@ public class ResultFrame extends JFrame implements Observer {
 			outputStream.start();
 			outputStream.write(m);
 			outputStream.end();
+
 			proxy.clearImageIcon();
 
 			revalidate();

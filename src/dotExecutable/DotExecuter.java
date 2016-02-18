@@ -31,6 +31,7 @@ public class DotExecuter implements Notifier {
 
 	
 
+
 		p = Runtime.getRuntime().exec(toExecute);
 
 //		BufferedReader stdInput = new BufferedReader(new InputStreamReader(
@@ -56,6 +57,7 @@ public class DotExecuter implements Notifier {
 		
 		
 		this.notifyObservers(null);
+
 
 	}
 

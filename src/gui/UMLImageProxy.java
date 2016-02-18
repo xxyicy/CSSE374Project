@@ -2,7 +2,11 @@ package gui;
 
 import java.awt.Component;
 import java.awt.Graphics;
+
 import java.io.IOException;
+
+import java.awt.image.BufferedImage;
+
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -26,6 +30,7 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			imageIcon.paintIcon(c, g, x, y);
 		} else {
+
 			g.drawString("Loading UML Diagram, please wait...", x + 300,
 					y + 190);
 			if(this.retrievalThread != null){
@@ -56,6 +61,7 @@ public class UMLImageProxy implements Icon {
 						if(ignore instanceof InterruptedException){
 							
 							executer.stop();
+
 						}
 					}
 				}
