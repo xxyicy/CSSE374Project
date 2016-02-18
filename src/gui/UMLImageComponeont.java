@@ -7,6 +7,10 @@ import javax.swing.JComponent;
 
 public class UMLImageComponeont extends JComponent {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Icon icon;
 
 	public UMLImageComponeont(Icon icon) {

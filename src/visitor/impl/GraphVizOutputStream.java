@@ -11,7 +11,8 @@ import api.IMethod;
 import api.IModel;
 import api.IRelation;
 import app.Utility;
-import visitor.api.Visitor;
+
+import visitor.api.GraphVizVistor;
 import visitor.api.ITraverser;
 import visitor.api.IVisitMethod;
 import visitor.api.IVisitor;
@@ -23,7 +24,7 @@ public class GraphVizOutputStream extends IOutputStream {
 
 	public GraphVizOutputStream(OutputStream out) throws IOException {
 		super(out);
-		this.visitor = new Visitor();
+		this.visitor = new GraphVizVistor();
 		this.result = new StringBuffer();
 		this.setupPreVisitClass();
 		this.setupVisitClass();

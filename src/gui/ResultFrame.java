@@ -6,16 +6,15 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -42,7 +41,10 @@ public class ResultFrame extends JFrame {
 	private ArrayList<IPattern> patternList;
 	private ModelVisitor m;
 	private UMLImageProxy proxy;
-	
+	JFrame frame;
+	JPanel contentPane;
+	JButton loadButton;
+	JScrollPane scrollPane;
 
 	/**
 	 * 
@@ -59,11 +61,6 @@ public class ResultFrame extends JFrame {
 		this.classString = new HashMap<String, IPattern>();
 		this.patternList = new ArrayList<IPattern>();
 		m = new ModelVisitor(model);
-		try {
-			this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "/output.txt"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		this.setTitle("Design Parser - Result");
 
 		this.setPreferredSize(INITAL_SIZE);
@@ -76,18 +73,19 @@ public class ResultFrame extends JFrame {
 		checkPanel.setPreferredSize(new Dimension(250, 1000));
 		addPattern(checkPanel);
 
-		JPanel contentPanel = new JPanel();
-		contentPanel.setBackground(Color.white);
-		contentPanel.setPreferredSize(new Dimension(1000, 1000));
+//		JPanel contentPanel = new JPanel();
+//		contentPanel.setBackground(Color.white);
+//		contentPanel.setPreferredSize(new Dimension(650, 1000));
 		proxy = new UMLImageProxy(reader);
-		JComponent component = new UMLImageComponeont(proxy);
-		contentPanel.add(component);
+//		JComponent component = new UMLImageComponeont(proxy);
+//		contentPanel.add(component);
+		
 
 		JScrollPane checkPane = new JScrollPane(checkPanel);
 		checkPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		this.getContentPane().add(checkPane, BorderLayout.LINE_START);
-		this.getContentPane().add(new JScrollPane(contentPanel), BorderLayout.CENTER);
+		this.getContentPane().add(new JScrollPane(new JLabel(proxy)), BorderLayout.CENTER);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
@@ -111,11 +109,7 @@ public class ResultFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					LandingPage frame = new LandingPage();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 				setVisible(false);
@@ -287,7 +281,12 @@ public class ResultFrame extends JFrame {
 
 	private void run() {
 		m.setPatterns(patternList);
-		
+		System.out.println(model);
+		try {
+			this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "/output.txt"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		outputStream.start();
 		outputStream.write(model);
 		outputStream.end();
