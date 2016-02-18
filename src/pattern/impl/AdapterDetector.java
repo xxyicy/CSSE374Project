@@ -117,7 +117,8 @@ public class AdapterDetector implements IDetector {
 				}
 
 				if (adaptees.size() > 1) {
-					throw new Exception("Detect more than 1 adaptee?");
+					System.out.println(adaptees);
+					throw new Exception("Detect more than 1 adaptee? "+c );
 				}
 
 				

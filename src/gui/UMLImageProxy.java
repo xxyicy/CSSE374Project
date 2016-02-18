@@ -4,13 +4,12 @@ import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
-import com.sun.prism.Image;
 
 import app.TMXXreader;
 import dotExecutable.DotExecuter;
@@ -31,7 +30,7 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			imageIcon.paintIcon(c, g, x, y);
 		} else {
-			g.drawString("Loading UML Diagram, please wait...", x + 200, y + 190);
+			g.drawString("Loading UML Diagram, please wait...", x + 300, y + 190);
 			System.out.println("lalalal");
 			if (!retrieving) {
 				retrieving = true;
@@ -43,9 +42,13 @@ public class UMLImageProxy implements Icon {
 									reader.getOutputDir() + "/output.txt", reader.getOutputDir() + "/output.png");
 							executer.execute();
 							imageIcon = new ImageIcon(reader.getOutputDir() + "/output.png");
+							// Image img = imageIcon.getImage();
+							// Image newimg = img.getScaledInstance(800, 800,
+							// java.awt.Image.SCALE_SMOOTH);
+							// imageIcon = new ImageIcon(newimg);
 							imageIcon.getImage().flush();
-							c.revalidate();
 							c.repaint();
+							c.revalidate();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -66,7 +69,7 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			return imageIcon.getIconWidth();
 		} else {
-			return 1800;
+			return 0;
 		}
 	}
 
@@ -75,7 +78,7 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			return imageIcon.getIconHeight();
 		} else {
-			return 1200;
+			return 0;
 		}
 	}
 

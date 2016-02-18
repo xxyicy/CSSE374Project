@@ -77,7 +77,7 @@ public class ResultFrame extends JFrame implements Observer {
 
 		proxy = new UMLImageProxy(reader);
 		UMLImageComponent component = new UMLImageComponent(proxy);
-		component.setPreferredSize(new Dimension(1800,1200));
+		component.setPreferredSize(new Dimension(10000,10000));
 		JScrollPane scrollPane = new JScrollPane(component);
 
 		JScrollPane checkPane = new JScrollPane(checkPanel);

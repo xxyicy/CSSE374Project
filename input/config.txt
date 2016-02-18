@@ -1,4 +1,4 @@
-Input-Folder: starbuzz
+Input-Folder: forTest
 
 Input-Classes: java.io.Reader,java.io.BufferedReader,java.lang.Runtime
 
@@ -6,7 +6,7 @@ Output-Directory: input
 
 Dot-Path: /usr/local/bin/dot
 
-Phases: Class-Loading, Decorator-Detection, Singleton-Detection, DOT-Generation
+Phases: Class-Loading, Decorator-Detection, Singleton-Detection, Composite-Detection, Adapter-Detection, DOT-Generation
 
 Adapter-MethodDelegation: 2
 
