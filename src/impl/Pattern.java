@@ -4,6 +4,7 @@ package impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import visitor.api.IVisitor;
 import api.IClass;
 import api.IPattern;
 
@@ -86,6 +87,11 @@ public class Pattern implements IPattern{
 		
 		return result;
 		
+	}
+
+	@Override
+	public void accept(IVisitor v) {
+		v.visit(this);
 	}
 	
 }

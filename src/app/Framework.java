@@ -241,6 +241,7 @@ public class Framework implements Notifier {
 
 	private void processPhases() throws Exception {
 		List<String> phases = this.reader.getPhases();
+		
 		if (phases.contains(Framework.CLASS_LOADING)) {
 			this.loadClassFromInputFolder();
 			this.loadInputClasses();
@@ -248,15 +249,17 @@ public class Framework implements Notifier {
 			throw new Exception("Not Loading class??????!");
 		}
 
+		
 		this.detectPattern();
 
 		// TO DO
-		if (phases.contains(Framework.DOT_GENERATION)) {
-//			 System.out.println(model);
-		}
+//		if (phases.contains(Framework.DOT_GENERATION)) {
+////			 System.out.println(model);
+//		}
 		
 		
 		this.changeProgress("Analyzing Finished", 100);
+		
 		this.notifyObservers(new DataBox(this.model,this.reader));
 	}
 
@@ -328,10 +331,10 @@ public class Framework implements Notifier {
 
 	@Override
 	public void notifyObservers(Object data) {
-		if(data instanceof ProgressBox){
-			ProgressBox box = (ProgressBox) data;
-			System.out.println(box.getCurrentTask() + " : " + box.getProgress());
-		}
+//		if(data instanceof ProgressBox){
+//			ProgressBox box = (ProgressBox) data;
+//			System.out.println(box.getCurrentTask() + " : " + box.getProgress());
+//		}
 		
 		for (Observer o : this.observers) {
 			o.update(data);

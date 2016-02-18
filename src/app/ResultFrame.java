@@ -35,6 +35,8 @@ import app.Framework.DataBox;
 public class ResultFrame extends JFrame {
 	private IModel model;
 	private TMXXreader reader;
+	
+	
 	/**
 	 * 
 	 */

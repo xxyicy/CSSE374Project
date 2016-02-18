@@ -9,6 +9,7 @@ public class LookupKey {
 		this.clazz = clazz;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

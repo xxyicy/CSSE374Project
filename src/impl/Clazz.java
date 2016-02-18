@@ -11,9 +11,12 @@ import api.IField;
 import api.IMethod;
 
 public class Clazz implements IClass {
+	private boolean isVisible = true;
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
+	
+	
 	
 	@Override
 	public void accept(IVisitor v) {
@@ -79,6 +82,7 @@ public class Clazz implements IClass {
 		result += "fields " + this.fields + "\n";
 		result += "declaration " + this.declaration + "\n";
 		result += "tags "+ this.getTags()+"\n";
+		result += "Visibility " + this.isVisible + "\n";
 		return result;
 
 	}
@@ -96,5 +100,14 @@ public class Clazz implements IClass {
 		this.declaration.addTag(tag);
 	}
 
+	@Override
+	public boolean isVisible() {
+		return this.isVisible;
+	}
+
+	@Override
+	public void setVisible(boolean v){
+		this.isVisible = v;
+	}
 
 }

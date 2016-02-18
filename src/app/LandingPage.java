@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
+import modelAnalyzer.ModelVisitor;
 import api.IModel;
 import app.Framework.DataBox;
 import app.Framework.ProgressBox;
@@ -135,6 +136,12 @@ public class LandingPage extends JFrame implements Observer {
 		if (data instanceof DataBox) {
 			
 			DataBox m = (DataBox) data;
+			
+			
+			ModelVisitor v = new ModelVisitor(m.getModel());
+			v.visitModel();
+			System.out.println(m.getModel());
+			
 			ResultFrame frame = new ResultFrame(m);
 			this.setVisible(false);
 			this.dispose();
