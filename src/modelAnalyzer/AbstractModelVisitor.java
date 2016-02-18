@@ -1,6 +1,11 @@
 package modelAnalyzer;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import observer.api.Notifier;
+import observer.api.Observer;
 import api.IClass;
 import api.IField;
 import api.IMethod;
@@ -12,11 +17,13 @@ import visitor.api.IVisitMethod;
 import visitor.api.VisitType;
 import visitor.api.Visitor;
 
-public abstract class AbstractModelVisitor extends Visitor {
+public abstract class AbstractModelVisitor extends Visitor implements Notifier {
 	protected IModel m;
+	private List<Observer> observers;
 	
 	public AbstractModelVisitor(IModel m){
 		this.m = m;
+		this.observers = new ArrayList<Observer>();
 		this.setupVisitClass();
 		this.setupVisitField();
 		this.setupVisitMethod();
@@ -99,6 +106,26 @@ public abstract class AbstractModelVisitor extends Visitor {
 	protected abstract void visitRelation(IRelation r);
 	
 	
+	
+	@Override
+	public void registerObserver(Observer o) {
+		this.observers.add(o);
+
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		this.observers.remove(o);
+
+	}
+
+	@Override
+	public void notifyObservers(Object data) {
+		for (Observer o : this.observers) {
+			o.update(data);
+		}
+
+	}
 	
 	
 }
