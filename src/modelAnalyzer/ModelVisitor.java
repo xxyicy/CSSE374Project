@@ -30,6 +30,7 @@ public class ModelVisitor extends AbstractModelVisitor {
 			c.setVisible(false);
 		}
 		
+		System.out.println(this.m);
 		this.patterns = patterns;
 		this.visitModel();
 	}
@@ -59,6 +60,7 @@ public class ModelVisitor extends AbstractModelVisitor {
 	protected void visitPattern(IPattern p) {
 		
 		if(this.patterns.contains(p)){
+			System.out.println("Found pattern " + p);
 			for(IClass c: p.getClasses()){
 				c.setVisible(true);
 			}
@@ -79,7 +81,7 @@ public class ModelVisitor extends AbstractModelVisitor {
 				
 				if(from.isVisible() && to.isVisible()){
 					r.setVisible(true);
-					System.out.println("Setting true : "+r);
+					
 				}
 			}	
 			
@@ -89,7 +91,6 @@ public class ModelVisitor extends AbstractModelVisitor {
 	
 	private IClass getClassByName(IModel m, String name) {
 		name = name.replaceAll("[.]", "/");
-		
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals(name)) {
 				return c;
