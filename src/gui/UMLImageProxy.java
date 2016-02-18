@@ -1,9 +1,12 @@
 package gui;
 
-
 import java.awt.Component;
 import java.awt.Graphics;
+
+import java.io.IOException;
+
 import java.awt.image.BufferedImage;
+
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -16,7 +19,7 @@ public class UMLImageProxy implements Icon {
 	String outputPath;
 	TMXXreader reader;
 	Thread retrievalThread;
-	boolean retrieving = false;
+	
 
 	public UMLImageProxy(TMXXreader reader) {
 		this.reader = reader;
@@ -27,42 +30,50 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			imageIcon.paintIcon(c, g, x, y);
 		} else {
-			g.drawString("Loading UML Diagram, please wait...", x + 300, y + 190);
-			System.out.println("draw string");
-			if (!retrieving) {
-				retrieving = true;
-				System.out.println("Creating thread");
-				retrievalThread = new Thread(new Runnable() {
-					public void run() {
-						try {
-							DotExecuter executer = new DotExecuter(reader.getDotPath(),
-									reader.getOutputDir() + "/output.txt", reader.getOutputDir() + "/output.png");
-							try {
-								executer.execute();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							imageIcon = new ImageIcon(reader.getOutputDir() + "/output.png");
-//							imageIcon = new ImageIcon("input/streamWriter.png");
 
-							imageIcon.getImage().flush();
-							c.repaint();
-							c.revalidate();
-							retrieving = false;
-						} catch (Exception e) {
-							e.printStackTrace();
+			g.drawString("Loading UML Diagram, please wait...", x + 300,
+					y + 190);
+			if(this.retrievalThread != null){
+				this.retrievalThread.interrupt();
+			}
+			retrievalThread = new Thread(new Runnable() {
+				public void run() {
+					DotExecuter executer = new DotExecuter(
+							reader.getDotPath(), reader.getOutputDir()
+									+ "/output.txt", reader.getOutputDir()
+									+ "/output.png");
+					try {
+						
+						
+
+						executer.execute();
+						imageIcon = new ImageIcon(reader.getOutputDir()
+								+ "/output.png");
+						// Image img = imageIcon.getImage();
+						// Image newimg = img.getScaledInstance(800, 800,
+						// java.awt.Image.SCALE_SMOOTH);
+						// imageIcon = new ImageIcon(newimg);
+						imageIcon.getImage().flush();
+						c.repaint();
+						c.revalidate();
+
+					} catch (InterruptedException | IOException ignore) {
+						if(ignore instanceof InterruptedException){
+							
+							executer.stop();
+
 						}
 					}
-				});
-				retrievalThread.start();
-			}
+				}
+			});
+			retrievalThread.start();
+
 		}
 	}
 
 	public void clearImageIcon() {
 		imageIcon = null;
-		retrieving = false;
+	
 	}
 
 	@Override
@@ -82,9 +93,7 @@ public class UMLImageProxy implements Icon {
 			return 0;
 		}
 	}
+
 	
-	public boolean getRetrieving(){
-		return retrieving;
-	}
 
 }

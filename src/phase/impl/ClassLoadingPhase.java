@@ -63,7 +63,7 @@ public class ClassLoadingPhase implements IPhase {
 	
 	
 	private void loadClassFromInputFolder() throws IOException {
-		System.out.println("loadClassFromInputFolder");
+		
 		if (this.reader.getInputFolder() == null) {
 			return;
 		}
@@ -72,7 +72,7 @@ public class ClassLoadingPhase implements IPhase {
 	}
 
 	private void loadInputClasses() throws IOException {
-		System.out.println("loadInputClasses");
+		
 		double totalProgess = Framework.LOADING_INPUT_CLASSES;
 		this.changeProgress("Loading Additional Classes", -1);
 		double currentProgess = this.box.getProgress();
@@ -118,7 +118,7 @@ public class ClassLoadingPhase implements IPhase {
 	}
 
 	private void loadClassRecur() throws IOException {
-		System.out.println("loadClassRecur");
+	
 		double totalProgress = Framework.LOADING_CLASSES_FROM_FOLDER;
 
 		double currentProgress = this.box.getProgress();
@@ -132,7 +132,11 @@ public class ClassLoadingPhase implements IPhase {
 		while (!cs.isEmpty()) {
 			String clazz = cs.get(0);
 			cs.remove(0);
-
+			
+			if(classRead.contains(clazz)){
+				continue;
+			}
+			
 			this.changeProgress("Loading " + clazz, Math.min(
 					this.box.getProgress() + totalProgress / size, maxProgess));
 
@@ -163,7 +167,7 @@ public class ClassLoadingPhase implements IPhase {
 
 
 	private List<String> loadClassNames() {
-		System.out.println("loadClassNames");
+		
 		this.changeProgress("Loading class names", -1);
 
 		List<Class<?>> classes = ClassFinder.find(this.reader.getInputFolder());
@@ -175,7 +179,7 @@ public class ClassLoadingPhase implements IPhase {
 
 		this.changeProgress("Loading class names finished",
 				Framework.LOADING_CLASS_NAMES);
-		System.out.println(cs);
+		
 		return cs;
 	}
 	

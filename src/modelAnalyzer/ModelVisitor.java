@@ -37,16 +37,7 @@ public class ModelVisitor extends AbstractModelVisitor  {
 		this.patterns = patterns;
 		this.visitModel();
 		
-		System.out.println(patterns);
-		int count = 0;
 		
-		for(IClass c: m.getClasses()){
-			if(c.isVisible()){
-				count ++;
-			}
-		}
-		
-		System.out.println(count);
 		
 		
 		
@@ -54,12 +45,17 @@ public class ModelVisitor extends AbstractModelVisitor  {
 	}
 	
 	
+	
+	
+	
+	
+	
 	@Override
 	protected void visitClass(IClass c) {
-		if(this.patterns.isEmpty()){
-			
+		if(this.patterns.isEmpty()){	
 			c.setVisible(true);
 		}
+		
 		
 	}
 
@@ -71,7 +67,7 @@ public class ModelVisitor extends AbstractModelVisitor  {
 
 	@Override
 	protected void visitField(IField f) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
