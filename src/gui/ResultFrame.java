@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -32,12 +33,16 @@ import api.IModel;
 import api.IPattern;
 import app.Framework.DataBox;
 import app.TMXXreader;
+import modelAnalyzer.ModelVisitor;
 
 public class ResultFrame extends JFrame {
 	private IModel model;
 	private TMXXreader reader;
-	
-	
+	private HashMap<JCheckBox, ArrayList<JCheckBox>> patterns;
+	private HashMap<String, IPattern> classString;
+	private ArrayList<IPattern> patternList;
+	private ModelVisitor m;
+
 	/**
 	 * 
 	 */
@@ -49,6 +54,11 @@ public class ResultFrame extends JFrame {
 	public ResultFrame(DataBox box) {
 		this.model = box.getModel();
 		this.reader = box.getReader();
+		this.patterns = new HashMap<JCheckBox, ArrayList<JCheckBox>>();
+		this.classString = new HashMap<String, IPattern>();
+		this.patternList = new ArrayList<IPattern>();
+		m = new ModelVisitor(model);
+
 		this.setTitle("Design Parser - Result");
 
 		this.setPreferredSize(INITAL_SIZE);
@@ -191,38 +201,80 @@ public class ResultFrame extends JFrame {
 				map.put(name, value);
 				colors.put(name, color);
 			}
+			classString.put(className, p);
+			patternList.add(p);
 		}
 		int height = 5;
 		for (String pattern : map.keySet()) {
 			JCheckBox cb = new JCheckBox(pattern, true);
+			cb.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					patternCheckBoxAction(e);
+				}
+			});
 			cb.setForeground(colors.get(pattern));
 			checkPanel.add(cb);
 			cb.setBounds(5 + insets.left, height + insets.top, cb.getPreferredSize().width,
 					cb.getPreferredSize().height);
 			height += 25;
 			List<String> value = map.get(pattern);
+			ArrayList<JCheckBox> values = new ArrayList<JCheckBox>();
+			patterns.put(cb, values);
 			for (String className : value) {
-				cb = new JCheckBox(className, true);
-				cb.setForeground(colors.get(pattern));
-				checkPanel.add(cb);
-				cb.setBounds(25 + insets.left, height + insets.top, cb.getPreferredSize().width,
-						cb.getPreferredSize().height);
+				JCheckBox cb1 = new JCheckBox(className, true);
+				values = patterns.get(cb);
+				values.add(cb1);
+				patterns.put(cb, values);
+				cb1.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						classCheckBoxAction(e);
+					}
+
+				});
+				cb1.setForeground(colors.get(pattern));
+				checkPanel.add(cb1);
+				cb1.setBounds(25 + insets.left, height + insets.top, cb1.getPreferredSize().width,
+						cb1.getPreferredSize().height);
 				height += 25;
 			}
-		}
 
-//		JCheckBox cb = new JCheckBox("Adapter", true);
-//		checkPanel.add(cb);
-//
-//		JCheckBox cbL = new JCheckBox("lalal", true);
-//		checkPanel.add(cbL);
-//
-//		JCheckBox cb1 = new JCheckBox("Singleton", true);
-//		checkPanel.add(cb1);
-//
-//		cb.setBounds(5 + insets.left, 5 + insets.top, cb.getPreferredSize().width, cb.getPreferredSize().height);
-//		cbL.setBounds(25 + insets.left, 30 + insets.top, cbL.getPreferredSize().width, cbL.getPreferredSize().height);
-//		cb1.setBounds(5 + insets.left, 55 + insets.top, cb1.getPreferredSize().width, cb1.getPreferredSize().height);
+		}
+	}
+
+	private void patternCheckBoxAction(ActionEvent e) {
+		JCheckBox checkBox = (JCheckBox) e.getSource();
+		boolean selected = checkBox.getModel().isSelected();
+		if (selected) {
+			ArrayList<JCheckBox> values = patterns.get(checkBox);
+			for (JCheckBox b : values) {
+				b.setSelected(true);
+				if (!patternList.contains(classString.get(b.getText()))) {
+					patternList.add(classString.get(b.getText()));
+				}
+			}
+		}
+		m.setPatterns(patternList);
+		System.out.println(patternList.size());
+
+	}
+
+	private void classCheckBoxAction(ActionEvent e) {
+		JCheckBox checkBox = (JCheckBox) e.getSource();
+		boolean selected = checkBox.getModel().isSelected();
+		if (selected) {
+			if (!patternList.contains(classString.get(checkBox.getText()))) {
+				patternList.add(classString.get(checkBox.getText()));
+			}
+		} else {
+			if (patternList.contains(classString.get(checkBox.getText()))) {
+				patternList.remove(classString.get(checkBox.getText()));
+			}
+		}
+		m.setPatterns(patternList);
+		System.out.println(patternList.size());
 	}
 
 }

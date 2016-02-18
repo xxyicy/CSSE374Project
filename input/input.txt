@@ -1,4 +1,4 @@
-Input-Folder: app
+Input-Folder: starbuzz
 
 Input-Classes: java.io.Reader,java.io.BufferedReader,java.lang.Runtime
 
