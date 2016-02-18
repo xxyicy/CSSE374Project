@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -48,7 +48,7 @@ public class ResultFrame extends JFrame implements Observer {
 		@Override
 		public void run() {
 			try {
-				System.out.println(patternList.size());
+				
 				m.setPatterns(patternList);
 			} catch (Exception e) {
 
@@ -69,9 +69,8 @@ public class ResultFrame extends JFrame implements Observer {
 		public void run() {
 			try {
 				ResultFrame.this.updateImage(data);
-			} catch (Exception e) {
-
-				e.printStackTrace();
+			} catch (Exception ignore) {
+				
 			}
 
 		}
@@ -125,8 +124,9 @@ public class ResultFrame extends JFrame implements Observer {
 		setVisible(true);
 		this.getContentPane().revalidate();
 		this.getContentPane().repaint();
-
-		m.setPatterns(patternList);
+		
+		
+		
 	}
 
 	private void addMenuBar() {
@@ -277,23 +277,15 @@ public class ResultFrame extends JFrame implements Observer {
 				height += 25;
 			}
 		}
+		
+		
+		
+		this.firePatternThread();
+		
 	}
-
-	private void patternCheckBoxAction(ActionEvent e) {
-		// if (proxy.getRetrieving()){
-		// return;
-		// }
-
-		JCheckBox checkBox = (JCheckBox) e.getSource();
-		boolean selected = checkBox.getModel().isSelected();
+	
+	private void firePatternThread(){
 		patternList = new ArrayList<IPattern>();
-		if (selected) {
-			ArrayList<JCheckBox> values = patterns.get(checkBox);
-			for (JCheckBox b : values) {
-				b.setSelected(true);
-
-			}
-		}
 		for (JCheckBox b : patterns.keySet()) {
 			for (JCheckBox b1 : patterns.get(b)) {
 				if (b1.isSelected()) {
@@ -303,6 +295,26 @@ public class ResultFrame extends JFrame implements Observer {
 		}
 		Thread t = new Thread(new updatePatternList());
 		t.start();
+	}
+	
+
+	private void patternCheckBoxAction(ActionEvent e) {
+		// if (proxy.getRetrieving()){
+		// return;
+		// }
+
+		JCheckBox checkBox = (JCheckBox) e.getSource();
+		boolean selected = checkBox.getModel().isSelected();
+		
+		if (selected) {
+			ArrayList<JCheckBox> values = patterns.get(checkBox);
+			for (JCheckBox b : values) {
+				b.setSelected(true);
+
+			}
+		}
+		
+		this.firePatternThread();
 
 	}
 
@@ -313,17 +325,9 @@ public class ResultFrame extends JFrame implements Observer {
 
 		JCheckBox checkBox = (JCheckBox) e.getSource();
 		boolean selected = checkBox.getModel().isSelected();
-		patternList = new ArrayList<IPattern>();
-		for (JCheckBox b : patterns.keySet()) {
-			for (JCheckBox b1 : patterns.get(b)) {
-				if (b1.isSelected()) {
-					patternList.add(classString.get(b1));
-				}
-			}
-		}
-
-		Thread t = new Thread(new updatePatternList());
-		t.start();
+		
+		
+		this.firePatternThread();
 
 	}
 
@@ -346,16 +350,14 @@ public class ResultFrame extends JFrame implements Observer {
 			revalidate();
 			repaint();
 
-			System.out.println("write to file");
+			
 		}
 	}
 
 	@Override
 	public void update(Object data) {
 		if (this.imageThread != null) {
-			System.out.println("killing the previous thread");
 			this.imageThread.interrupt();
-
 		}
 
 		this.imageThread = new Thread(new ImageThread(data));

@@ -42,7 +42,8 @@ public class SingletonDetector implements IDetector {
 			privateConstructor = true;
 			staticMethod = false;
 			c.accept(visitor);
-			if (staticField && privateConstructor && staticMethod) {
+			
+			if (staticField && privateConstructor && (staticMethod || requireGetInstance == 0)) {
 				IPattern p = new Pattern("Singleton");
 				p.addClass(c);
 				c.addTag("Singleton");
@@ -60,6 +61,7 @@ public class SingletonDetector implements IDetector {
 				if (m.getName().equals("<init>") && !m.getAccess().equals("-")) {
 					privateConstructor = false;
 				}
+				
 				if (m.isStatic() && m.getReturnType().equals(className) && m.getAccess().equals("+")) {
 					staticMethod = true;
 				}
