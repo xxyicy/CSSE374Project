@@ -24,6 +24,10 @@ public class Model implements IModel {
 		for (IRelation r: this.relations) {
 			r.accept(v);
 		}
+		
+		for(IPattern p : this.patterns){
+			p.accept(v);
+		}
 	}
 	
 	@Override
@@ -108,7 +112,11 @@ public class Model implements IModel {
 //	}
 
 
-
+	public IModel getClone(){
+		IModel m = new Model();
+		
+		return new Model();
+	}
 	
 
 

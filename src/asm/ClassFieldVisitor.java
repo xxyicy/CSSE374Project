@@ -54,7 +54,7 @@ public class ClassFieldVisitor extends ClassVisitor {
 		// this.c.getDeclaration().orWithCode(4);
 		// }
 
-		IField f = new Field(name, type, acc);
+		IField f = new Field(name, type, acc,this.c.getName());
 		f.setStatic(isStatic);
 
 		this.c.addField(f);

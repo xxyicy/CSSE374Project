@@ -54,8 +54,7 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 			if(superName != null && !superName.equals("java/lang/Object")){
 				System.out.println("adding "+ superName);
 				cs.add(superName);
-			}
-			
+			}	
 		}
 		
 		

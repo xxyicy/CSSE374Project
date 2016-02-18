@@ -73,6 +73,28 @@ public class Framework implements Notifier {
 			this.progress = progress;
 		}
 	}
+	
+	public class DataBox{
+		private IModel model;
+		private TMXXreader reader;
+		public DataBox(IModel model2, TMXXreader reader2) {
+			model = model2;
+			reader = reader2;
+		}
+		public IModel getModel() {
+			return model;
+		}
+		public void setModel(IModel model) {
+			this.model = model;
+		}
+		public TMXXreader getReader() {
+			return reader;
+		}
+		public void setReader(TMXXreader reader) {
+			this.reader = reader;
+		}
+	}
+	
 
 	private TMXXreader reader;
 	private List<String> classes;
@@ -92,6 +114,8 @@ public class Framework implements Notifier {
 		this.out = null;
 		this.start = null;
 		this.reader = null;
+		
+		
 	}
 
 	public void loadConfig(String path) {
@@ -217,6 +241,7 @@ public class Framework implements Notifier {
 
 	private void processPhases() throws Exception {
 		List<String> phases = this.reader.getPhases();
+		
 		if (phases.contains(Framework.CLASS_LOADING)) {
 			this.loadClassFromInputFolder();
 			this.loadInputClasses();
@@ -224,16 +249,18 @@ public class Framework implements Notifier {
 			throw new Exception("Not Loading class??????!");
 		}
 
+		
 		this.detectPattern();
 
 		// TO DO
-		if (phases.contains(Framework.DOT_GENERATION)) {
-//			 System.out.println(model);
-		}
+//		if (phases.contains(Framework.DOT_GENERATION)) {
+////			 System.out.println(model);
+//		}
 		
 		
 		this.changeProgress("Analyzing Finished", 100);
-		this.notifyObservers(this.model);
+		
+		this.notifyObservers(new DataBox(this.model,this.reader));
 	}
 
 	
@@ -304,10 +331,10 @@ public class Framework implements Notifier {
 
 	@Override
 	public void notifyObservers(Object data) {
-		if(data instanceof ProgressBox){
-			ProgressBox box = (ProgressBox) data;
-			System.out.println(box.getCurrentTask() + " : " + box.getProgress());
-		}
+//		if(data instanceof ProgressBox){
+//			ProgressBox box = (ProgressBox) data;
+//			System.out.println(box.getCurrentTask() + " : " + box.getProgress());
+//		}
 		
 		for (Observer o : this.observers) {
 			o.update(data);
