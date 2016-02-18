@@ -3,6 +3,8 @@ package modelAnalyzer;
 import java.util.ArrayList;
 import java.util.List;
 
+import observer.api.Notifier;
+import observer.api.Observer;
 import api.IClass;
 import api.IField;
 import api.IMethod;
@@ -10,13 +12,16 @@ import api.IModel;
 import api.IPattern;
 import api.IRelation;
 
-public class ModelVisitor extends AbstractModelVisitor {
+public class ModelVisitor extends AbstractModelVisitor  {
+	
 	private List<IPattern> patterns;
-
+	
 	
 	
 	public ModelVisitor(IModel m){
+		
 		super(m);
+	
 		this.patterns = new ArrayList<IPattern>();
 		
 	}
@@ -30,15 +35,17 @@ public class ModelVisitor extends AbstractModelVisitor {
 			c.setVisible(false);
 		}
 		
-		System.out.println(this.m);
+		
 		this.patterns = patterns;
 		this.visitModel();
+		this.notifyObservers(this.m);
 	}
 	
 	
 	@Override
 	protected void visitClass(IClass c) {
 		if(this.patterns.isEmpty()){
+			
 			c.setVisible(true);
 		}
 		
@@ -60,8 +67,9 @@ public class ModelVisitor extends AbstractModelVisitor {
 	protected void visitPattern(IPattern p) {
 		
 		if(this.patterns.contains(p)){
-			System.out.println("Found pattern " + p);
+			
 			for(IClass c: p.getClasses()){
+				
 				c.setVisible(true);
 			}
 		}
@@ -71,6 +79,7 @@ public class ModelVisitor extends AbstractModelVisitor {
 	@Override
 	protected void visitRelation(IRelation r) {
 		if(this.patterns.isEmpty()){
+			
 			r.setVisible(true);
 		}
 		else{
@@ -80,6 +89,7 @@ public class ModelVisitor extends AbstractModelVisitor {
 			if(from != null && to!=null){
 				
 				if(from.isVisible() && to.isVisible()){
+					
 					r.setVisible(true);
 					
 				}
@@ -98,6 +108,8 @@ public class ModelVisitor extends AbstractModelVisitor {
 		}
 		return null;
 	}
+
+	
 	
 	
 }
