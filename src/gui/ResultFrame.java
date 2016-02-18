@@ -257,7 +257,7 @@ public class ResultFrame extends JFrame {
 		}
 		m.setPatterns(patternList);
 		System.out.println(patternList.size());
-//		System.out.println(this.model);
+		System.out.println(this.model);
 	}
 
 	private void classCheckBoxAction(ActionEvent e) {

@@ -89,7 +89,6 @@ public class ModelVisitor extends AbstractModelVisitor {
 	
 	private IClass getClassByName(IModel m, String name) {
 		name = name.replaceAll("[.]", "/");
-		
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals(name)) {
 				return c;

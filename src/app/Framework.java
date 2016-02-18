@@ -216,6 +216,7 @@ public class Framework implements Notifier {
 			this.changeProgress("Detecting" + d.toString(),
 					this.box.getProgress() + totalProgress / size);
 			d.detect(model);
+		
 		}
 
 		this.changeProgress("Pattern Detection Finished", currentProgress + totalProgress);
