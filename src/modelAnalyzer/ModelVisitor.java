@@ -25,11 +25,13 @@ public class ModelVisitor extends AbstractModelVisitor {
 		for(IRelation r : this.m.getRelations()){
 			r.setVisible(false);
 		}
-		
+	
 		for(IClass c : this.m.getClasses()){
 			c.setVisible(false);
 		}
+		
 		this.patterns = patterns;
+		this.visitModel();
 	}
 	
 	
@@ -55,6 +57,7 @@ public class ModelVisitor extends AbstractModelVisitor {
 
 	@Override
 	protected void visitPattern(IPattern p) {
+		
 		if(this.patterns.contains(p)){
 			for(IClass c: p.getClasses()){
 				c.setVisible(true);
@@ -73,8 +76,10 @@ public class ModelVisitor extends AbstractModelVisitor {
 			IClass to = this.getClassByName(m, r.getTo());
 			
 			if(from != null && to!=null){
+				
 				if(from.isVisible() && to.isVisible()){
 					r.setVisible(true);
+					System.out.println("Setting true : "+r);
 				}
 			}	
 			
@@ -84,7 +89,7 @@ public class ModelVisitor extends AbstractModelVisitor {
 	
 	private IClass getClassByName(IModel m, String name) {
 		name = name.replaceAll("[.]", "/");
-		System.out.println(name);
+		
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals(name)) {
 				return c;

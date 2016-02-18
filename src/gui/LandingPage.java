@@ -143,18 +143,6 @@ public class LandingPage extends JFrame implements Observer {
 			DataBox m = (DataBox) data;
 			
 			
-			ModelVisitor v = new ModelVisitor(m.getModel());
-			
-			IModel model = m.getModel();
-			List<IPattern> p = new ArrayList<IPattern>();
-			Iterator<IPattern> i =  model.getPatterns().iterator();
-			i.next();
-			p.add(i.next());
-			
-			v.setPatterns(p);
-			
-			v.visitModel();
-			System.out.println(m.getModel());
 			
 			ResultFrame frame = new ResultFrame(m);
 			this.setVisible(false);
