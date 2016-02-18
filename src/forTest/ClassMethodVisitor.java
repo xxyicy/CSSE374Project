@@ -27,6 +27,7 @@ public class ClassMethodVisitor extends ClassVisitor {
 		this.m = m;
 	}
 
+	
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 		MethodVisitor toDecorate = super.visitMethod(access, name, desc, signature, exceptions);

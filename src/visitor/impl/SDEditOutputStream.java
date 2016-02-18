@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Framework.Utility;
 import api.IMethod;
-import app.Utility;
 import visitor.api.ITraverser;
 import visitor.api.IVisitMethod;
 import visitor.api.IVisitor;

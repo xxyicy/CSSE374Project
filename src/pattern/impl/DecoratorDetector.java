@@ -89,7 +89,7 @@ public class DecoratorDetector implements IDetector {
 					}
 				}
 			}
-			System.out.println("methodCount is : " + methodCount);
+			
 			if(methodCount >= this.threshold){
 				this.updateModelWithPattern(c, m, fieldType);
 			}
@@ -100,7 +100,7 @@ public class DecoratorDetector implements IDetector {
 
 	private void updateModelWithPattern(IClass c, IModel m, String calledClass)
 			throws Exception {
-		System.out.println("found" + c.getName() + " decorates " + calledClass);
+		
 		IClass component = this.getClassByName(m, calledClass);
 
 		if (component == null) {

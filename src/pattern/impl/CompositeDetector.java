@@ -122,8 +122,7 @@ public class CompositeDetector implements IDetector {
 	
 	private boolean checkComponent(String component, IModel model)
 			throws Exception {
-		System.out.println("checking " + component);
-		System.out.println(model.getClasses());
+		
 		IClass c = this.getClassByName(model, component);
 		if (c == null) {
 			throw new Exception("Unexpected class not found exception " + component);

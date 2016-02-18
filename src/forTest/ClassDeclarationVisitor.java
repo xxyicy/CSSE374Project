@@ -5,7 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Opcodes;
+
+import com.sun.xml.internal.ws.org.objectweb.asm.Opcodes;
+
+
+
+
 
 public class ClassDeclarationVisitor extends ClassVisitor {
 	private IClass c;
@@ -44,19 +49,23 @@ public class ClassDeclarationVisitor extends ClassVisitor {
 		
 		if(cs!= null){
 			if(superName != null && !superName.equals("java/lang/Object")){
+				
 				cs.add(superName);
-			}
-			
+			}	
 		}
 		
 		
 		List<String> ins = interfaces == null ? new ArrayList<String>() : Arrays.asList(interfaces); 
+		
+	
 		for(String i : ins){
-			if(cs!=null){
+			if(cs!=null && !i.equals("java/lang/Object")){
+				
 				cs.add(i);
 			}
 			this.m.addRelation(new Relation(name,i,"implements"));
 		};
+		
 		
 		this.m.addRelation(new Relation(name,superName,"extends"));
 		IDeclaration d = new Declaration(type, name);

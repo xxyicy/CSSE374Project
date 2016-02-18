@@ -1,14 +1,21 @@
 package forTest;
 
-
-
 import java.util.HashSet;
 import java.util.Set;
 
-
-
 public class DecoratorDetector implements IDetector {
-
+	private int threshold = 1;
+	
+	public DecoratorDetector(int threshold){
+		this.threshold = threshold;
+	}
+	
+	@Override
+	public String toString(){
+		return "Decorator Pattern";
+	}
+	
+	
 	@Override
 	public void detect(IModel m) throws Exception {
 
@@ -26,7 +33,6 @@ public class DecoratorDetector implements IDetector {
 				}
 			}
 		}
-
 	}
 
 	private Set<String> getParamInConst(IClass c) {
@@ -57,27 +63,28 @@ public class DecoratorDetector implements IDetector {
 			fieldType = fieldType.replaceAll("[.]", "/");
 			this.updateModelWithPattern(c, m, fieldType);
 		} else {
+			String fieldType = f.getType();
+			fieldType = fieldType.replaceAll("[.]", "/");
+			int methodCount  = 0;
 			for (IMethod s : c.getMethods()) {
-				boolean found = false;
+				
 				for (IMethod called : s.getCalls()) {
 					String calledClass = called.getClassName();
-					String fieldType = f.getType();
-					fieldType = fieldType.replaceAll("[.]", "/");
-
 					if (s.getName().equals(called.getName())
 							&& fieldType.equals(calledClass)
 							&& !calledClass.equals("java/lang/Object")) {
-						//
-						this.updateModelWithPattern(c, m, calledClass);
-						found = true;
+						
+						methodCount ++;
 						break;
-
 					}
 				}
-				if (found) {
-					break;
-				}
 			}
+			System.out.println("methodCount is : " + methodCount);
+			if(methodCount >= this.threshold){
+				this.updateModelWithPattern(c, m, fieldType);
+			}
+			
+			
 		}
 	}
 
@@ -89,24 +96,19 @@ public class DecoratorDetector implements IDetector {
 		if (component == null) {
 			return;
 		}
+		
 		IPattern p = new Pattern("Decorator");
-		c.addTag("decorator");
+		
 		component.addTag("component");
 
-		p.addClass(c);
+		
 		p.addClass(component);
-		// System.out.println(c.getName());
-		// System.out.println(calledClass);
+		
+		
+		this.addTagAndUpdatePattern(p, c, m);
+		
+	
 		for (IRelation i : m.getRelations()) {
-			if (i.getTo().equals(c.getName()) && i.getType().equals("extends")) {
-				IClass from = this.getClassByName(m, i.getFrom());
-				if (from == null) {
-					throw new Exception("This situation should not happen");
-				}
-				from.addTag("decorator");
-				p.addClass(from);
-			}
-
 			if (i.getFrom().equals(c.getName())
 					&& i.getTo().replaceAll("[.]", "/").equals(calledClass)
 					&& i.getType().equals("association")) {
@@ -117,6 +119,24 @@ public class DecoratorDetector implements IDetector {
 		m.addPattern(p);
 	}
 
+	
+	private void addTagAndUpdatePattern(IPattern p,IClass c, IModel m) throws Exception{
+		p.addClass(c);
+		c.addTag("decorator");
+		for (IRelation i: m.getRelations()){
+			if (i.getTo().equals(c.getName()) && i.getType().equals("extends")) {
+				IClass from = this.getClassByName(m, i.getFrom());
+				if (from == null) {
+					throw new Exception("This situation should not happen");
+				}
+				this.addTagAndUpdatePattern(p, from, m);
+			}
+		}
+	}
+	
+	
+	
+	
 	private IField composeSuper(IClass c, IModel m) {
 		Set<IRelation> rs = m.getRelations();
 		Set<String> supers = this.getSuperClasses(c, rs);

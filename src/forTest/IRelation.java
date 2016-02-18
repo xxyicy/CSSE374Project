@@ -9,4 +9,9 @@ public interface IRelation extends ITraverser {
 	public String getDes();
 	public void setDes(String des);
 	
+	
+	
+	public boolean isVisible();
+	void setVisible(boolean v);
+	
 }

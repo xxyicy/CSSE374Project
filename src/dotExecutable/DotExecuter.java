@@ -3,13 +3,20 @@ package dotExecutable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DotExecuter {
+import observer.api.Notifier;
+import observer.api.Observer;
+
+public class DotExecuter implements Notifier {
 	private String inputPath;
 	private String outputPath;
 	private String dotPath;
+	private List<Observer> observers;
 
 	public DotExecuter(String dotPath, String inputPath, String outputPath) {
+		this.observers = new ArrayList<Observer>();
 		this.dotPath = dotPath;
 		this.inputPath = inputPath;
 		this.outputPath = outputPath;
@@ -17,13 +24,11 @@ public class DotExecuter {
 
 	public void execute() throws IOException, InterruptedException {
 		String s = null;
-		
+
+		String toExecute = this.dotPath + " -Tpng " + this.inputPath + " -o "
+				+ this.outputPath;
+
 	
-		
-		
-		String toExecute = this.dotPath + " -Tpng " + this.inputPath+" -o "+this.outputPath;
-		
-		System.out.println(toExecute);
 
 		Process p = Runtime.getRuntime().exec(toExecute);
 
@@ -47,6 +52,30 @@ public class DotExecuter {
 		}
 
 		p.waitFor();
+		
+		
+		
+
+	}
+
+	@Override
+	public void registerObserver(Observer o) {
+		this.observers.add(o);
+
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		this.observers.remove(o);
+
+	}
+
+	@Override
+	public void notifyObservers(Object data) {
+		for (Observer o : this.observers) {
+			o.update(data);
+		}
+
 	}
 
 }

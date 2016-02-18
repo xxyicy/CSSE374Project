@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
 public class Declaration implements IDeclaration{
 	private String type;
 	private String name;
