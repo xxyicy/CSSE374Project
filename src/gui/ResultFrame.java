@@ -41,6 +41,8 @@ public class ResultFrame extends JFrame {
 	private HashMap<String, IPattern> classString;
 	private ArrayList<IPattern> patternList;
 	private ModelVisitor m;
+	private UMLImageProxy proxy;
+	
 
 	/**
 	 * 
@@ -77,7 +79,8 @@ public class ResultFrame extends JFrame {
 		JPanel contentPanel = new JPanel();
 		contentPanel.setBackground(Color.white);
 		contentPanel.setPreferredSize(new Dimension(1000, 1000));
-		JComponent component = new UMLImageComponeont(new UMLImageProxy());
+		proxy = new UMLImageProxy(reader);
+		JComponent component = new UMLImageComponeont(proxy);
 		contentPanel.add(component);
 
 		JScrollPane checkPane = new JScrollPane(checkPanel);
@@ -287,7 +290,9 @@ public class ResultFrame extends JFrame {
 		outputStream.start();
 		outputStream.write(model);
 		outputStream.end();
-		System.out.println("changed");
+		proxy.clearImageIcon();
+		repaint();
+		revalidate();
 	}
 
 }

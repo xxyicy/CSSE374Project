@@ -7,14 +7,17 @@ import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import app.TMXXreader;
+
 public class UMLImageProxy implements Icon {
-	ImageIcon imageIcon;
+	ImageIcon imageIcon = null;
 	String outputPath;
+	TMXXreader reader;
 	Thread retrievalThread;
 	boolean retrieving = false;
 
-	public UMLImageProxy() {
-
+	public UMLImageProxy(TMXXreader reader) {
+		this.reader = reader;
 	}
 
 	@Override
@@ -29,6 +32,7 @@ public class UMLImageProxy implements Icon {
 				retrievalThread = new Thread(new Runnable() {
 					public void run() {
 						try {
+							imageIcon = new ImageIcon(reader.getOutputDir()+"output.png");
 							// imageIcon = new ImageIcon(imageURL, "CD Cover");
 							c.repaint();
 						} catch (Exception e) {
@@ -41,12 +45,16 @@ public class UMLImageProxy implements Icon {
 		}
 	}
 
+	public void clearImageIcon() {
+		imageIcon = null;
+	}
+
 	@Override
 	public int getIconWidth() {
 		if (imageIcon != null) {
 			return imageIcon.getIconWidth();
 		} else {
-			return 800;
+			return 400;
 		}
 	}
 
@@ -55,7 +63,7 @@ public class UMLImageProxy implements Icon {
 		if (imageIcon != null) {
 			return imageIcon.getIconHeight();
 		} else {
-			return 600;
+			return 300;
 		}
 	}
 

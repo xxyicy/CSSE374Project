@@ -6,6 +6,7 @@ import java.util.Set;
 
 import visitor.api.IVisitor;
 import visitor.impl.GraphVizOutputStream;
+import visitor.impl.IOutputStream;
 import api.IClass;
 import api.IDeclaration;
 import api.IField;
@@ -19,7 +20,7 @@ public class Clazz implements IClass {
 
 	@Override
 	public void accept(IVisitor v) {
-		if ((v instanceof GraphVizOutputStream && this.isVisible) || !(v instanceof GraphVizOutputStream)) {
+		if ((v instanceof IOutputStream && this.isVisible) || !(v instanceof IOutputStream)) {
 			v.preVisit(this);
 			this.declaration.accept(v);
 
