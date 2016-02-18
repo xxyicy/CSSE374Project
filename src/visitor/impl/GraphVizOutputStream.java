@@ -1,6 +1,5 @@
 package visitor.impl;
 
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -60,8 +59,6 @@ public class GraphVizOutputStream extends IOutputStream {
 		t.accept(this.visitor);
 	}
 
-	
-	
 	public String toString() {
 		return this.result.toString();
 	}
@@ -83,7 +80,7 @@ public class GraphVizOutputStream extends IOutputStream {
 		this.writeln("fontsize = 10");
 		this.writeln("]");
 	}
-	
+
 	@Override
 	public void end() {
 		this.writeln("}");
@@ -219,28 +216,30 @@ public class GraphVizOutputStream extends IOutputStream {
 			@Override
 			public void execute(ITraverser t) {
 				IRelation r = (IRelation) t;
-				String structure = "";
-				switch (r.getType()) {
-				case "extends":
-					structure = " [arrowhead=\"onormal\"";
-					break;
-				case "implements":
-					structure = " [arrowhead=\"onormal\",style=\"dashed\"";
-					break;
-				case "use":
-					structure = " [arrowhead=\"vee\",style=\"dashed\"";
-					break;
-				case "association":
-					structure = " [arrowhead=\"vee\"";
-					break;
-				}
-				String label = "]";
-				if (r.getDes() != null) {
-					label = ",label=\"" + r.getDes() + "\"]";
-				}
+				if (r.isVisible()) {
+					String structure = "";
+					switch (r.getType()) {
+					case "extends":
+						structure = " [arrowhead=\"onormal\"";
+						break;
+					case "implements":
+						structure = " [arrowhead=\"onormal\",style=\"dashed\"";
+						break;
+					case "use":
+						structure = " [arrowhead=\"vee\",style=\"dashed\"";
+						break;
+					case "association":
+						structure = " [arrowhead=\"vee\"";
+						break;
+					}
+					String label = "]";
+					if (r.getDes() != null) {
+						label = ",label=\"" + r.getDes() + "\"]";
+					}
 
-				writeln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo()) + structure
-						+ label);
+					writeln(Utility.simplifyClassName(r.getFrom()) + " -> " + Utility.simplifyClassName(r.getTo())
+							+ structure + label);
+				}
 			}
 
 		};

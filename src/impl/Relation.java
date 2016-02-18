@@ -13,9 +13,7 @@ public class Relation implements IRelation {
 
 	@Override
 	public void accept(IVisitor v) {
-		if (isVisible) {
-			v.visit(this);
-		}
+		v.visit(this);
 	}
 
 	public Relation(String from, String to, String type) {

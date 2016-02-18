@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import visitor.api.IVisitor;
+import visitor.impl.GraphVizOutputStream;
 import api.IClass;
 import api.IDeclaration;
 import api.IField;
@@ -18,7 +19,7 @@ public class Clazz implements IClass {
 
 	@Override
 	public void accept(IVisitor v) {
-		if (isVisible) {
+		if ((v instanceof GraphVizOutputStream && this.isVisible) || !(v instanceof GraphVizOutputStream)) {
 			v.preVisit(this);
 			this.declaration.accept(v);
 
@@ -38,6 +39,7 @@ public class Clazz implements IClass {
 
 			v.postVisit(this);
 		}
+
 	}
 
 	@Override

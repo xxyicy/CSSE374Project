@@ -3,8 +3,6 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.AbstractButton;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -63,7 +58,7 @@ public class ResultFrame extends JFrame {
 		this.patternList = new ArrayList<IPattern>();
 		m = new ModelVisitor(model);
 		try {
-			this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "output.txt"));
+			this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "/output.txt"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,6 +89,8 @@ public class ResultFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
+
+		run();
 	}
 
 	private void addMenuBar() {
@@ -266,7 +263,6 @@ public class ResultFrame extends JFrame {
 		}
 		run();
 		System.out.println(patternList.size());
-//		System.out.println(this.model);
 	}
 
 	private void classCheckBoxAction(ActionEvent e) {
@@ -283,14 +279,15 @@ public class ResultFrame extends JFrame {
 		}
 		run();
 		System.out.println(patternList.size());
-//		System.out.println(this.model);
 	}
 
 	private void run() {
 		m.setPatterns(patternList);
+		System.out.println(model);
 		outputStream.start();
 		outputStream.write(model);
 		outputStream.end();
+		System.out.println("changed");
 	}
 
 }
