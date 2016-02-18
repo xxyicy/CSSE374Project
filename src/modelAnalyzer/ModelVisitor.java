@@ -12,6 +12,7 @@ import api.IRelation;
 
 public class ModelVisitor extends AbstractModelVisitor {
 	private List<IPattern> patterns;
+
 	
 	
 	public ModelVisitor(IModel m){
@@ -21,14 +22,20 @@ public class ModelVisitor extends AbstractModelVisitor {
 	}
 	
 	public void setPatterns(List<IPattern> patterns){
+		for(IRelation r : this.m.getRelations()){
+			r.setVisible(false);
+		}
+		
+		for(IClass c : this.m.getClasses()){
+			c.setVisible(false);
+		}
 		this.patterns = patterns;
 	}
 	
 	
 	@Override
 	protected void visitClass(IClass c) {
-		c.setVisible(false);
-		if(c.getName().startsWith("java")){
+		if(this.patterns.isEmpty()){
 			c.setVisible(true);
 		}
 		
@@ -48,7 +55,6 @@ public class ModelVisitor extends AbstractModelVisitor {
 
 	@Override
 	protected void visitPattern(IPattern p) {
-		System.out.println("Visiting pattern");
 		if(this.patterns.contains(p)){
 			for(IClass c: p.getClasses()){
 				c.setVisible(true);
@@ -59,13 +65,26 @@ public class ModelVisitor extends AbstractModelVisitor {
 
 	@Override
 	protected void visitRelation(IRelation r) {
-		// TODO Auto-generated method stub
-		
+		if(this.patterns.isEmpty()){
+			r.setVisible(true);
+		}
+		else{
+			IClass from = this.getClassByName(m, r.getFrom());
+			IClass to = this.getClassByName(m, r.getTo());
+			
+			if(from != null && to!=null){
+				if(from.isVisible() && to.isVisible()){
+					r.setVisible(true);
+				}
+			}	
+			
+		}
 	}
 	
 	
 	private IClass getClassByName(IModel m, String name) {
-		name = name.replaceAll(".", "/");
+		name = name.replaceAll("[.]", "/");
+		System.out.println(name);
 		for (IClass c : m.getClasses()) {
 			if (c.getName().equals(name)) {
 				return c;

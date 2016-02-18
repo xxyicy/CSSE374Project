@@ -48,6 +48,9 @@ public class ResultFrame extends JFrame {
 	public ResultFrame(DataBox box) {
 		this.model = box.getModel();
 		this.reader = box.getReader();
+		
+		
+		
 		this.setTitle("Design Parser - Result");
 
 		this.setPreferredSize(INITAL_SIZE);

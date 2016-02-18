@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +20,7 @@ import javax.swing.JTextField;
 
 import modelAnalyzer.ModelVisitor;
 import api.IModel;
+import api.IPattern;
 import app.Framework.DataBox;
 import app.Framework.ProgressBox;
 import observer.api.Observer;
@@ -139,6 +143,15 @@ public class LandingPage extends JFrame implements Observer {
 			
 			
 			ModelVisitor v = new ModelVisitor(m.getModel());
+			
+			IModel model = m.getModel();
+			List<IPattern> p = new ArrayList<IPattern>();
+			Iterator<IPattern> i =  model.getPatterns().iterator();
+			i.next();
+			p.add(i.next());
+			
+			v.setPatterns(p);
+			
 			v.visitModel();
 			System.out.println(m.getModel());
 			

@@ -11,7 +11,7 @@ import api.IField;
 import api.IMethod;
 
 public class Clazz implements IClass {
-	private boolean isVisible = true;
+	private boolean isVisible = false;
 	private List<IMethod> methods = new ArrayList<IMethod>();
 	private List<IField> fields = new ArrayList<IField>();
 	private IDeclaration declaration;
