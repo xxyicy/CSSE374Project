@@ -5,6 +5,7 @@
 4. [Milestone 4](#milestone-4)
 5. [Milestone 5](#milestone-5)
 6. [Milestone 6](#milestone-6)
+7. [Milestone 7](#milestone-7)
 
 
 
@@ -360,3 +361,71 @@ java -classPath ./bin:./lib/asm-all-5.0.4.jar app.App UMLWP <Path-to-package>
 dot -Tpng output/output.txt > <output-file-name>
 ```
 please use “.png” as the suffix of the output file.
+
+
+## Milestone 7
+### Design of the tool
+
+![UML Diagram](/UML/milestone7_project374.png "UML Diagram")
+
+We created several frame classes to handle gui, and using proxy pattern to show UML diagram.
+
+We updated our previous framework design to fit in more different phases anyalyze.
+
+We also created a model Analyzer to filter different requirement, which will make us add additional features easier.
+
+We added observer pattern between gui and controllers to notify user interface updates.
+
+### Who-Did-What
+
+| *Name*         	| *Who did what*                                                                                                        
+|-------------------|----------------------------------------------------------------------------------------
+| Xinyu Xiao     	| Created most of the gui
+|                                                                                           
+| 			     	| Created the image proxy to display uml
+|
+|					| Updated the Readme file
+|                                                                                                                                                                 
+| Tianjiao Mo    	| Created modelAnalyzer to filter additional requirement  
+|
+|				 	| Added framework to control different phases of code analyze
+|
+|					| Fixed errors which was not very explicit at the begining
+|
+| Ashok Vardhan Raja| Helped to read the dot file to generate output  
+|
+|					| Created frame for Help and About frame
+|
+|					| Updated the UML diagram for Milestone 7
+|
+
+
+
+### How to use
+
+#### Before start
+Create a config file with properties below, use absolute path everywhere.
+
+```
+Input-Folder: absolute path to a folder that contains classes to recursively load from the file system
+
+Input-Classes: space separated list of additional classes to load from the classpath
+
+Output-Directory: Absolute path to output directory for storing generated graphs.
+
+Dot-Path: Path to the ‘dot’ executable, which is the command line version of GraphViz
+
+Phases: Name of framework's execution phases in the order they should execute
+
+More attributes for phase-specific configuration: 
+```
+
+#### Run java Code
+Open a gui, put absolute path for your created config file in the text box.
+
+Click `Load Config`. If your path for config file is correct, you will see `Loading Configuration Finished`.
+
+And then click `Analyze`, after the progress bar finished, Another frame will pop up.
+
+#### Generate UML diagram
+Uncheck/check some patterns or some certain classes to see updated UML diagram.
