@@ -3,7 +3,6 @@ package modelAnalyzer;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import api.IClass;
 import api.IField;
 import api.IMethod;
@@ -37,6 +36,18 @@ public class ModelVisitor extends AbstractModelVisitor  {
 		
 		this.patterns = patterns;
 		this.visitModel();
+		
+		System.out.println(patterns);
+		int count = 0;
+		
+		for(IClass c: m.getClasses()){
+			if(c.isVisible()){
+				count ++;
+			}
+		}
+		
+		System.out.println(count);
+		
 		
 		
 		this.notifyObservers(this.m);
