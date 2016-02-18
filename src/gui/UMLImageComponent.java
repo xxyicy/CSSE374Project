@@ -5,11 +5,15 @@ import java.awt.Graphics;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 
-public class UMLImageComponeont extends JComponent {
-	
+public class UMLImageComponent extends JComponent {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Icon icon;
 
-	public UMLImageComponeont(Icon icon) {
+	public UMLImageComponent(Icon icon) {
 		this.icon = icon;
 	}
 
@@ -21,8 +25,8 @@ public class UMLImageComponeont extends JComponent {
 		super.paintComponent(g);
 		int w = icon.getIconWidth();
 		int h = icon.getIconHeight();
-		int x = (800 - w)/2;
-		int y = (600 - h)/2;
+		int x = (1500 - w) / 2;
+		int y = (1200 - h) / 2;
 		icon.paintIcon(this, g, x, y);
 	}
 

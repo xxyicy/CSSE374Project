@@ -6,16 +6,16 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -43,13 +43,14 @@ public class ResultFrame extends JFrame implements Observer {
 	private HashMap<String, IPattern> classString;
 	private ArrayList<IPattern> patternList;
 	private ModelVisitor m;
+	private UMLImageProxy proxy;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final int FIXED_WIDTH = 800;
-	private static final int FIXED_HEIGHT = 600;
+	private static final int FIXED_WIDTH = 1200;
+	private static final int FIXED_HEIGHT = 800;
 	private static final Dimension INITAL_SIZE = new Dimension(FIXED_WIDTH, FIXED_HEIGHT);
 
 	public ResultFrame(DataBox box) {
@@ -61,13 +62,7 @@ public class ResultFrame extends JFrame implements Observer {
 		
 		m = new ModelVisitor(model);
 		m.registerObserver(this);
-		try {
-			this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "/output.txt"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
+
 		this.setTitle("Design Parser - Result");
 
 		this.setPreferredSize(INITAL_SIZE);
@@ -77,26 +72,28 @@ public class ResultFrame extends JFrame implements Observer {
 
 		JPanel checkPanel = new JPanel();
 		checkPanel.setBackground(Color.white);
-		checkPanel.setPreferredSize(new Dimension(250, 1000));
+		checkPanel.setPreferredSize(new Dimension(400, 1500));
 		addPattern(checkPanel);
 
-		JPanel contentPanel = new JPanel();
-		contentPanel.setBackground(Color.white);
-		contentPanel.setPreferredSize(new Dimension(1000, 1000));
-		JComponent component = new UMLImageComponeont(new UMLImageProxy());
-		contentPanel.add(component);
+		proxy = new UMLImageProxy(reader);
+		UMLImageComponent component = new UMLImageComponent(proxy);
+		component.setPreferredSize(new Dimension(1500,1200));
+		JScrollPane scrollPane = new JScrollPane(component);
 
 		JScrollPane checkPane = new JScrollPane(checkPanel);
 		checkPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		this.getContentPane().add(checkPane, BorderLayout.LINE_START);
-		this.getContentPane().add(new JScrollPane(contentPanel), BorderLayout.CENTER);
+		this.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
+		this.getContentPane().revalidate();
+		this.getContentPane().repaint();
 
-		run();
+		m.setPatterns(patternList);
 	}
 
 	private void addMenuBar() {
@@ -114,11 +111,7 @@ public class ResultFrame extends JFrame implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					LandingPage frame = new LandingPage();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 				setVisible(false);
@@ -267,7 +260,7 @@ public class ResultFrame extends JFrame implements Observer {
 				}
 			}
 		}
-		run();
+		m.setPatterns(patternList);
 		System.out.println(patternList.size());
 
 	}
@@ -284,14 +277,7 @@ public class ResultFrame extends JFrame implements Observer {
 				patternList.remove(classString.get(checkBox.getText()));
 			}
 		}
-		run();
-	
-	}
-
-	private void run() {
 		m.setPatterns(patternList);
-		
-
 	
 	}
 
@@ -299,9 +285,18 @@ public class ResultFrame extends JFrame implements Observer {
 	public void update(Object data) {
 		if(data instanceof IModel){
 			IModel m = (IModel) data;
+			try {
+				this.outputStream = new GraphVizOutputStream(new FileOutputStream(reader.getOutputDir() + "/output.txt"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			outputStream.start();
 			outputStream.write(m);
 			outputStream.end();
+			proxy.clearImageIcon();
+			
+			revalidate();
+			repaint();
 			System.out.println("write to file");
 		}
 	}
