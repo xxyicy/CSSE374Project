@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import gui.LandingPage;
 import pattern.api.IDetector;
 import pattern.impl.AdapterDetector;
 import pattern.impl.CompositeDetector;

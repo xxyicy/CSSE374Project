@@ -1,4 +1,4 @@
-package app;
+package gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -16,6 +16,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import api.IModel;
+import app.Framework;
 import app.Framework.ProgressBox;
 import observer.api.Observer;
 
