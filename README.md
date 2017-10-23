@@ -37,17 +37,17 @@ Principles applied:
 |----------------|--------------------------------------------------------
 | Xinyu Xiao     | create code using ASM to read in Java code 
 |                                                                                           
-| 			     | write automated tests              
+| 		 | write automated tests              
 |                                                                                            
-| 				 | manually create UML for project  
+| 		 | manually create UML for project  
 |
-|			     | update Readme File                                                                          
+|                | update Readme File                                                                           
 |
 | Tianjiao Mo    | create code parsing GraphViz textual representation
 |
-|				 | auto generate UML for lab 1-3 & project
+|		 | auto generate UML for lab 1-3 & project
 |
-|				 | create Readme File
+|		 | create Readme File
 |			 
 
 
