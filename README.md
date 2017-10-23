@@ -86,18 +86,12 @@ Overall, our project still follows the visitor pattern.
 | *Name*         | *Who did what*                                                                                                        
 |----------------|--------------------------------------------------------
 | Xinyu Xiao     | update Readme File 
-|                                                                                           
-| 			     | create UML for Abstract Factory PizzaStore & project                                                                                                      
-|
-|			     | automated tests                                                                          
-|
+|		 | create UML for Abstract Factory PizzaStore & project                                                     
+|		 | automated tests                                                                          
 | Tianjiao Mo    | update Readme File
-|
-|				 | create code to use ASM to get Uses and Association information.
-|
-|				 | update internal representation of class.
-
-			
+|		 | create code to use ASM to get Uses and Association information.
+|		 | update internal representation of class.
+		
 ### How to use
 
 #### Before start
@@ -138,25 +132,17 @@ Overall, our project still follows the visitor pattern.
 
 ### Who-Did-What
 
-| *Name*         	| *Who did what*                                                                                                        
-|-------------------|----------------------------------------------------------------------------------------
-| Xinyu Xiao     	| Write the code to parse to SDEdit texture representation 
-|                                                                                           
-| 			     	| Manually draw the sequence diagram for our designed tool.              
-|                                                                                            
-| 				 	| Help design the parsing structure of ASM.  
-|                                                                         
-| Tianjiao Mo    	| Create methodRelation data structure to store information needed in sequence diagram.
-|
-|				 	| Write the Driver(main method) for the designed tool.
-|
-|				 	| Manually draw the sequence diagram for shuffle.
-|
-| Ashok Vardhan Raja| Store all the methodRelation information into model.
-|
-|					| finish transfers java code into internal representation.
-|
-|					| Generate test cases to test if ASM can correctly read in method call information.
+| *Name*             | *Who did what*                                                                                     
+|--------------------|----------------------------------------------------------------------------------------
+| Xinyu Xiao         | Write the code to parse to SDEdit texture representation 
+|                    | Manually draw the sequence diagram for our designed tool.              
+|                    | Help design the parsing structure of ASM.                                                   
+| Tianjiao Mo        | Create methodRelation data structure to store information needed in sequence diagram.
+|		     | Write the Driver(main method) for the designed tool.
+|		     | Manually draw the sequence diagram for shuffle.
+| Ashok Vardhan Raja | Store all the methodRelation information into model.
+|	    	     | finish transfers java code into internal representation.
+|		     | Generate test cases to test if ASM can correctly read in method call information.
 
      
 ### How to use
