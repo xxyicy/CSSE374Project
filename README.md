@@ -33,23 +33,15 @@ Principles applied:
 
 ### Who-Did-What
 
-| *Name*         | *Who did what*                                                                                                        
+| *Name*         | *Who did what*                                                                                           
 |----------------|--------------------------------------------------------
-| Xinyu Xiao     | create code using ASM to read in Java code 
-|                                                                                           
-| 		 | write automated tests              
-|                                                                                            
+| Xinyu Xiao     | create code using ASM to read in Java code                                                               
+| 		 | write automated tests                                                                                     
 | 		 | manually create UML for project  
-|
 |                | update Readme File                                                                           
-|
 | Tianjiao Mo    | create code parsing GraphViz textual representation
-|
-|		 | auto generate UML for lab 1-3 & project
-|
-|		 | create Readme File
-|			 
-
+|	 	 | auto generate UML for lab 1-3 & project
+|		 | create Readme File	 
 
 ### How to use
 
